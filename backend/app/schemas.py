@@ -1,7 +1,7 @@
 """Pydantic schemas for request/response validation and API documentation."""
 
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, EmailStr, field_validator
 
 
@@ -17,13 +17,23 @@ class BaseSchema(BaseModel):
 # Authentication
 # =====================================================================
 
-class RegisterRequest(BaseModel):
-    email: EmailStr
-    full_name: str = Field(min_length=2, max_length=160)
+def _strong_password(v: str) -> str:
+    if not any(c.isalpha() for c in v) or not any(c.isdigit() for c in v):
+        raise ValueError("Password must contain at least one letter and one number")
+    if v.strip() != v:
+        raise ValueError("Password must not start or end with spaces")
+    return v
+
+
+def _normalise_email(v: str) -> str:
+    return v.strip().lower()
+
+
+class _PasswordConfirmation(BaseModel):
     password: str = Field(min_length=8, max_length=128)
     confirm_password: str
-    role: str = Field(pattern="^(student)$")
-    terms_accepted: bool = True
+
+    _strong = field_validator("password")(classmethod(lambda cls, v: _strong_password(v)))
 
     @field_validator("confirm_password")
     @classmethod
@@ -33,53 +43,61 @@ class RegisterRequest(BaseModel):
         return v
 
 
-class RegisterResponse(BaseSchema):
-    id: int
-    email: str
-    full_name: str
-    role: str
-    is_verified: bool
-    message: str = "Registration successful. Please log in."
+class RegisterRequest(_PasswordConfirmation):
+    """Public self-registration. Only the student role can be self-registered."""
+
+    email: EmailStr
+    full_name: str = Field(min_length=2, max_length=160)
+    phone: Optional[str] = Field(None, max_length=30, pattern=r"^[0-9+()\-\s]{6,30}$")
+    role: Literal["student"] = "student"
+    terms_accepted: bool
+
+    _email = field_validator("email")(classmethod(lambda cls, v: _normalise_email(v)))
+
+    @field_validator("full_name")
+    @classmethod
+    def strip_name(cls, v: str) -> str:
+        v = " ".join(v.split())
+        if len(v) < 2:
+            raise ValueError("Full name is too short")
+        return v
+
+    @field_validator("terms_accepted")
+    @classmethod
+    def must_accept_terms(cls, v: bool) -> bool:
+        if not v:
+            raise ValueError("You must accept the terms and privacy policy")
+        return v
 
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1, max_length=128)
 
-
-class TokenResponse(BaseModel):
-    access_token: str
-    refresh_token: str
-    token_type: str = "bearer"
-    expires_in: int
-    user: "UserOut"
-
-
-class RefreshTokenRequest(BaseModel):
-    refresh_token: str
+    _email = field_validator("email")(classmethod(lambda cls, v: _normalise_email(v)))
 
 
 class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 
+    _email = field_validator("email")(classmethod(lambda cls, v: _normalise_email(v)))
 
-class ResetPasswordRequest(BaseModel):
-    token: str
-    password: str = Field(min_length=8, max_length=128)
-    confirm_password: str
 
-    @field_validator("confirm_password")
-    @classmethod
-    def passwords_match(cls, v, info):
-        if "password" in info.data and v != info.data["password"]:
-            raise ValueError("Passwords do not match")
-        return v
+class ResetPasswordRequest(_PasswordConfirmation):
+    token: str = Field(min_length=20, max_length=200)
+
+
+class AcceptInvitationRequest(_PasswordConfirmation):
+    token: str = Field(min_length=20, max_length=200)
+    full_name: Optional[str] = Field(None, min_length=2, max_length=160)
 
 
 class ChangePasswordRequest(BaseModel):
-    current_password: str
+    current_password: str = Field(min_length=1, max_length=128)
     new_password: str = Field(min_length=8, max_length=128)
     confirm_new_password: str
+
+    _strong = field_validator("new_password")(classmethod(lambda cls, v: _strong_password(v)))
 
     @field_validator("confirm_new_password")
     @classmethod
@@ -87,6 +105,37 @@ class ChangePasswordRequest(BaseModel):
         if "new_password" in info.data and v != info.data["new_password"]:
             raise ValueError("Passwords do not match")
         return v
+
+
+class InvitationCreate(BaseModel):
+    email: EmailStr
+    full_name: str = Field(min_length=2, max_length=160)
+
+    _email = field_validator("email")(classmethod(lambda cls, v: _normalise_email(v)))
+
+
+class InvitationOut(BaseSchema):
+    id: int
+    email: str
+    full_name: str
+    expires_at: datetime
+    accepted_at: Optional[datetime] = None
+    revoked_at: Optional[datetime] = None
+    created_at: datetime
+    status: str
+
+
+class InvitationCreated(InvitationOut):
+    invite_url: str
+
+
+class InvitationPreview(BaseModel):
+    email: str
+    full_name: str
+
+
+class MessageOut(BaseModel):
+    message: str
 
 
 # =====================================================================
@@ -101,6 +150,21 @@ class UserOut(BaseSchema):
     is_active: bool
     is_verified: bool
     created_at: datetime
+    last_login_at: Optional[datetime] = None
+
+    @field_validator("role", mode="before")
+    @classmethod
+    def role_value(cls, v):
+        return getattr(v, "value", v)
+
+
+class AccessTokenResponse(BaseModel):
+    """The refresh token is never in the body: it is set as an HttpOnly cookie."""
+
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int
+    user: UserOut
 
 
 class UserUpdate(BaseModel):
@@ -704,3 +768,166 @@ class PaginatedResponse(BaseModel):
     page: int
     page_size: int
     total_pages: int
+
+# =====================================================================
+# Student profile (Phase 4 API)
+# =====================================================================
+
+class StudentProfileIn(BaseModel):
+    """Editable profile fields. File references are set only through upload endpoints."""
+
+    full_name: str = Field(min_length=2, max_length=160)
+    phone: Optional[str] = Field(None, max_length=30, pattern=r"^[0-9+()\-\s]{6,30}$")
+    date_of_birth: Optional[datetime] = None
+    location: Optional[str] = Field(None, max_length=160)
+    college: Optional[str] = Field(None, max_length=200)
+    degree: Optional[str] = Field(None, max_length=120)
+    department: Optional[str] = Field(None, max_length=120)
+    specialization: Optional[str] = Field(None, max_length=120)
+    current_semester: Optional[int] = Field(None, ge=1, le=12)
+    graduation_year: Optional[int] = Field(None, ge=1990, le=2060)
+    cgpa: Optional[float] = Field(None, ge=0, le=100, description="CGPA (0-10) or percentage (0-100)")
+    career_interests: Optional[str] = Field(None, max_length=2000)
+    target_job_roles: Optional[str] = Field(None, max_length=2000)
+    technical_skills: Optional[str] = Field(None, max_length=2000, description="Other skills not in the catalogue")
+    soft_skills: Optional[str] = Field(None, max_length=2000)
+    preferred_locations: Optional[str] = Field(None, max_length=1000)
+    experience_level: Optional[Literal["fresher", "internship", "0-1 years", "1-3 years", "3+ years"]] = None
+    target_career_id: Optional[int] = None
+
+    @field_validator("full_name")
+    @classmethod
+    def clean_name(cls, v: str) -> str:
+        v = " ".join(v.split())
+        if len(v) < 2:
+            raise ValueError("Full name is too short")
+        return v
+
+    @field_validator(
+        "phone", "location", "college", "degree", "department", "specialization", "career_interests",
+        "target_job_roles", "technical_skills", "soft_skills", "preferred_locations", mode="before",
+    )
+    @classmethod
+    def blank_to_none(cls, v):
+        if isinstance(v, str):
+            v = v.strip()
+            return v or None
+        return v
+
+    @field_validator("date_of_birth")
+    @classmethod
+    def plausible_dob(cls, v):
+        if v is not None:
+            from datetime import timezone
+
+            now = datetime.now(timezone.utc)
+            v = v if v.tzinfo else v.replace(tzinfo=timezone.utc)
+            if not (now.year - 80 <= v.year <= now.year - 14):
+                raise ValueError("Enter a valid date of birth")
+        return v
+
+
+class ProfileCompletion(BaseModel):
+    percent: int
+    missing: List[str]
+
+
+class StudentProfileView(BaseModel):
+    user_id: int
+    email: str
+    full_name: str
+    phone: Optional[str] = None
+    date_of_birth: Optional[datetime] = None
+    location: Optional[str] = None
+    college: Optional[str] = None
+    degree: Optional[str] = None
+    department: Optional[str] = None
+    specialization: Optional[str] = None
+    current_semester: Optional[int] = None
+    graduation_year: Optional[int] = None
+    cgpa: Optional[float] = None
+    career_interests: Optional[str] = None
+    target_job_roles: Optional[str] = None
+    technical_skills: Optional[str] = None
+    soft_skills: Optional[str] = None
+    preferred_locations: Optional[str] = None
+    experience_level: Optional[str] = None
+    target_career_id: Optional[int] = None
+    target_career_name: Optional[str] = None
+    has_profile_image: bool
+    has_resume: bool
+    completion: ProfileCompletion
+
+
+class SelfSkillIn(BaseModel):
+    skill_id: int
+    level: int = Field(ge=1, le=5)
+
+
+class SelfSkillsIn(BaseModel):
+    skills: List[SelfSkillIn] = Field(max_length=60)
+
+
+class SelfSkillOut(BaseModel):
+    skill_id: int
+    skill_name: str
+    category: str
+    level: int
+
+
+# =====================================================================
+# Teacher profile, assignments and mentoring (Phase 5 API)
+# =====================================================================
+
+class TeacherProfileIn(BaseModel):
+    full_name: str = Field(min_length=2, max_length=160)
+    phone: Optional[str] = Field(None, max_length=30, pattern=r"^[0-9+()\-\s]{6,30}$")
+    qualification: Optional[str] = Field(None, max_length=200)
+    institution: Optional[str] = Field(None, max_length=200)
+    department: Optional[str] = Field(None, max_length=120)
+    designation: Optional[str] = Field(None, max_length=120)
+    specialization: Optional[str] = Field(None, max_length=160)
+    years_experience: Optional[int] = Field(None, ge=0, le=60)
+    areas_of_expertise: Optional[str] = Field(None, max_length=2000)
+    biography: Optional[str] = Field(None, max_length=4000)
+
+    @field_validator("full_name")
+    @classmethod
+    def clean_name(cls, v: str) -> str:
+        v = " ".join(v.split())
+        if len(v) < 2:
+            raise ValueError("Full name is too short")
+        return v
+
+    @field_validator("phone", "qualification", "institution", "department", "designation", "specialization",
+                     "areas_of_expertise", "biography", mode="before")
+    @classmethod
+    def blank_to_none(cls, v):
+        if isinstance(v, str):
+            v = v.strip()
+            return v or None
+        return v
+
+
+class AssignmentIn(BaseModel):
+    student_id: int
+    teacher_id: int
+
+
+class AssignmentEnd(BaseModel):
+    reason: str = Field(min_length=3, max_length=500)
+
+
+class MentoringNoteIn(BaseModel):
+    note: str = Field(min_length=1, max_length=4000)
+    note_type: Literal["general", "feedback", "resource_recommendation", "concern"] = "general"
+    resource_id: Optional[int] = None
+    visible_to_student: bool = True
+
+    @field_validator("note")
+    @classmethod
+    def strip_note(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("Note cannot be empty")
+        return v

@@ -1,0 +1,313 @@
+{
+  "skill": "Teamwork",
+  "questions": [
+    {
+      "question": "Your team misses a sprint goal partly due to your delayed task. What is the best response in the retrospective?",
+      "options": [
+        "Own your part and suggest how to avoid it next time",
+        "Point out others who were also late",
+        "Stay quiet to avoid attention",
+        "Say the goal was unrealistic anyway"
+      ],
+      "correct": "A",
+      "explanation": "Taking ownership and proposing improvements builds trust and helps the team learn.",
+      "difficulty": "beginner",
+      "topic": "Collaboration",
+      "subtopic": "Shared goals"
+    },
+    {
+      "question": "You accepted a task in stand-up but realise you lack time. What should you do?",
+      "options": [
+        "Do a rushed version without telling anyone",
+        "Hope no one notices the delay",
+        "Hand it to a junior without informing the team",
+        "Tell the team early so the task can be reassigned or re-planned"
+      ],
+      "correct": "D",
+      "explanation": "Being transparent about commitments lets the team adjust plans and remain reliable.",
+      "difficulty": "beginner",
+      "topic": "Reliability",
+      "subtopic": "Commitments"
+    },
+    {
+      "question": "A new teammate struggles with the project setup. You have some spare time. What is best?",
+      "options": [
+        "Tell them to read the docs and leave",
+        "Do it for them silently on their laptop",
+        "Offer to pair with them and walk through it",
+        "Report their slowness to the manager"
+      ],
+      "correct": "C",
+      "explanation": "Pairing helps them learn, speeds onboarding and strengthens team cohesion.",
+      "difficulty": "beginner",
+      "topic": "Helping Others",
+      "subtopic": "Supporting teammates"
+    },
+    {
+      "question": "In a Scrum team, who is primarily responsible for prioritising the product backlog?",
+      "options": [
+        "The Scrum Master",
+        "The Product Owner",
+        "The newest developer",
+        "The QA tester"
+      ],
+      "correct": "B",
+      "explanation": "According to the Scrum Guide, the Product Owner is accountable for ordering the Product Backlog.",
+      "difficulty": "beginner",
+      "topic": "Roles",
+      "subtopic": "Understanding roles"
+    },
+    {
+      "question": "You notice a bug in code written by a teammate. What is the best action?",
+      "options": [
+        "Let them know politely and offer to help fix it",
+        "Fix it silently and say nothing",
+        "Mention it in a public channel to warn others",
+        "Ignore it because it is not your code"
+      ],
+      "correct": "A",
+      "explanation": "Respectful, direct communication keeps the owner informed and encourages shared ownership.",
+      "difficulty": "beginner",
+      "topic": "Collaboration",
+      "subtopic": "Code ownership"
+    },
+    {
+      "question": "A quiet teammate rarely speaks in meetings. What is a good way to include them?",
+      "options": [
+        "Assume they have nothing to add",
+        "Ask them to speak first every time to test them",
+        "Ignore them since others are more active",
+        "Invite their input on topics in their expertise"
+      ],
+      "correct": "D",
+      "explanation": "Inviting contributions respectfully helps quieter members participate and adds diverse perspectives.",
+      "difficulty": "beginner",
+      "topic": "Respect",
+      "subtopic": "Inclusive behaviour"
+    },
+    {
+      "question": "A feature succeeded thanks to a teammate's key idea. In the demo, what should you do?",
+      "options": [
+        "Present it as your own idea",
+        "Credit only the manager",
+        "Acknowledge their contribution explicitly",
+        "Avoid mentioning anyone's name"
+      ],
+      "correct": "C",
+      "explanation": "Giving credit fairly builds trust and motivation within the team.",
+      "difficulty": "beginner",
+      "topic": "Recognition",
+      "subtopic": "Credit sharing"
+    },
+    {
+      "question": "Before merging your changes to the shared main branch, what is good team practice?",
+      "options": [
+        "Push directly to main to save time",
+        "Open a pull request for review and ensure tests pass",
+        "Merge late at night to avoid conflicts",
+        "Delete others' changes that conflict with yours"
+      ],
+      "correct": "B",
+      "explanation": "Code review and passing tests protect the shared codebase and spread knowledge.",
+      "difficulty": "beginner",
+      "topic": "Collaboration",
+      "subtopic": "Version control etiquette"
+    },
+    {
+      "question": "Two teammates disagree about which database to use, stalling work. What is the best way forward?",
+      "options": [
+        "Agree on criteria, compare options against them, then decide",
+        "Let the loudest person decide",
+        "Use both databases to avoid choosing",
+        "Postpone the decision indefinitely"
+      ],
+      "correct": "A",
+      "explanation": "Objective criteria depersonalise the conflict and lead to a reasoned decision.",
+      "difficulty": "intermediate",
+      "topic": "Conflict Resolution",
+      "subtopic": "Task disagreements"
+    },
+    {
+      "question": "You accidentally deleted a test database. What is the best action?",
+      "options": [
+        "Hide it and hope backups run",
+        "Blame a script someone else wrote",
+        "Wait until someone notices",
+        "Report it immediately and help restore it"
+      ],
+      "correct": "D",
+      "explanation": "Prompt honesty limits damage and supports a culture where mistakes can be fixed and learned from.",
+      "difficulty": "intermediate",
+      "topic": "Psychological Safety",
+      "subtopic": "Admitting mistakes"
+    },
+    {
+      "question": "Which leader behaviour best promotes psychological safety in a team?",
+      "options": [
+        "Publicly naming people who make errors",
+        "Only praising those who never ask questions",
+        "Responding to mistakes with curiosity rather than blame",
+        "Making decisions without team input"
+      ],
+      "correct": "C",
+      "explanation": "Research on team effectiveness links psychological safety to leaders treating errors as learning opportunities.",
+      "difficulty": "intermediate",
+      "topic": "Psychological Safety",
+      "subtopic": "Team culture"
+    },
+    {
+      "question": "Your distributed team struggles with missed handoffs between time zones. What helps most?",
+      "options": [
+        "Expect everyone to be online at the same time",
+        "Written handoff notes in a shared tracker at the end of each day",
+        "Use private chats for each handoff",
+        "Rely on memory and quick calls"
+      ],
+      "correct": "B",
+      "explanation": "Structured async handoffs keep work visible and continuous across time zones.",
+      "difficulty": "intermediate",
+      "topic": "Remote Teamwork",
+      "subtopic": "Async collaboration"
+    },
+    {
+      "question": "You finish your sprint tasks early while a teammate is overloaded. What is best?",
+      "options": [
+        "Offer to take on some of their tasks after checking with the team",
+        "Start a new personal side project",
+        "Wait quietly for the next sprint",
+        "Take their tasks without asking anyone"
+      ],
+      "correct": "A",
+      "explanation": "Proactively helping, coordinated with the team, improves team delivery.",
+      "difficulty": "intermediate",
+      "topic": "Collaboration",
+      "subtopic": "Workload balance"
+    },
+    {
+      "question": "A teammate keeps missing code review requests, slowing you down. What is the best first step?",
+      "options": [
+        "Complain about them in the team channel",
+        "Escalate to the manager immediately",
+        "Stop requesting their reviews entirely",
+        "Talk to them privately, describe the impact and ask how to fix it"
+      ],
+      "correct": "D",
+      "explanation": "Direct, private, impact-focused conversation is the most respectful first step before escalation.",
+      "difficulty": "intermediate",
+      "topic": "Feedback",
+      "subtopic": "Peer feedback"
+    },
+    {
+      "question": "A team keeps arguing about meeting times and response expectations. What helps most?",
+      "options": [
+        "Let each person follow their own rules",
+        "Have the newest member decide",
+        "Create a shared working agreement the team defines together",
+        "Stop holding meetings at all"
+      ],
+      "correct": "C",
+      "explanation": "A team-created working agreement sets shared norms and reduces recurring friction.",
+      "difficulty": "intermediate",
+      "topic": "Team Agreements",
+      "subtopic": "Working agreements"
+    },
+    {
+      "question": "The team chooses an approach you argued against. What is the best behaviour?",
+      "options": [
+        "Quietly implement your own approach",
+        "Commit fully to the decision while noting your concerns for review",
+        "Do the minimum to prove you were right",
+        "Keep reopening the debate in every meeting"
+      ],
+      "correct": "B",
+      "explanation": "'Disagree and commit' allows healthy debate while preserving team execution.",
+      "difficulty": "intermediate",
+      "topic": "Decision Making",
+      "subtopic": "Disagree and commit"
+    },
+    {
+      "question": "Two colleagues have an ongoing personal conflict affecting the team's delivery. As team lead, what is the best approach?",
+      "options": [
+        "Meet them, focus on behaviours and impact, and agree on norms",
+        "Ignore it as long as tasks finish",
+        "Move one of them off the team immediately",
+        "Discuss the conflict with the whole team in their absence"
+      ],
+      "correct": "A",
+      "explanation": "Addressing behaviour and impact with the people involved, and agreeing norms, resolves conflict fairly.",
+      "difficulty": "advanced",
+      "topic": "Conflict Resolution",
+      "subtopic": "Interpersonal conflict"
+    },
+    {
+      "question": "A new team is having frequent disagreements over roles and approach. In Tuckman's model, which stage is this?",
+      "options": [
+        "Forming",
+        "Norming",
+        "Performing",
+        "Storming"
+      ],
+      "correct": "D",
+      "explanation": "Storming is characterised by conflict as members assert ideas and negotiate roles.",
+      "difficulty": "advanced",
+      "topic": "Team Development",
+      "subtopic": "Tuckman model"
+    },
+    {
+      "question": "Retrospectives keep producing the same complaints with no change. What is the most effective fix?",
+      "options": [
+        "Stop holding retrospectives",
+        "Make retros longer to discuss more issues",
+        "Pick one or two actions with owners and review them next retro",
+        "Only let the manager speak in retros"
+      ],
+      "correct": "C",
+      "explanation": "Limited, owned, followed-up action items turn retrospectives into real improvement.",
+      "difficulty": "advanced",
+      "topic": "Retrospectives",
+      "subtopic": "Effective retros"
+    },
+    {
+      "question": "Your feature depends on the design team, which has different priorities. What is the best way to collaborate?",
+      "options": [
+        "Build without designs and fix later",
+        "Align early on shared goals and agree timelines with them",
+        "Escalate to senior management immediately",
+        "Assume they will deliver when needed"
+      ],
+      "correct": "B",
+      "explanation": "Early alignment and explicit agreements on dependencies reduce delays across teams.",
+      "difficulty": "advanced",
+      "topic": "Cross-functional Work",
+      "subtopic": "Dependencies"
+    },
+    {
+      "question": "Only one engineer understands the deployment process. What is the best team action?",
+      "options": [
+        "Document it and rotate others through deployments",
+        "Keep relying on that engineer",
+        "Forbid deployments when they are away",
+        "Rewrite the process from scratch immediately"
+      ],
+      "correct": "A",
+      "explanation": "Documentation and rotation reduce single-person dependency (bus factor) and spread knowledge.",
+      "difficulty": "advanced",
+      "topic": "Knowledge Sharing",
+      "subtopic": "Bus factor"
+    },
+    {
+      "question": "Your lead often changes priorities mid-sprint, causing rework. What is the best approach?",
+      "options": [
+        "Complain to other teams about the lead",
+        "Ignore new priorities and continue your plan",
+        "Raise it angrily in the sprint review",
+        "Share the impact privately with examples and suggest a change process"
+      ],
+      "correct": "D",
+      "explanation": "Specific, private, solution-oriented feedback is the most constructive way to address issues with a lead.",
+      "difficulty": "advanced",
+      "topic": "Feedback",
+      "subtopic": "Upward feedback"
+    }
+  ]
+}

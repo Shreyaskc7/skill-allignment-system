@@ -1,0 +1,313 @@
+{
+  "skill": "Java",
+  "questions": [
+    {
+      "question": "Which method is the usual Java program entry point?",
+      "options": [
+        "start()",
+        "run()",
+        "main()",
+        "init()"
+      ],
+      "correct": "C",
+      "explanation": "The JVM starts a standard application at public static void main.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "Program entry point"
+    },
+    {
+      "question": "Which keyword creates an object?",
+      "options": [
+        "this",
+        "new",
+        "class",
+        "make"
+      ],
+      "correct": "B",
+      "explanation": "The new keyword creates an object.",
+      "difficulty": "beginner",
+      "topic": "OOP",
+      "subtopic": "Object creation"
+    },
+    {
+      "question": "Which collection does not allow duplicate elements?",
+      "options": [
+        "ArrayList",
+        "LinkedList",
+        "HashSet",
+        "Vector"
+      ],
+      "correct": "C",
+      "explanation": "HashSet stores unique elements.",
+      "difficulty": "intermediate",
+      "topic": "Collections",
+      "subtopic": "Set"
+    },
+    {
+      "question": "How many bits does the Java primitive type int occupy?",
+      "options": [
+        "32",
+        "16",
+        "64",
+        "8"
+      ],
+      "correct": "A",
+      "explanation": "An int is always a 32-bit signed two's-complement integer in Java.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "Primitive types"
+    },
+    {
+      "question": "What is the default value of an uninitialized boolean instance field?",
+      "options": [
+        "true",
+        "null",
+        "0",
+        "false"
+      ],
+      "correct": "D",
+      "explanation": "Instance fields of type boolean default to false.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "Default values"
+    },
+    {
+      "question": "Which modifier on a class prevents it from being subclassed?",
+      "options": [
+        "final",
+        "static",
+        "abstract",
+        "private"
+      ],
+      "correct": "A",
+      "explanation": "A final class cannot be extended.",
+      "difficulty": "beginner",
+      "topic": "OOP",
+      "subtopic": "Inheritance"
+    },
+    {
+      "question": "What does System.out.println(10 / 4); print?",
+      "options": [
+        "2.5",
+        "3",
+        "2.0",
+        "2"
+      ],
+      "correct": "D",
+      "explanation": "Both operands are int, so integer division truncates 2.5 to 2.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "Operators"
+    },
+    {
+      "question": "Which access modifier restricts a member to its own class only?",
+      "options": [
+        "protected",
+        "private",
+        "public",
+        "package-private (no modifier)"
+      ],
+      "correct": "B",
+      "explanation": "private members are accessible only within the declaring class.",
+      "difficulty": "beginner",
+      "topic": "OOP",
+      "subtopic": "Access modifiers"
+    },
+    {
+      "question": "Which expression correctly compares two String objects s1 and s2 for equal content?",
+      "options": [
+        "s1 == s2",
+        "s1.hashCode()",
+        "s1.length() == s2.length()",
+        "s1.equals(s2)"
+      ],
+      "correct": "D",
+      "explanation": "equals compares character content; == compares references.",
+      "difficulty": "beginner",
+      "topic": "Strings",
+      "subtopic": "Equality"
+    },
+    {
+      "question": "What is printed?\nString s = \"a\";\ns.concat(\"b\");\nSystem.out.println(s);",
+      "options": [
+        "a",
+        "ab",
+        "b",
+        "Compilation error"
+      ],
+      "correct": "A",
+      "explanation": "Strings are immutable; concat returns a new String that is discarded here.",
+      "difficulty": "intermediate",
+      "topic": "Strings",
+      "subtopic": "Immutability"
+    },
+    {
+      "question": "Which of these is a checked exception?",
+      "options": [
+        "NullPointerException",
+        "IOException",
+        "ArithmeticException",
+        "ArrayIndexOutOfBoundsException"
+      ],
+      "correct": "B",
+      "explanation": "IOException extends Exception but not RuntimeException, so it must be caught or declared.",
+      "difficulty": "intermediate",
+      "topic": "Exceptions",
+      "subtopic": "Checked exceptions"
+    },
+    {
+      "question": "In Java 17, an interface method declared with no body and no modifiers is implicitly:",
+      "options": [
+        "public abstract",
+        "private",
+        "protected abstract",
+        "package-private"
+      ],
+      "correct": "A",
+      "explanation": "Interface methods without a body are implicitly public and abstract.",
+      "difficulty": "intermediate",
+      "topic": "OOP",
+      "subtopic": "Interfaces"
+    },
+    {
+      "question": "Which call is resolved at runtime based on the actual object type?",
+      "options": [
+        "Selection among overloaded methods",
+        "A call to a static method",
+        "A call to a private method",
+        "A call to an overridden instance method"
+      ],
+      "correct": "D",
+      "explanation": "Overridden instance methods use dynamic dispatch; overloading, static and private calls are bound at compile time.",
+      "difficulty": "intermediate",
+      "topic": "OOP",
+      "subtopic": "Polymorphism"
+    },
+    {
+      "question": "Regarding nulls, what does java.util.HashMap allow?",
+      "options": [
+        "No null keys or values",
+        "Multiple null keys",
+        "One null key and multiple null values",
+        "Null keys only, no null values"
+      ],
+      "correct": "C",
+      "explanation": "HashMap permits a single null key and any number of null values.",
+      "difficulty": "intermediate",
+      "topic": "Collections",
+      "subtopic": "HashMap"
+    },
+    {
+      "question": "What happens?\nint[] a = new int[3];\nSystem.out.println(a[3]);",
+      "options": [
+        "Prints 0",
+        "Compilation error",
+        "Prints null",
+        "ArrayIndexOutOfBoundsException is thrown at runtime"
+      ],
+      "correct": "D",
+      "explanation": "Valid indices are 0..2; index 3 fails the runtime bounds check.",
+      "difficulty": "intermediate",
+      "topic": "Arrays",
+      "subtopic": "Bounds"
+    },
+    {
+      "question": "What does declaring a field static mean?",
+      "options": [
+        "One copy of the field is shared by all instances of the class",
+        "Its value can never change",
+        "Each object gets its own copy",
+        "It can only be accessed by static methods of other classes"
+      ],
+      "correct": "A",
+      "explanation": "A static field belongs to the class itself rather than to individual objects.",
+      "difficulty": "intermediate",
+      "topic": "OOP",
+      "subtopic": "Static members"
+    },
+    {
+      "question": "What is printed?\nInteger a = 127, b = 127;\nInteger c = 128, d = 128;\nSystem.out.println((a == b) + \" \" + (c == d));",
+      "options": [
+        "true true",
+        "true false",
+        "false false",
+        "false true"
+      ],
+      "correct": "B",
+      "explanation": "Autoboxing caches Integer values from -128 to 127 by default, so only a and b share one object.",
+      "difficulty": "advanced",
+      "topic": "Wrapper classes",
+      "subtopic": "Integer cache"
+    },
+    {
+      "question": "Which statement about a Java 17 record is true?",
+      "options": [
+        "It can extend another class",
+        "Its component fields can be reassigned through setters generated automatically",
+        "Its component fields are private and final, and the record class is implicitly final",
+        "You must write accessor methods yourself"
+      ],
+      "correct": "C",
+      "explanation": "Records generate private final fields and accessors, implicitly extend java.lang.Record and are final.",
+      "difficulty": "advanced",
+      "topic": "Records",
+      "subtopic": "Record semantics"
+    },
+    {
+      "question": "What does f() return?\nstatic int f() {\n  try { return 1; }\n  finally { return 2; }\n}",
+      "options": [
+        "2",
+        "1",
+        "Compilation error",
+        "It throws an exception"
+      ],
+      "correct": "A",
+      "explanation": "A return in finally overrides the return value from the try block.",
+      "difficulty": "advanced",
+      "topic": "Exceptions",
+      "subtopic": "finally"
+    },
+    {
+      "question": "Given sealed interface Shape permits Circle, Square, what must Circle and Square be declared as?",
+      "options": [
+        "abstract only",
+        "final, sealed, or non-sealed",
+        "static",
+        "public final only"
+      ],
+      "correct": "B",
+      "explanation": "Every permitted subtype of a sealed type must itself be final, sealed or non-sealed.",
+      "difficulty": "advanced",
+      "topic": "OOP",
+      "subtopic": "Sealed classes"
+    },
+    {
+      "question": "What does declaring a field volatile guarantee?",
+      "options": [
+        "count++ on it becomes atomic",
+        "Only one thread can access it at a time",
+        "It is never garbage collected",
+        "Writes to it are visible to other threads that read it"
+      ],
+      "correct": "D",
+      "explanation": "volatile provides visibility and ordering guarantees but not atomicity of compound operations.",
+      "difficulty": "advanced",
+      "topic": "Concurrency",
+      "subtopic": "volatile"
+    },
+    {
+      "question": "What does this print?\nSystem.out.println(new ArrayList<String>().getClass() == new ArrayList<Integer>().getClass());",
+      "options": [
+        "false",
+        "Compilation error",
+        "true",
+        "ClassCastException"
+      ],
+      "correct": "C",
+      "explanation": "Because of type erasure both objects have the same runtime class, ArrayList.",
+      "difficulty": "advanced",
+      "topic": "Generics",
+      "subtopic": "Type erasure"
+    }
+  ]
+}

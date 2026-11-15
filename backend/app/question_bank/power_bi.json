@@ -1,0 +1,313 @@
+{
+  "skill": "Power BI",
+  "questions": [
+    {
+      "question": "Which Power BI component is primarily used to build data models and author reports on a Windows PC?",
+      "options": [
+        "Power BI Desktop",
+        "Power BI Service",
+        "Power BI Mobile",
+        "Power BI Report Server portal"
+      ],
+      "correct": "A",
+      "explanation": "Power BI Desktop is the free Windows authoring tool for connecting to data, modelling and designing reports, which are then published to the Service.",
+      "difficulty": "beginner",
+      "topic": "Power BI Basics",
+      "subtopic": "Desktop vs Service"
+    },
+    {
+      "question": "In Power BI, what is Power Query mainly used for?",
+      "options": [
+        "Writing DAX measures for aggregations",
+        "Defining row-level security roles",
+        "Scheduling dashboard email subscriptions",
+        "Extracting and transforming data before loading it"
+      ],
+      "correct": "D",
+      "explanation": "Power Query is the ETL layer (M language) used to connect to sources and shape/clean data before it loads into the model.",
+      "difficulty": "beginner",
+      "topic": "Power Query",
+      "subtopic": "Purpose"
+    },
+    {
+      "question": "In a star schema, what does a fact table typically contain?",
+      "options": [
+        "Descriptive attributes such as product names",
+        "Only the date hierarchy for the model",
+        "Numeric events/transactions with keys to dimensions",
+        "Security roles mapped to user emails"
+      ],
+      "correct": "C",
+      "explanation": "Fact tables store measurable events (sales amounts, quantities) plus foreign keys that relate to descriptive dimension tables.",
+      "difficulty": "beginner",
+      "topic": "Data Modelling",
+      "subtopic": "Star schema"
+    },
+    {
+      "question": "A Product table (one row per ProductID) relates to a Sales table with many rows per ProductID. What is the cardinality from Product to Sales?",
+      "options": [
+        "Many-to-many",
+        "One-to-many",
+        "One-to-one",
+        "Many-to-one from Product side"
+      ],
+      "correct": "B",
+      "explanation": "Each product appears once in Product and many times in Sales, so the relationship is one-to-many from Product to Sales.",
+      "difficulty": "beginner",
+      "topic": "Data Modelling",
+      "subtopic": "Cardinality"
+    },
+    {
+      "question": "Which DAX expression correctly defines a measure for total sales from a Sales[Amount] column?",
+      "options": [
+        "Total Sales = SUM(Sales[Amount])",
+        "Total Sales = Sales[Amount].SUM()",
+        "Total Sales = SUMX(Sales[Amount])",
+        "Total Sales = TOTAL(Sales[Amount])"
+      ],
+      "correct": "A",
+      "explanation": "SUM takes a single column; SUMX requires a table and expression, and the other forms are not valid DAX.",
+      "difficulty": "beginner",
+      "topic": "DAX",
+      "subtopic": "Measures"
+    },
+    {
+      "question": "Which visual is most suitable for showing a single headline KPI value like Total Revenue?",
+      "options": [
+        "Scatter chart",
+        "Matrix",
+        "Ribbon chart",
+        "Card"
+      ],
+      "correct": "D",
+      "explanation": "A Card visual displays a single aggregated value prominently, which is ideal for a headline KPI.",
+      "difficulty": "beginner",
+      "topic": "Visuals",
+      "subtopic": "Visual selection"
+    },
+    {
+      "question": "After publishing a report to the Power BI Service, where is it stored so colleagues can collaborate on it?",
+      "options": [
+        "In the local .pbix cache",
+        "In Power Query Editor",
+        "In a workspace",
+        "In the DAX formula bar"
+      ],
+      "correct": "C",
+      "explanation": "Published content lives in a Service workspace, where access, sharing and apps are managed.",
+      "difficulty": "beginner",
+      "topic": "Power BI Service",
+      "subtopic": "Sharing"
+    },
+    {
+      "question": "What is the main purpose of a slicer on a Power BI report page?",
+      "options": [
+        "To create a new calculated table",
+        "To let users filter other visuals interactively",
+        "To change the data source credentials",
+        "To define relationships between tables"
+      ],
+      "correct": "B",
+      "explanation": "A slicer is an on-canvas filter control that filters other visuals on the page (and optionally synced pages).",
+      "difficulty": "beginner",
+      "topic": "Visuals",
+      "subtopic": "Slicers"
+    },
+    {
+      "question": "What is a key difference between a calculated column and a measure in Power BI?",
+      "options": [
+        "A column is computed at refresh and stored; a measure is computed at query time",
+        "A measure is stored in the model at refresh; a column is evaluated per visual",
+        "Both are computed at query time but columns ignore filters",
+        "Columns can only use M code while measures use DAX"
+      ],
+      "correct": "A",
+      "explanation": "Calculated columns are evaluated row by row during refresh and stored in the model, while measures are evaluated on demand in the current filter context.",
+      "difficulty": "intermediate",
+      "topic": "DAX",
+      "subtopic": "Calculated column vs measure"
+    },
+    {
+      "question": "What does CALCULATE([Total Sales], Product[Color] = \"Red\") return in a visual already filtered to Color = Blue (default behaviour)?",
+      "options": [
+        "Blank, because Red and Blue filters intersect",
+        "Sales for both Red and Blue products combined",
+        "Sales for Blue products only, ignoring the Red filter",
+        "Sales for Red products, overriding the Blue filter on Color"
+      ],
+      "correct": "D",
+      "explanation": "A boolean filter argument in CALCULATE replaces existing filters on that column (it is wrapped in FILTER(ALL(Product[Color]),...)), so Red sales are returned.",
+      "difficulty": "intermediate",
+      "topic": "DAX",
+      "subtopic": "CALCULATE"
+    },
+    {
+      "question": "A calculated column uses SUM(Sales[Amount]) in the Sales table without CALCULATE. What does each row show?",
+      "options": [
+        "The Amount value of the current row only",
+        "A blank value because row context is invalid",
+        "The grand total of Amount for the whole table",
+        "The running total up to the current row"
+      ],
+      "correct": "C",
+      "explanation": "Row context does not filter tables by itself; without CALCULATE's context transition, SUM sees the whole (unfiltered) table in a calculated column.",
+      "difficulty": "intermediate",
+      "topic": "DAX",
+      "subtopic": "Row context"
+    },
+    {
+      "question": "Which requirement must a date table meet for DAX time intelligence functions like TOTALYTD to work reliably?",
+      "options": [
+        "Only dates that appear in the fact table",
+        "A contiguous set of dates covering full years, with no gaps",
+        "Dates stored as text in YYYYMMDD format",
+        "One row per month instead of per day"
+      ],
+      "correct": "B",
+      "explanation": "Time intelligence functions need a date table with a unique, contiguous date column spanning complete years; marking it as a date table is recommended.",
+      "difficulty": "intermediate",
+      "topic": "DAX",
+      "subtopic": "Time intelligence"
+    },
+    {
+      "question": "By default, how does a one-to-many relationship propagate filters in Power BI?",
+      "options": [
+        "From the one side to the many side (single direction)",
+        "From the many side to the one side only",
+        "In both directions automatically",
+        "It does not propagate filters until enabled"
+      ],
+      "correct": "A",
+      "explanation": "One-to-many relationships default to single cross-filter direction, filtering from the dimension (one) side to the fact (many) side.",
+      "difficulty": "intermediate",
+      "topic": "Data Modelling",
+      "subtopic": "Filter direction"
+    },
+    {
+      "question": "A source table has columns Jan, Feb, Mar holding monthly sales. Which Power Query step converts it to Month/Value rows?",
+      "options": [
+        "Pivot Column",
+        "Transpose",
+        "Group By",
+        "Unpivot Columns"
+      ],
+      "correct": "D",
+      "explanation": "Unpivot turns column headers into attribute values with corresponding values in rows, producing a tidy Month/Value layout.",
+      "difficulty": "intermediate",
+      "topic": "Power Query",
+      "subtopic": "Unpivot"
+    },
+    {
+      "question": "How is static row-level security defined in Power BI Desktop?",
+      "options": [
+        "By hiding columns in the Fields pane",
+        "By adding page-level filters to each report page",
+        "By creating roles with DAX filter expressions on tables",
+        "By setting workspace permissions to Viewer"
+      ],
+      "correct": "C",
+      "explanation": "RLS roles use DAX table filter expressions; users mapped to a role in the Service see only rows that satisfy the filter.",
+      "difficulty": "intermediate",
+      "topic": "Row-Level Security",
+      "subtopic": "RLS basics"
+    },
+    {
+      "question": "An imported dataset uses an on-premises SQL Server. What is required for scheduled refresh in the Power BI Service?",
+      "options": [
+        "A DirectQuery-only connection",
+        "An on-premises data gateway",
+        "A Power BI Mobile license",
+        "Publishing the PBIX to SharePoint"
+      ],
+      "correct": "B",
+      "explanation": "The Service cannot reach on-premises sources directly; an on-premises data gateway securely bridges the connection for refresh.",
+      "difficulty": "intermediate",
+      "topic": "Power BI Service",
+      "subtopic": "Scheduled refresh"
+    },
+    {
+      "question": "Why does a measure reference like [Total Sales] inside a calculated column return a different value per row than SUM(Sales[Amount])?",
+      "options": [
+        "Measure references are implicitly wrapped in CALCULATE, causing context transition",
+        "Measures always ignore row context and return blanks",
+        "Measures are cached per row during refresh",
+        "Calculated columns convert measures into iterators like SUMX"
+      ],
+      "correct": "A",
+      "explanation": "Every measure reference is implicitly wrapped in CALCULATE, which converts the current row context into an equivalent filter context (context transition).",
+      "difficulty": "advanced",
+      "topic": "DAX",
+      "subtopic": "Context transition"
+    },
+    {
+      "question": "Which measure returns sales for all products while keeping any filter on Product[Category]?",
+      "options": [
+        "CALCULATE([Sales], ALL(Product[Category]))",
+        "CALCULATE([Sales], VALUES(Product))",
+        "CALCULATE([Sales], KEEPFILTERS(Product))",
+        "CALCULATE([Sales], ALLEXCEPT(Product, Product[Category]))"
+      ],
+      "correct": "D",
+      "explanation": "ALLEXCEPT removes all filters from the Product table except those on the listed column, so the Category filter is retained.",
+      "difficulty": "advanced",
+      "topic": "DAX",
+      "subtopic": "ALL vs ALLEXCEPT"
+    },
+    {
+      "question": "Why does Microsoft guidance advise caution with bi-directional cross-filtering?",
+      "options": [
+        "It prevents measures from using CALCULATE",
+        "It disables row-level security entirely",
+        "It can create ambiguous filter paths and hurt performance",
+        "It converts relationships into many-to-many"
+      ],
+      "correct": "C",
+      "explanation": "Bi-directional filtering can introduce ambiguity between multiple paths and extra query cost, so it should be used only where needed.",
+      "difficulty": "advanced",
+      "topic": "Data Modelling",
+      "subtopic": "Bidirectional filters"
+    },
+    {
+      "question": "Which DAX function is typically used in a dynamic RLS role filter to match the signed-in user's email/UPN?",
+      "options": [
+        "CURRENTUSER()",
+        "USERPRINCIPALNAME()",
+        "SELECTEDVALUE()",
+        "LOOKUPVALUE()"
+      ],
+      "correct": "B",
+      "explanation": "USERPRINCIPALNAME() returns the user's UPN in the Service, which is compared against a user column for dynamic RLS.",
+      "difficulty": "advanced",
+      "topic": "Row-Level Security",
+      "subtopic": "Dynamic RLS"
+    },
+    {
+      "question": "Which statement about DirectQuery mode compared with Import mode is correct?",
+      "options": [
+        "Queries are sent to the source at view time, so data is current but visuals may be slower",
+        "Data is compressed into VertiPaq, so it is always faster than Import",
+        "It removes all DAX limitations present in Import mode",
+        "It requires scheduled refresh to show any new data"
+      ],
+      "correct": "A",
+      "explanation": "DirectQuery does not cache data; each interaction queries the source, giving near-real-time data at the cost of performance and some DAX/Power Query limitations.",
+      "difficulty": "advanced",
+      "topic": "Storage Modes",
+      "subtopic": "Import vs DirectQuery"
+    },
+    {
+      "question": "Which expression returns sales for the same period in the previous year, given a marked Date table?",
+      "options": [
+        "CALCULATE([Sales], PREVIOUSDAY('Date'[Date]))",
+        "SAMEPERIODLASTYEAR([Sales], 'Date'[Date])",
+        "CALCULATE([Sales], DATEADD('Date'[Date], -1, MONTH))",
+        "CALCULATE([Sales], SAMEPERIODLASTYEAR('Date'[Date]))"
+      ],
+      "correct": "D",
+      "explanation": "SAMEPERIODLASTYEAR returns the dates shifted back one year and is used as a filter argument inside CALCULATE.",
+      "difficulty": "advanced",
+      "topic": "DAX",
+      "subtopic": "Time intelligence"
+    }
+  ]
+}

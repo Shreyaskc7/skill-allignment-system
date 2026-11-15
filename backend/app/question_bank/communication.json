@@ -1,0 +1,313 @@
+{
+  "skill": "Communication",
+  "questions": [
+    {
+      "question": "Your manager asks for a quick update on a task. Which message is most effective?",
+      "options": [
+        "\"Working on it, will update you soon when there's progress.\"",
+        "\"Login API done; tests 80% complete; on track for Friday. No blockers.\"",
+        "\"Lots happened today, will explain everything in detail later.\"",
+        "\"Almost finished, just some small issues left, should be fine.\""
+      ],
+      "correct": "B",
+      "explanation": "A good status update is specific and concise: what is done, what remains, the expected date and any blockers.",
+      "difficulty": "beginner",
+      "topic": "Status Updates",
+      "subtopic": "Written updates"
+    },
+    {
+      "question": "During a requirements call, a stakeholder describes a feature quickly. What is the best way to show active listening?",
+      "options": [
+        "Paraphrase what you heard and ask whether it is correct",
+        "Stay silent and start coding right after the call",
+        "Interrupt to suggest a different technical approach",
+        "Nod along and rely on remembering the details later"
+      ],
+      "correct": "A",
+      "explanation": "Paraphrasing confirms understanding and surfaces gaps early, a core active-listening technique.",
+      "difficulty": "beginner",
+      "topic": "Active Listening",
+      "subtopic": "Clarifying"
+    },
+    {
+      "question": "Which email subject line is most useful to a busy team lead?",
+      "options": [
+        "\"Hi\"",
+        "\"Regarding the thing we discussed earlier\"",
+        "\"URGENT!!! PLEASE READ IMMEDIATELY\"",
+        "\"Action needed by Wed: approve DB schema change\""
+      ],
+      "correct": "D",
+      "explanation": "A clear subject states the action and deadline, helping recipients prioritise without opening the mail.",
+      "difficulty": "beginner",
+      "topic": "Email Etiquette",
+      "subtopic": "Subject lines"
+    },
+    {
+      "question": "You are stuck on a bug for two hours. What is the best way to ask a senior colleague for help?",
+      "options": [
+        "Say \"my code doesn't work, can you check?\"",
+        "Keep trying alone for several more days",
+        "Share the error, what you tried, and what you expect",
+        "Post the entire codebase and ask them to fix it"
+      ],
+      "correct": "C",
+      "explanation": "A focused question with context and attempted steps respects the helper's time and speeds resolution.",
+      "difficulty": "beginner",
+      "topic": "Asking for Help",
+      "subtopic": "Effective questions"
+    },
+    {
+      "question": "After a team meeting, what is the most useful follow-up communication?",
+      "options": [
+        "Assume everyone remembers what was agreed",
+        "Send a summary with decisions, owners and deadlines",
+        "Send the full raw transcript to all attendees",
+        "Discuss outcomes only with your close teammates"
+      ],
+      "correct": "B",
+      "explanation": "A written summary of decisions and action items creates shared accountability and avoids misunderstandings.",
+      "difficulty": "beginner",
+      "topic": "Meetings",
+      "subtopic": "Meeting notes"
+    },
+    {
+      "question": "You must explain a server outage to a non-technical client. What is the best approach?",
+      "options": [
+        "Explain the impact and fix in plain language, avoiding jargon",
+        "Use detailed technical terms to sound credible",
+        "Avoid explaining and just say it is resolved",
+        "Forward the internal engineering logs directly"
+      ],
+      "correct": "A",
+      "explanation": "Tailoring the message to the audience means focusing on impact, resolution and next steps in plain language.",
+      "difficulty": "beginner",
+      "topic": "Audience Awareness",
+      "subtopic": "Non-technical audience"
+    },
+    {
+      "question": "You realise you will miss a deadline in three days. When should you inform your lead?",
+      "options": [
+        "On the deadline day if it is still not done",
+        "Only if the lead asks about progress",
+        "After the deadline, once the task is finished",
+        "Now, with the reason and a proposed new plan"
+      ],
+      "correct": "D",
+      "explanation": "Early, transparent communication with a proposed plan lets the team adjust before the risk becomes a problem.",
+      "difficulty": "beginner",
+      "topic": "Bad News",
+      "subtopic": "Deadline risk"
+    },
+    {
+      "question": "You need a detailed design decision documented for the team. Which channel is best?",
+      "options": [
+        "A one-to-one voice call with one teammate",
+        "A quick emoji reaction in the group chat",
+        "A shared document or ticket, linked in the team channel",
+        "A personal note saved on your laptop"
+      ],
+      "correct": "C",
+      "explanation": "Important decisions belong in persistent, searchable shared documentation so the whole team can refer to them.",
+      "difficulty": "beginner",
+      "topic": "Chat Communication",
+      "subtopic": "Channel choice"
+    },
+    {
+      "question": "A teammate's pull request has several issues. Which review comment is most constructive?",
+      "options": [
+        "\"This code is bad, please rewrite it properly.\"",
+        "\"This loop re-queries the DB each time; caching the result outside may fix the slowness.\"",
+        "\"I would never write it like this myself.\"",
+        "\"Looks fine overall,\" despite seeing the problems."
+      ],
+      "correct": "B",
+      "explanation": "Constructive feedback is specific, about the work not the person, and suggests an improvement.",
+      "difficulty": "intermediate",
+      "topic": "Feedback",
+      "subtopic": "Giving feedback"
+    },
+    {
+      "question": "Your lead criticises your report's structure in a review. What is the most professional response?",
+      "options": [
+        "Ask clarifying questions and agree on specific improvements",
+        "Defend every choice to show you were right",
+        "Accept silently but change nothing afterwards",
+        "Complain to peers that the review was unfair"
+      ],
+      "correct": "A",
+      "explanation": "Receiving feedback well means seeking to understand it and turning it into concrete actions.",
+      "difficulty": "intermediate",
+      "topic": "Feedback",
+      "subtopic": "Receiving feedback"
+    },
+    {
+      "question": "In a meeting, a senior colleague proposes an approach you believe has a security flaw. What should you do?",
+      "options": [
+        "Stay silent because they are more senior",
+        "Mock the idea to make your point stronger",
+        "Implement your own approach without telling anyone",
+        "Respectfully raise the concern with evidence and suggest an alternative"
+      ],
+      "correct": "D",
+      "explanation": "Raising concerns respectfully with evidence supports good decisions and psychological safety.",
+      "difficulty": "intermediate",
+      "topic": "Conflict",
+      "subtopic": "Disagreement in meeting"
+    },
+    {
+      "question": "Which practice makes a project README most useful to new team members?",
+      "options": [
+        "Long paragraphs on the project's history only",
+        "Only a list of every file in the repository",
+        "Clear setup steps, examples and who to contact for help",
+        "Internal jokes that only current members understand"
+      ],
+      "correct": "C",
+      "explanation": "Good documentation is task-oriented: how to set up, how to use, and where to get help.",
+      "difficulty": "intermediate",
+      "topic": "Written Communication",
+      "subtopic": "Documentation"
+    },
+    {
+      "question": "A client asks for a feature 'by tomorrow' that needs a week. What is the best response?",
+      "options": [
+        "Agree to tomorrow and work overnight to try",
+        "Explain the estimate, and offer a smaller deliverable for tomorrow",
+        "Refuse without giving any explanation",
+        "Ignore the request until your manager responds"
+      ],
+      "correct": "B",
+      "explanation": "Honest estimates plus options manage expectations and maintain trust.",
+      "difficulty": "intermediate",
+      "topic": "Stakeholder Communication",
+      "subtopic": "Expectation setting"
+    },
+    {
+      "question": "You lead a remote stand-up where a few people dominate. What best improves participation?",
+      "options": [
+        "Go round each member with a fixed short time per update",
+        "Let the most vocal people continue as usual",
+        "Cancel stand-ups and rely on chat only",
+        "Ask only the manager to speak in each meeting"
+      ],
+      "correct": "A",
+      "explanation": "A structured round-robin gives everyone equal voice and keeps the stand-up focused.",
+      "difficulty": "intermediate",
+      "topic": "Meetings",
+      "subtopic": "Remote meetings"
+    },
+    {
+      "question": "A teammate sounds frustrated while describing a blocker. What is the best first response?",
+      "options": [
+        "Tell them frustration is unprofessional",
+        "Immediately change the topic to your own work",
+        "Advise them to just work harder",
+        "Acknowledge their frustration and ask what would help"
+      ],
+      "correct": "D",
+      "explanation": "Acknowledging emotion before problem-solving builds trust and opens productive conversation.",
+      "difficulty": "intermediate",
+      "topic": "Active Listening",
+      "subtopic": "Emotional cues"
+    },
+    {
+      "question": "You have 10 minutes to demo a feature to managers. Which structure works best?",
+      "options": [
+        "Walk through every line of code in order",
+        "Start with a long history of the project",
+        "State the problem, show the solution, then the impact and next steps",
+        "Show random features as you remember them"
+      ],
+      "correct": "C",
+      "explanation": "A problem-solution-impact structure keeps a short demo relevant to a managerial audience.",
+      "difficulty": "intermediate",
+      "topic": "Presentations",
+      "subtopic": "Structuring a demo"
+    },
+    {
+      "question": "A dependency team has not answered your requests for a week, blocking a release. What is the best next step?",
+      "options": [
+        "Publicly blame the other team in a company channel",
+        "Inform your lead with the facts and impact, and request escalation",
+        "Keep waiting silently until they reply",
+        "Quietly work around it by copying their code"
+      ],
+      "correct": "B",
+      "explanation": "Escalating through the proper channel with facts and impact is professional and gets the blocker resolved.",
+      "difficulty": "advanced",
+      "topic": "Escalation",
+      "subtopic": "When to escalate"
+    },
+    {
+      "question": "Two teammates argue in chat about code style, and it is getting personal. As the person they both respect, what should you do?",
+      "options": [
+        "Suggest moving to a call and agreeing on a team style guide",
+        "Pick a side publicly to end the argument",
+        "Ignore it and hope it resolves itself",
+        "Report both to HR immediately"
+      ],
+      "correct": "A",
+      "explanation": "De-escalating to a synchronous conversation and focusing on an objective standard resolves the issue without blame.",
+      "difficulty": "advanced",
+      "topic": "Conflict",
+      "subtopic": "Mediating"
+    },
+    {
+      "question": "You work with an overseas team in a different time zone. What best avoids misunderstanding?",
+      "options": [
+        "Use local slang to sound friendly",
+        "Schedule all meetings in your own working hours",
+        "Assume silence means agreement",
+        "Write clear asynchronous updates and confirm key points in writing"
+      ],
+      "correct": "D",
+      "explanation": "Clear written async communication and explicit confirmation reduce ambiguity across time zones and cultures.",
+      "difficulty": "advanced",
+      "topic": "Cross-cultural Communication",
+      "subtopic": "Global teams"
+    },
+    {
+      "question": "During a production outage, what should regular stakeholder updates contain?",
+      "options": [
+        "Detailed blame of who caused the issue",
+        "Only a final message after everything is fixed",
+        "Current impact, actions in progress, and time of next update",
+        "Speculation about root causes as facts"
+      ],
+      "correct": "C",
+      "explanation": "Incident communication best practice is regular, factual updates on impact, actions and the next update time.",
+      "difficulty": "advanced",
+      "topic": "Incident Communication",
+      "subtopic": "Outage updates"
+    },
+    {
+      "question": "You want the team to adopt automated testing. Which approach is most persuasive?",
+      "options": [
+        "Insist it is obviously better than current practice",
+        "Present data on recent bugs and a small pilot plan",
+        "Add tests secretly and force them in later",
+        "Wait until a major failure proves your point"
+      ],
+      "correct": "B",
+      "explanation": "Evidence plus a low-risk pilot addresses concerns and makes adoption easy to agree to.",
+      "difficulty": "advanced",
+      "topic": "Persuasion",
+      "subtopic": "Proposing change"
+    },
+    {
+      "question": "A senior from another team asks you to take urgent extra work while you are on a committed sprint task. What is best?",
+      "options": [
+        "Explain your current commitment and involve your lead to prioritise",
+        "Accept it and quietly drop your sprint task",
+        "Refuse rudely because it is not your team",
+        "Accept and do both by working all night"
+      ],
+      "correct": "A",
+      "explanation": "Transparently surfacing the trade-off and letting the lead prioritise protects commitments and relationships.",
+      "difficulty": "advanced",
+      "topic": "Saying No",
+      "subtopic": "Prioritisation"
+    }
+  ]
+}

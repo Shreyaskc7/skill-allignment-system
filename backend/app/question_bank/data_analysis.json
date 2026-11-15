@@ -1,0 +1,313 @@
+{
+  "skill": "Data Analysis",
+  "questions": [
+    {
+      "question": "What is the main purpose of data cleaning?",
+      "options": [
+        "Fixing errors, inconsistencies and missing values so data is reliable",
+        "Making charts look attractive",
+        "Encrypting sensitive data",
+        "Increasing the number of rows"
+      ],
+      "correct": "A",
+      "explanation": "Analyses on dirty data give misleading results, so cleaning comes first.",
+      "difficulty": "beginner",
+      "topic": "Data preparation",
+      "subtopic": "Data cleaning"
+    },
+    {
+      "question": "Which chart is best for showing a trend over time?",
+      "options": [
+        "Pie chart",
+        "Line chart",
+        "Histogram",
+        "Treemap"
+      ],
+      "correct": "B",
+      "explanation": "Line charts connect ordered time points, making trends easy to see.",
+      "difficulty": "beginner",
+      "topic": "Visualization",
+      "subtopic": "Chart selection"
+    },
+    {
+      "question": "Which chart best shows the distribution of a single numeric variable?",
+      "options": [
+        "Pie chart",
+        "Line chart",
+        "Histogram",
+        "Stacked bar chart of categories"
+      ],
+      "correct": "C",
+      "explanation": "A histogram bins values to show the shape of the distribution.",
+      "difficulty": "beginner",
+      "topic": "Visualization",
+      "subtopic": "Distributions"
+    },
+    {
+      "question": "What is an outlier?",
+      "options": [
+        "Any missing value",
+        "The most frequent value",
+        "The average of a dataset",
+        "An observation that lies far from most other observations"
+      ],
+      "correct": "D",
+      "explanation": "Outliers may be errors or genuine extreme cases and need investigation.",
+      "difficulty": "beginner",
+      "topic": "Exploratory analysis",
+      "subtopic": "Outliers"
+    },
+    {
+      "question": "What is the main goal of exploratory data analysis (EDA)?",
+      "options": [
+        "To summarize data and uncover patterns, anomalies and relationships before formal modeling",
+        "To deploy a model to production",
+        "To collect new data",
+        "To prove a hypothesis is true"
+      ],
+      "correct": "A",
+      "explanation": "EDA uses summaries and visuals to understand the data first.",
+      "difficulty": "beginner",
+      "topic": "Exploratory analysis",
+      "subtopic": "EDA"
+    },
+    {
+      "question": "Which is an example of structured data?",
+      "options": [
+        "A folder of audio recordings",
+        "A relational table of customer orders",
+        "Free-text social media posts",
+        "A collection of photos"
+      ],
+      "correct": "B",
+      "explanation": "Structured data follows a fixed schema of rows and columns.",
+      "difficulty": "beginner",
+      "topic": "Data fundamentals",
+      "subtopic": "Data types"
+    },
+    {
+      "question": "'Number of customers who visited a store' is what type of variable?",
+      "options": [
+        "Quantitative continuous",
+        "Qualitative nominal",
+        "Quantitative discrete",
+        "Qualitative ordinal"
+      ],
+      "correct": "C",
+      "explanation": "It is a count, taking whole-number values.",
+      "difficulty": "beginner",
+      "topic": "Data fundamentals",
+      "subtopic": "Variable types"
+    },
+    {
+      "question": "What does KPI stand for in business analysis?",
+      "options": [
+        "Key Process Input",
+        "Known Performance Index",
+        "Kernel Programming Interface",
+        "Key Performance Indicator"
+      ],
+      "correct": "D",
+      "explanation": "KPIs are measurable values that track progress toward business goals.",
+      "difficulty": "beginner",
+      "topic": "Business analysis",
+      "subtopic": "Metrics"
+    },
+    {
+      "question": "Using the IQR rule with Q1 = 10 and Q3 = 20, above what value is a point flagged as an outlier?",
+      "options": [
+        "35",
+        "30",
+        "25",
+        "40"
+      ],
+      "correct": "A",
+      "explanation": "IQR = 10, so the upper fence is Q3 + 1.5 x IQR = 20 + 15 = 35.",
+      "difficulty": "intermediate",
+      "topic": "Exploratory analysis",
+      "subtopic": "IQR rule"
+    },
+    {
+      "question": "Ice cream sales and drowning incidents are correlated. What is the most likely explanation?",
+      "options": [
+        "Ice cream causes drowning",
+        "A confounding variable such as hot weather drives both",
+        "Drowning causes ice cream sales",
+        "The correlation must be a data error"
+      ],
+      "correct": "B",
+      "explanation": "Correlation does not imply causation; a third variable can drive both.",
+      "difficulty": "intermediate",
+      "topic": "Interpretation",
+      "subtopic": "Confounding"
+    },
+    {
+      "question": "Why might you impute missing values with the median rather than the mean?",
+      "options": [
+        "The median is always larger",
+        "The median preserves the variance exactly",
+        "The median is robust to outliers and skew",
+        "The mean cannot be computed with missing values"
+      ],
+      "correct": "C",
+      "explanation": "Extreme values pull the mean, whereas the median is resistant to them.",
+      "difficulty": "intermediate",
+      "topic": "Data preparation",
+      "subtopic": "Imputation"
+    },
+    {
+      "question": "Using min-max normalization with min = 10 and max = 60, what is the scaled value of 30?",
+      "options": [
+        "0.5",
+        "0.3",
+        "0.6",
+        "0.4"
+      ],
+      "correct": "D",
+      "explanation": "(30 - 10) / (60 - 10) = 20 / 50 = 0.4.",
+      "difficulty": "intermediate",
+      "topic": "Data preparation",
+      "subtopic": "Normalization"
+    },
+    {
+      "question": "What does 'melting' (unpivoting) a dataset do?",
+      "options": [
+        "Converts wide-format columns into long-format rows",
+        "Converts long-format rows into wide columns",
+        "Removes duplicate rows",
+        "Merges two datasets on a key"
+      ],
+      "correct": "A",
+      "explanation": "Melting turns several measurement columns into variable/value pairs, one per row.",
+      "difficulty": "intermediate",
+      "topic": "Data preparation",
+      "subtopic": "Reshaping"
+    },
+    {
+      "question": "What is an A/B test?",
+      "options": [
+        "A test comparing two analysts' reports",
+        "A randomized experiment comparing two variants on an outcome metric",
+        "A check that columns A and B have no missing values",
+        "A survey with two answer options"
+      ],
+      "correct": "B",
+      "explanation": "Random assignment lets differences in the metric be attributed to the variant.",
+      "difficulty": "intermediate",
+      "topic": "Experimentation",
+      "subtopic": "A/B testing"
+    },
+    {
+      "question": "What does cohort analysis do?",
+      "options": [
+        "Groups customers by revenue size only",
+        "Ranks products by sales",
+        "Groups users by a shared starting event or period and tracks their behaviour over time",
+        "Clusters data with k-means"
+      ],
+      "correct": "C",
+      "explanation": "Cohorts such as 'signed up in January' reveal retention patterns over time.",
+      "difficulty": "intermediate",
+      "topic": "Business analysis",
+      "subtopic": "Cohort analysis"
+    },
+    {
+      "question": "Which chart is best for examining the relationship between two numeric variables?",
+      "options": [
+        "Pie chart",
+        "Bar chart of counts",
+        "Gauge chart",
+        "Scatter plot"
+      ],
+      "correct": "D",
+      "explanation": "Each point plots one observation's pair of values, revealing correlation and clusters.",
+      "difficulty": "intermediate",
+      "topic": "Visualization",
+      "subtopic": "Relationships"
+    },
+    {
+      "question": "A treatment has a higher success rate in every subgroup but a lower rate overall. What is this called?",
+      "options": [
+        "Simpson's paradox",
+        "Survivorship bias",
+        "Regression to the mean",
+        "The law of large numbers"
+      ],
+      "correct": "A",
+      "explanation": "Unequal group sizes can reverse a trend when subgroups are combined.",
+      "difficulty": "advanced",
+      "topic": "Interpretation",
+      "subtopic": "Simpson's paradox"
+    },
+    {
+      "question": "Analyzing only companies still in business to find success factors risks which bias?",
+      "options": [
+        "Confirmation bias",
+        "Survivorship bias",
+        "Recall bias",
+        "Measurement bias"
+      ],
+      "correct": "B",
+      "explanation": "Failed companies are excluded, so the factors may not distinguish winners from losers.",
+      "difficulty": "advanced",
+      "topic": "Interpretation",
+      "subtopic": "Survivorship bias"
+    },
+    {
+      "question": "High earners are less likely to report income in a survey. What kind of missingness is this?",
+      "options": [
+        "Missing completely at random (MCAR)",
+        "Missing at random (MAR) by design",
+        "Missing not at random (MNAR)",
+        "Not missing data"
+      ],
+      "correct": "C",
+      "explanation": "The probability of missingness depends on the unobserved value itself.",
+      "difficulty": "advanced",
+      "topic": "Data preparation",
+      "subtopic": "Missing data mechanisms"
+    },
+    {
+      "question": "You test 20 independent metrics at alpha = 0.05 when no real effects exist. About how many false positives do you expect?",
+      "options": [
+        "0",
+        "5",
+        "20",
+        "1"
+      ],
+      "correct": "D",
+      "explanation": "Expected false positives = 20 x 0.05 = 1; corrections like Bonferroni address this.",
+      "difficulty": "advanced",
+      "topic": "Experimentation",
+      "subtopic": "Multiple comparisons"
+    },
+    {
+      "question": "Why apply a log transform to a strongly right-skewed variable like income?",
+      "options": [
+        "To reduce skew and compress large values",
+        "To make all values negative",
+        "To remove missing values",
+        "To convert it into a categorical variable"
+      ],
+      "correct": "A",
+      "explanation": "Logs compress the long right tail, often making patterns more linear and symmetric.",
+      "difficulty": "advanced",
+      "topic": "Data preparation",
+      "subtopic": "Transformations"
+    },
+    {
+      "question": "Estimating national opinion using only an online poll of a website's visitors mainly suffers from:",
+      "options": [
+        "Measurement rounding error",
+        "Selection (sampling) bias",
+        "Too large a sample size",
+        "Overfitting"
+      ],
+      "correct": "B",
+      "explanation": "The sample is not representative of the target population.",
+      "difficulty": "advanced",
+      "topic": "Sampling",
+      "subtopic": "Sampling bias"
+    }
+  ]
+}

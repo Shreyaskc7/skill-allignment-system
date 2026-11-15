@@ -1,0 +1,313 @@
+{
+  "skill": "Django",
+  "questions": [
+    {
+      "question": "Which command creates a new Django app named blog?",
+      "options": [
+        "python manage.py startapp blog",
+        "django-admin newapp blog",
+        "python manage.py createapp blog",
+        "pip install blog"
+      ],
+      "correct": "A",
+      "explanation": "startapp generates an application package skeleton.",
+      "difficulty": "beginner",
+      "topic": "Project setup",
+      "subtopic": "startapp"
+    },
+    {
+      "question": "By convention, which file maps URL patterns to views?",
+      "options": [
+        "views.py",
+        "urls.py",
+        "models.py",
+        "apps.py"
+      ],
+      "correct": "B",
+      "explanation": "urls.py holds urlpatterns that route URLs to views.",
+      "difficulty": "beginner",
+      "topic": "URLs",
+      "subtopic": "URLconf"
+    },
+    {
+      "question": "Which command generates migration files from model changes?",
+      "options": [
+        "python manage.py migrate",
+        "python manage.py syncdb",
+        "python manage.py makemigrations",
+        "python manage.py sqlmigrate"
+      ],
+      "correct": "C",
+      "explanation": "makemigrations writes migration files; migrate applies them.",
+      "difficulty": "beginner",
+      "topic": "Migrations",
+      "subtopic": "makemigrations"
+    },
+    {
+      "question": "Which command creates a user who can log into the Django admin with all permissions?",
+      "options": [
+        "python manage.py adduser",
+        "python manage.py createadmin",
+        "python manage.py startadmin",
+        "python manage.py createsuperuser"
+      ],
+      "correct": "D",
+      "explanation": "createsuperuser creates a user with is_staff and is_superuser set.",
+      "difficulty": "beginner",
+      "topic": "Admin",
+      "subtopic": "Superuser"
+    },
+    {
+      "question": "Which ORM call returns a QuerySet of all Book objects?",
+      "options": [
+        "Book.all()",
+        "Book.objects.all()",
+        "Book.query.all()",
+        "Book.objects.get_all()"
+      ],
+      "correct": "B",
+      "explanation": "The default manager objects provides all().",
+      "difficulty": "beginner",
+      "topic": "ORM",
+      "subtopic": "Basic queries"
+    },
+    {
+      "question": "Which Django template syntax outputs the value of a variable name?",
+      "options": [
+        "{{ name }}",
+        "{% name %}",
+        "<%= name %>",
+        "${name}"
+      ],
+      "correct": "A",
+      "explanation": "{{ }} outputs variables; {% %} is used for tags.",
+      "difficulty": "beginner",
+      "topic": "Templates",
+      "subtopic": "Variables"
+    },
+    {
+      "question": "Which setting lists the applications enabled in a Django project?",
+      "options": [
+        "APPS",
+        "MIDDLEWARE",
+        "INSTALLED_APPS",
+        "REGISTERED_APPS"
+      ],
+      "correct": "C",
+      "explanation": "Apps must be listed in INSTALLED_APPS for models, templates and migrations to be found.",
+      "difficulty": "beginner",
+      "topic": "Settings",
+      "subtopic": "INSTALLED_APPS"
+    },
+    {
+      "question": "Which model field is meant for short strings and renders as a single-line text input in forms?",
+      "options": [
+        "TextField",
+        "SlugTextField",
+        "StringField",
+        "CharField"
+      ],
+      "correct": "D",
+      "explanation": "CharField is for short strings; TextField is for large text and renders as a textarea.",
+      "difficulty": "beginner",
+      "topic": "Models",
+      "subtopic": "Field types"
+    },
+    {
+      "question": "What does Book.objects.get(pk=999) do if no such row exists?",
+      "options": [
+        "Raises Book.DoesNotExist",
+        "Returns None",
+        "Raises IndexError",
+        "Returns an empty QuerySet"
+      ],
+      "correct": "A",
+      "explanation": "get() raises the model's DoesNotExist exception when nothing matches.",
+      "difficulty": "intermediate",
+      "topic": "ORM",
+      "subtopic": "get()"
+    },
+    {
+      "question": "Which QuerySet method avoids N+1 queries on a ForeignKey by using a SQL JOIN?",
+      "options": [
+        "prefetch_related()",
+        "select_related()",
+        "annotate()",
+        "only()"
+      ],
+      "correct": "B",
+      "explanation": "select_related follows forward foreign keys in the same query using a JOIN.",
+      "difficulty": "intermediate",
+      "topic": "ORM performance",
+      "subtopic": "select_related"
+    },
+    {
+      "question": "For a ManyToManyField, which method loads related objects in a separate query and joins them in Python?",
+      "options": [
+        "select_related()",
+        "defer()",
+        "prefetch_related()",
+        "values()"
+      ],
+      "correct": "C",
+      "explanation": "prefetch_related issues an extra query per relation and does the joining in Python.",
+      "difficulty": "intermediate",
+      "topic": "ORM performance",
+      "subtopic": "prefetch_related"
+    },
+    {
+      "question": "When does qs = Book.objects.filter(x=1) first hit the database?",
+      "options": [
+        "Immediately when filter() is called",
+        "When the module is imported",
+        "When save() is called on a Book",
+        "When the QuerySet is evaluated, e.g. iterated or passed to list()"
+      ],
+      "correct": "D",
+      "explanation": "QuerySets are lazy and run their SQL only when evaluated.",
+      "difficulty": "intermediate",
+      "topic": "ORM",
+      "subtopic": "Lazy QuerySets"
+    },
+    {
+      "question": "Which construct lets you combine filter conditions with OR?",
+      "options": [
+        "Q objects, e.g. Q(a=1) | Q(b=2)",
+        "F expressions",
+        "Prefetch objects",
+        "Value expressions"
+      ],
+      "correct": "A",
+      "explanation": "Q objects can be combined with | and & to build complex lookups.",
+      "difficulty": "intermediate",
+      "topic": "ORM",
+      "subtopic": "Q objects"
+    },
+    {
+      "question": "What does Product.objects.filter(pk=1).update(stock=F(\"stock\") - 1) achieve?",
+      "options": [
+        "Loads the row into Python, decrements, then saves",
+        "Decrements stock in a single SQL UPDATE, avoiding a read-modify-write race",
+        "Creates a new field named stock",
+        "Formats stock as a string"
+      ],
+      "correct": "B",
+      "explanation": "F() references the column value in the database, so the arithmetic happens in SQL.",
+      "difficulty": "intermediate",
+      "topic": "ORM",
+      "subtopic": "F expressions"
+    },
+    {
+      "question": "Which template tag must appear inside a POST form for Django's CSRF protection to accept it?",
+      "options": [
+        "{% csrf %}",
+        "{{ csrf }}",
+        "{% csrf_token %}",
+        "{% secure_form %}"
+      ],
+      "correct": "C",
+      "explanation": "{% csrf_token %} renders the hidden token checked by CsrfViewMiddleware.",
+      "difficulty": "intermediate",
+      "topic": "Security",
+      "subtopic": "CSRF"
+    },
+    {
+      "question": "Which generic class-based view is designed to display a list of objects?",
+      "options": [
+        "DetailView",
+        "FormView",
+        "TemplateView",
+        "ListView"
+      ],
+      "correct": "D",
+      "explanation": "ListView renders a page representing a list of objects.",
+      "difficulty": "intermediate",
+      "topic": "Views",
+      "subtopic": "Generic views"
+    },
+    {
+      "question": "What does wrapping code in transaction.atomic() guarantee?",
+      "options": [
+        "Database operations in the block are committed together or rolled back together if an exception escapes",
+        "The block runs under a process-wide thread lock",
+        "Query results in the block are cached",
+        "Failed queries are retried automatically"
+      ],
+      "correct": "A",
+      "explanation": "atomic opens a transaction (or savepoint) that is rolled back if the block raises.",
+      "difficulty": "advanced",
+      "topic": "Transactions",
+      "subtopic": "atomic"
+    },
+    {
+      "question": "Which QuerySet method locks the selected rows until the end of the current transaction?",
+      "options": [
+        "lock()",
+        "select_for_update()",
+        "atomic()",
+        "freeze()"
+      ],
+      "correct": "B",
+      "explanation": "select_for_update issues SELECT ... FOR UPDATE and must run inside a transaction.",
+      "difficulty": "advanced",
+      "topic": "Transactions",
+      "subtopic": "Row locking"
+    },
+    {
+      "question": "What does Author.objects.annotate(n=Count(\"books\")) produce?",
+      "options": [
+        "A single dict with the total number of books",
+        "A new database column n on the author table",
+        "A QuerySet where each Author has attribute n with its own book count",
+        "Only the authors that have no books"
+      ],
+      "correct": "C",
+      "explanation": "annotate adds a per-object aggregate, computed with GROUP BY.",
+      "difficulty": "advanced",
+      "topic": "ORM",
+      "subtopic": "Aggregation"
+    },
+    {
+      "question": "Where should signal handlers be connected so they register once when Django starts?",
+      "options": [
+        "In settings.py",
+        "Inside a view function",
+        "In a migration file",
+        "In the app's AppConfig.ready() method"
+      ],
+      "correct": "D",
+      "explanation": "ready() runs once the app registry is loaded; importing signals there avoids side effects and duplicates.",
+      "difficulty": "advanced",
+      "topic": "Signals",
+      "subtopic": "Registration"
+    },
+    {
+      "question": "In which order does middleware process the response, relative to the MIDDLEWARE list?",
+      "options": [
+        "In reverse order, from bottom to top",
+        "In the same order, from top to bottom",
+        "In alphabetical order",
+        "In random order"
+      ],
+      "correct": "A",
+      "explanation": "Requests pass through middleware top-down and responses bottom-up, like layers of an onion.",
+      "difficulty": "advanced",
+      "topic": "Middleware",
+      "subtopic": "Ordering"
+    },
+    {
+      "question": "Which method inserts many objects efficiently but does not call save() or send pre_save/post_save signals?",
+      "options": [
+        "create()",
+        "bulk_create()",
+        "save_all()",
+        "get_or_create()"
+      ],
+      "correct": "B",
+      "explanation": "bulk_create inserts in few queries and bypasses save() and the save signals.",
+      "difficulty": "advanced",
+      "topic": "ORM performance",
+      "subtopic": "bulk_create"
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 """SQLAlchemy models for the SkillAlign application."""
 
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum as PyEnum
 from sqlalchemy import (
     Boolean,
+    Date,
     DateTime,
     Enum,
     ForeignKey,
@@ -14,6 +15,7 @@ from sqlalchemy import (
     Float,
     func,
     Index,
+    text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db import Base
@@ -34,6 +36,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -76,6 +79,8 @@ class StudentProfile(Base):
     preferred_locations: Mapped[str | None] = mapped_column(Text)
     experience_level: Mapped[str | None] = mapped_column(String(60))
     resume_url: Mapped[str | None] = mapped_column(String(500))
+    # Selected target career (drives the dashboard alignment and recommendations).
+    target_career_id: Mapped[int | None] = mapped_column(ForeignKey("career_roles.id", ondelete="SET NULL"))
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -120,7 +125,17 @@ class StudentTeacherAssignment(Base):
     removal_reason: Mapped[str | None] = mapped_column(Text)
 
     __table_args__ = (
-        UniqueConstraint("student_id", "teacher_id", "is_active", name="uq_active_assignment"),
+        # At most one ACTIVE assignment per student/teacher pair; any number of
+        # inactive (historical) rows are allowed.
+        Index(
+            "uq_active_assignment_pair",
+            "student_id",
+            "teacher_id",
+            unique=True,
+            postgresql_where=text("is_active"),
+            sqlite_where=text("is_active"),
+        ),
+        Index("ix_assignments_teacher_active", "teacher_id", "is_active"),
     )
 
     student: Mapped["User"] = relationship(foreign_keys=[student_id], back_populates="student_assignments")
@@ -176,13 +191,21 @@ class JobPosting(Base):
     location: Mapped[str | None] = mapped_column(String(160))
     description: Mapped[str] = mapped_column(Text, nullable=False)
     source: Mapped[str] = mapped_column(String(100), default="manual")
+    # Raw date text as supplied (version 1); `posted_on` is the parsed date used for sorting.
     posted_date: Mapped[str | None] = mapped_column(String(40))
+    posted_on: Mapped[date | None] = mapped_column(Date)
     # Optional fields
     employment_type: Mapped[str | None] = mapped_column(String(60))
+    experience_min_years: Mapped[int | None] = mapped_column(Integer)
+    experience_max_years: Mapped[int | None] = mapped_column(Integer)
     salary_min: Mapped[int | None] = mapped_column(Integer)
     salary_max: Mapped[int | None] = mapped_column(Integer)
     salary_currency: Mapped[str | None] = mapped_column(String(10))
     application_url: Mapped[str | None] = mapped_column(String(500))
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
+    # Normalised hash of title + company + description, used for duplicate detection.
+    dedupe_hash: Mapped[str | None] = mapped_column(String(64), index=True)
+    created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     skills: Mapped[list["JobSkill"]] = relationship(back_populates="job", cascade="all, delete-orphan")
@@ -190,14 +213,29 @@ class JobPosting(Base):
 
 class JobSkill(Base):
     __tablename__ = "job_skills"
-    __table_args__ = (UniqueConstraint("job_id", "skill_id", name="uq_job_skill"),)
+    __table_args__ = (
+        UniqueConstraint("job_id", "skill_id", name="uq_job_skill"),
+        Index("ix_job_skills_skill_id", "skill_id"),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     job_id: Mapped[int] = mapped_column(ForeignKey("job_postings.id", ondelete="CASCADE"))
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"))
+    # Required vs "nice to have"; how the link was made (extracted from text, or entered by staff).
+    is_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
+    source: Mapped[str] = mapped_column(String(20), nullable=False, default="extracted", server_default="extracted")
 
     job: Mapped["JobPosting"] = relationship(back_populates="skills")
     skill: Mapped["Skill"] = relationship(back_populates="job_skills")
+
+
+class SkillAlias(Base):
+    """Alternative names that map to a catalogue skill for job-text extraction (e.g. "postgres")."""
+
+    __tablename__ = "skill_aliases"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False, index=True)
+    alias: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)  # stored lower-case
 
 
 class AssessmentQuestion(Base):
@@ -216,42 +254,74 @@ class AssessmentQuestion(Base):
     subtopic: Mapped[str | None] = mapped_column(String(100))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    # Stable key of questions loaded from app/question_bank (e.g. "python:007"); NULL for staff-authored ones.
+    bank_key: Mapped[str | None] = mapped_column(String(80), unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+    __table_args__ = (Index("ix_assessment_questions_skill_active", "skill_id", "is_active"),)
+
     skill: Mapped["Skill"] = relationship(back_populates="assessment_questions")
-    attempts: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="question", cascade="all, delete-orphan")
+    # No cascade: attempt history keeps its own snapshot even if a question is removed.
+    attempts: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="question", passive_deletes=True)
 
 
 class AssessmentAttempt(Base):
+    """One sitting of an assessment. Created when questions are delivered, scored on submit.
+
+    status: in_progress -> submitted | expired. Only submitted attempts count anywhere.
+    Version 1 rows are migrated as submitted (they predate per-question records).
+    """
+
     __tablename__ = "assessment_attempts"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="in_progress", server_default="submitted")
+    difficulty: Mapped[str | None] = mapped_column(String(20))  # beginner | intermediate | advanced | mixed
     total_questions: Mapped[int] = mapped_column(Integer, nullable=False)
-    correct_answers: Mapped[int] = mapped_column(Integer, nullable=False)
-    score_percent: Mapped[float] = mapped_column(Float, nullable=False)
+    correct_answers: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    score_percent: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    estimated_level: Mapped[int | None] = mapped_column(Integer)
     answers_json: Mapped[str] = mapped_column(Text, default="{}")
     time_spent_seconds: Mapped[int | None] = mapped_column(Integer)
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (Index("ix_attempts_user_status", "user_id", "status"),)
 
     user: Mapped["User"] = relationship(back_populates="assessment_attempts")
     skill: Mapped["Skill"] = relationship()
-    questions: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="attempt", cascade="all, delete-orphan")
+    questions: Mapped[list["AssessmentAttemptQuestion"]] = relationship(
+        back_populates="attempt", cascade="all, delete-orphan", order_by="AssessmentAttemptQuestion.position"
+    )
 
 
 class AssessmentAttemptQuestion(Base):
+    """A delivered question, snapshotted so later question-bank edits never change history."""
+
     __tablename__ = "assessment_attempt_questions"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     attempt_id: Mapped[int] = mapped_column(ForeignKey("assessment_attempts.id", ondelete="CASCADE"), nullable=False)
-    question_id: Mapped[int] = mapped_column(ForeignKey("assessment_questions.id", ondelete="CASCADE"), nullable=False)
-    answer: Mapped[str] = mapped_column(String(1), nullable=False)
-    is_correct: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    question_id: Mapped[int | None] = mapped_column(ForeignKey("assessment_questions.id", ondelete="SET NULL"))
+    position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    question_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_a: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_b: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_c: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_d: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    correct_option: Mapped[str] = mapped_column(String(1), nullable=False, default="")
+    explanation: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    difficulty: Mapped[str] = mapped_column(String(20), nullable=False, default="beginner")
+    topic: Mapped[str | None] = mapped_column(String(100))
+    answer: Mapped[str | None] = mapped_column(String(1))  # NULL = not answered
+    is_correct: Mapped[bool | None] = mapped_column(Boolean)  # set on submit
 
     __table_args__ = (UniqueConstraint("attempt_id", "question_id", name="uq_attempt_question"),)
 
     attempt: Mapped["AssessmentAttempt"] = relationship(back_populates="questions")
-    question: Mapped["AssessmentQuestion"] = relationship(back_populates="attempts")
+    question: Mapped["AssessmentQuestion | None"] = relationship(back_populates="attempts")
 
 
 class StudentSkill(Base):
@@ -263,6 +333,9 @@ class StudentSkill(Base):
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False)
     level: Mapped[int] = mapped_column(Integer, default=1)
     source: Mapped[str] = mapped_column(String(20), default="assessment")  # assessment, self_reported
+    # Evidence: when and by which submitted attempt the level was last set.
+    last_assessed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    evidence_attempt_id: Mapped[int | None] = mapped_column(ForeignKey("assessment_attempts.id", ondelete="SET NULL"))
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     user: Mapped["User"] = relationship(back_populates="student_skills")
@@ -272,7 +345,7 @@ class StudentSkill(Base):
 class LearningResource(Base):
     __tablename__ = "learning_resources"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False, index=True)
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     provider: Mapped[str] = mapped_column(String(100), default="Web")
     url: Mapped[str] = mapped_column(String(500), nullable=False)
@@ -311,10 +384,17 @@ class MentoringNote(Base):
     student_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     note: Mapped[str] = mapped_column(Text, nullable=False)
     note_type: Mapped[str] = mapped_column(String(30), default="general")  # general, feedback, resource_recommendation, concern
+    # Optional learning resource recommended by the mentor.
+    resource_id: Mapped[int | None] = mapped_column(ForeignKey("learning_resources.id", ondelete="SET NULL"))
+    # Private notes (e.g. concerns) are visible only to staff.
+    visible_to_student: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (Index("ix_mentoring_notes_student_created", "student_id", "created_at"),)
 
     teacher: Mapped["User"] = relationship(foreign_keys=[teacher_id], back_populates="mentoring_notes")
     student: Mapped["User"] = relationship(foreign_keys=[student_id])
+    resource: Mapped["LearningResource | None"] = relationship()
 
 
 class AuditLog(Base):
@@ -332,6 +412,7 @@ class AuditLog(Base):
     __table_args__ = (
         Index("ix_audit_user_created", "user_id", "created_at"),
         Index("ix_audit_entity", "entity_type", "entity_id"),
+        Index("ix_audit_created_at", "created_at"),
     )
 
 
@@ -345,3 +426,45 @@ class RefreshToken(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (Index("ix_refresh_user_expires", "user_id", "expires_at"),)
+
+class PasswordResetToken(Base):
+    """Single-use, expiring password-reset token. Only a SHA-256 hash is stored."""
+
+    __tablename__ = "password_reset_tokens"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class TeacherInvitation(Base):
+    """Administrator-issued invitation; the only way to obtain a teacher account."""
+
+    __tablename__ = "teacher_invitations"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    full_name: Mapped[str] = mapped_column(String(160), nullable=False)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    invited_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class StudentSelfSkill(Base):
+    """A skill level the student claims. Kept apart from StudentSkill (assessed
+    proficiency) so self-reported levels never count as proven proficiency."""
+
+    __tablename__ = "student_self_skills"
+    __table_args__ = (UniqueConstraint("user_id", "skill_id", name="uq_student_self_skill"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False)
+    level: Mapped[int] = mapped_column(Integer, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    skill: Mapped["Skill"] = relationship()

@@ -1,0 +1,313 @@
+{
+  "skill": "JavaScript",
+  "questions": [
+    {
+      "question": "What does typeof null return?",
+      "options": [
+        "\"object\"",
+        "\"null\"",
+        "\"undefined\"",
+        "\"number\""
+      ],
+      "correct": "A",
+      "explanation": "A long-standing language quirk makes typeof null return \"object\".",
+      "difficulty": "beginner",
+      "topic": "Types",
+      "subtopic": "typeof"
+    },
+    {
+      "question": "Which keyword declares a block-scoped variable that cannot be reassigned?",
+      "options": [
+        "var",
+        "let",
+        "const",
+        "static"
+      ],
+      "correct": "C",
+      "explanation": "const creates a block-scoped binding that cannot be reassigned.",
+      "difficulty": "beginner",
+      "topic": "Variables",
+      "subtopic": "const"
+    },
+    {
+      "question": "What is the result of \"5\" + 3?",
+      "options": [
+        "8",
+        "\"53\"",
+        "\"8\"",
+        "NaN"
+      ],
+      "correct": "B",
+      "explanation": "With a string operand, + performs string concatenation.",
+      "difficulty": "beginner",
+      "topic": "Types",
+      "subtopic": "Coercion"
+    },
+    {
+      "question": "Which array method adds an element to the end of an array?",
+      "options": [
+        "pop()",
+        "shift()",
+        "unshift()",
+        "push()"
+      ],
+      "correct": "D",
+      "explanation": "push appends elements to the end and returns the new length.",
+      "difficulty": "beginner",
+      "topic": "Arrays",
+      "subtopic": "Methods"
+    },
+    {
+      "question": "What does 0 === \"0\" evaluate to?",
+      "options": [
+        "false",
+        "true",
+        "undefined",
+        "TypeError"
+      ],
+      "correct": "A",
+      "explanation": "Strict equality does not coerce types, and number differs from string.",
+      "difficulty": "beginner",
+      "topic": "Operators",
+      "subtopic": "Strict equality"
+    },
+    {
+      "question": "Which method converts a JSON string into a JavaScript object?",
+      "options": [
+        "JSON.stringify()",
+        "JSON.toObject()",
+        "Object.fromJSON()",
+        "JSON.parse()"
+      ],
+      "correct": "D",
+      "explanation": "JSON.parse parses JSON text into a value; stringify does the reverse.",
+      "difficulty": "beginner",
+      "topic": "JSON",
+      "subtopic": "Parsing"
+    },
+    {
+      "question": "Which value is falsy?",
+      "options": [
+        "\"0\"",
+        "0",
+        "[]",
+        "{}"
+      ],
+      "correct": "B",
+      "explanation": "0 is falsy; non-empty strings and all objects, including empty arrays, are truthy.",
+      "difficulty": "beginner",
+      "topic": "Types",
+      "subtopic": "Falsy values"
+    },
+    {
+      "question": "Which method returns the first element matching a CSS selector?",
+      "options": [
+        "document.querySelectorAll()",
+        "document.getElementsByClassName()",
+        "document.querySelector()",
+        "document.getElementById()"
+      ],
+      "correct": "C",
+      "explanation": "querySelector returns the first matching element (or null).",
+      "difficulty": "beginner",
+      "topic": "DOM",
+      "subtopic": "Selection"
+    },
+    {
+      "question": "What is logged?\nfunction counter(){ let c = 0; return () => ++c; }\nconst f = counter();\nf();\nconsole.log(f());",
+      "options": [
+        "2",
+        "1",
+        "0",
+        "undefined"
+      ],
+      "correct": "A",
+      "explanation": "The closure keeps c alive between calls; the second call increments it to 2.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "Closures"
+    },
+    {
+      "question": "What does [10, 1, 2].sort() return?",
+      "options": [
+        "[1, 2, 10]",
+        "[1, 10, 2]",
+        "[10, 2, 1]",
+        "[2, 1, 10]"
+      ],
+      "correct": "B",
+      "explanation": "Without a comparator, sort compares elements as strings, and \"10\" < \"2\".",
+      "difficulty": "intermediate",
+      "topic": "Arrays",
+      "subtopic": "sort"
+    },
+    {
+      "question": "What is logged?\nconsole.log(x);\nvar x = 5;",
+      "options": [
+        "5",
+        "ReferenceError",
+        "undefined",
+        "null"
+      ],
+      "correct": "C",
+      "explanation": "var declarations are hoisted and initialized to undefined; the assignment happens later.",
+      "difficulty": "intermediate",
+      "topic": "Scope",
+      "subtopic": "Hoisting"
+    },
+    {
+      "question": "What happens?\nconsole.log(y);\nlet y = 1;",
+      "options": [
+        "undefined is logged",
+        "1 is logged",
+        "null is logged",
+        "A ReferenceError is thrown"
+      ],
+      "correct": "D",
+      "explanation": "let bindings are in the temporal dead zone until their declaration is evaluated.",
+      "difficulty": "intermediate",
+      "topic": "Scope",
+      "subtopic": "Temporal dead zone"
+    },
+    {
+      "question": "In what order are letters logged?\nconsole.log(\"A\");\nsetTimeout(() => console.log(\"B\"), 0);\nPromise.resolve().then(() => console.log(\"C\"));\nconsole.log(\"D\");",
+      "options": [
+        "A D C B",
+        "A B C D",
+        "A C D B",
+        "A D B C"
+      ],
+      "correct": "A",
+      "explanation": "Synchronous code runs first, then microtasks (promise callbacks), then macrotasks (timers).",
+      "difficulty": "intermediate",
+      "topic": "Async",
+      "subtopic": "Event loop"
+    },
+    {
+      "question": "What is logged?\nconst a = { x: { y: 1 } };\nconst b = { ...a };\nb.x.y = 2;\nconsole.log(a.x.y);",
+      "options": [
+        "1",
+        "undefined",
+        "2",
+        "TypeError"
+      ],
+      "correct": "C",
+      "explanation": "Spread makes a shallow copy, so a.x and b.x reference the same nested object.",
+      "difficulty": "intermediate",
+      "topic": "Objects",
+      "subtopic": "Spread copy"
+    },
+    {
+      "question": "What does [1, 2, 3, 4].filter(n => n % 2).reduce((s, n) => s + n, 0) return?",
+      "options": [
+        "6",
+        "4",
+        "10",
+        "2"
+      ],
+      "correct": "B",
+      "explanation": "filter keeps odd numbers [1, 3], and reduce sums them to 4.",
+      "difficulty": "intermediate",
+      "topic": "Arrays",
+      "subtopic": "filter and reduce"
+    },
+    {
+      "question": "How do arrow functions treat this?",
+      "options": [
+        "They bind this to the arrow function itself",
+        "this is always the global object",
+        "this is set by the caller like regular functions",
+        "They use this from the enclosing lexical scope"
+      ],
+      "correct": "D",
+      "explanation": "Arrow functions have no own this binding; they capture it lexically.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "Arrow functions"
+    },
+    {
+      "question": "What is logged?\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+      "options": [
+        "3 3 3",
+        "0 1 2",
+        "0 0 0",
+        "undefined three times"
+      ],
+      "correct": "A",
+      "explanation": "var is function-scoped, so all callbacks share one i, which is 3 when they run.",
+      "difficulty": "advanced",
+      "topic": "Async",
+      "subtopic": "Closures in loops"
+    },
+    {
+      "question": "What does 0.1 + 0.2 === 0.3 evaluate to?",
+      "options": [
+        "true",
+        "NaN",
+        "TypeError",
+        "false"
+      ],
+      "correct": "D",
+      "explanation": "IEEE-754 doubles give 0.30000000000000004 for 0.1 + 0.2.",
+      "difficulty": "advanced",
+      "topic": "Numbers",
+      "subtopic": "Floating point"
+    },
+    {
+      "question": "Given async function f() { return 1; }, what does f() instanceof Promise evaluate to?",
+      "options": [
+        "false",
+        "true",
+        "It throws a TypeError",
+        "It returns 1"
+      ],
+      "correct": "B",
+      "explanation": "An async function always returns a Promise, here resolved with 1.",
+      "difficulty": "advanced",
+      "topic": "Async",
+      "subtopic": "async functions"
+    },
+    {
+      "question": "What does console.log([] + {}) print?",
+      "options": [
+        "{}",
+        "0",
+        "[object Object]",
+        "NaN"
+      ],
+      "correct": "C",
+      "explanation": "Both operands convert to strings: \"\" + \"[object Object]\".",
+      "difficulty": "advanced",
+      "topic": "Types",
+      "subtopic": "Coercion"
+    },
+    {
+      "question": "In non-strict mode, what is logged?\nconst o = Object.freeze({ a: { b: 1 } });\no.a.b = 2;\nconsole.log(o.a.b);",
+      "options": [
+        "2",
+        "1",
+        "undefined",
+        "TypeError is thrown"
+      ],
+      "correct": "A",
+      "explanation": "Object.freeze is shallow; the nested object is still mutable.",
+      "difficulty": "advanced",
+      "topic": "Objects",
+      "subtopic": "Object.freeze"
+    },
+    {
+      "question": "When does Promise.all([p1, p2, p3]) reject?",
+      "options": [
+        "Only when all input promises reject",
+        "As soon as any one of the input promises rejects",
+        "Never; it collects rejections into the result array",
+        "Only after all promises have settled"
+      ],
+      "correct": "B",
+      "explanation": "Promise.all rejects with the first rejection reason; Promise.allSettled waits for all.",
+      "difficulty": "advanced",
+      "topic": "Async",
+      "subtopic": "Promise.all"
+    }
+  ]
+}

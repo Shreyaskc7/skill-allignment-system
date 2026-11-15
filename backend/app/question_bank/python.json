@@ -1,0 +1,313 @@
+{
+  "skill": "Python",
+  "questions": [
+    {
+      "question": "Which keyword defines a function in Python?",
+      "options": [
+        "func",
+        "def",
+        "function",
+        "lambda"
+      ],
+      "correct": "B",
+      "explanation": "The def keyword begins a function definition.",
+      "difficulty": "beginner",
+      "topic": "Functions",
+      "subtopic": "Defining functions"
+    },
+    {
+      "question": "What does len([2, 4, 6]) return?",
+      "options": [
+        "2",
+        "3",
+        "6",
+        "Error"
+      ],
+      "correct": "B",
+      "explanation": "len returns the number of elements: three.",
+      "difficulty": "beginner",
+      "topic": "Built-in functions",
+      "subtopic": "len()"
+    },
+    {
+      "question": "Which structure stores unique elements?",
+      "options": [
+        "list",
+        "tuple",
+        "set",
+        "dict"
+      ],
+      "correct": "C",
+      "explanation": "A set stores unique values.",
+      "difficulty": "beginner",
+      "topic": "Data structures",
+      "subtopic": "Sets"
+    },
+    {
+      "question": "What does print(type(3.0)) output?",
+      "options": [
+        "<class 'int'>",
+        "<class 'double'>",
+        "<class 'number'>",
+        "<class 'float'>"
+      ],
+      "correct": "D",
+      "explanation": "3.0 is a floating-point literal, so its type is float.",
+      "difficulty": "beginner",
+      "topic": "Data types",
+      "subtopic": "Numeric types"
+    },
+    {
+      "question": "Which of these built-in types is immutable?",
+      "options": [
+        "list",
+        "dict",
+        "tuple",
+        "set"
+      ],
+      "correct": "C",
+      "explanation": "Tuples cannot be modified after creation; lists, dicts and sets can.",
+      "difficulty": "beginner",
+      "topic": "Data structures",
+      "subtopic": "Mutability"
+    },
+    {
+      "question": "What is the value of \"hello\"[1]?",
+      "options": [
+        "'h'",
+        "'l'",
+        "IndexError",
+        "'e'"
+      ],
+      "correct": "D",
+      "explanation": "Strings are zero-indexed, so index 1 is the second character, 'e'.",
+      "difficulty": "beginner",
+      "topic": "Strings",
+      "subtopic": "Indexing"
+    },
+    {
+      "question": "Which symbol starts a single-line comment in Python?",
+      "options": [
+        "#",
+        "//",
+        "--",
+        "/*"
+      ],
+      "correct": "A",
+      "explanation": "Python treats everything after # on a line as a comment.",
+      "difficulty": "beginner",
+      "topic": "Syntax",
+      "subtopic": "Comments"
+    },
+    {
+      "question": "What is the result of 2 ** 3?",
+      "options": [
+        "8",
+        "6",
+        "9",
+        "5"
+      ],
+      "correct": "A",
+      "explanation": "** is the exponent operator, so 2 ** 3 = 2*2*2 = 8.",
+      "difficulty": "beginner",
+      "topic": "Operators",
+      "subtopic": "Exponentiation"
+    },
+    {
+      "question": "What is the result of 7 // 2?",
+      "options": [
+        "3.5",
+        "3",
+        "4",
+        "2"
+      ],
+      "correct": "B",
+      "explanation": "// performs floor division.",
+      "difficulty": "intermediate",
+      "topic": "Operators",
+      "subtopic": "Floor division"
+    },
+    {
+      "question": "Which library is commonly used for tabular data?",
+      "options": [
+        "Pandas",
+        "Turtle",
+        "Tkinter",
+        "Pygame"
+      ],
+      "correct": "A",
+      "explanation": "Pandas provides DataFrame structures for tabular data.",
+      "difficulty": "intermediate",
+      "topic": "Ecosystem",
+      "subtopic": "Data libraries"
+    },
+    {
+      "question": "What does [x*x for x in range(4)] evaluate to?",
+      "options": [
+        "[1, 4, 9, 16]",
+        "[0, 1, 4, 9, 16]",
+        "[0, 1, 4, 9]",
+        "[0, 2, 4, 6]"
+      ],
+      "correct": "C",
+      "explanation": "range(4) yields 0,1,2,3 and their squares are 0,1,4,9.",
+      "difficulty": "intermediate",
+      "topic": "Comprehensions",
+      "subtopic": "List comprehensions"
+    },
+    {
+      "question": "Given d = {'a': 1}, what does d.get('b', 0) return?",
+      "options": [
+        "None",
+        "It raises KeyError",
+        "'b'",
+        "0"
+      ],
+      "correct": "D",
+      "explanation": "dict.get returns the supplied default when the key is missing instead of raising an error.",
+      "difficulty": "intermediate",
+      "topic": "Data structures",
+      "subtopic": "Dictionaries"
+    },
+    {
+      "question": "Given s = 'python', what is s[::-1]?",
+      "options": [
+        "'python'",
+        "'p'",
+        "'n'",
+        "'nohtyp'"
+      ],
+      "correct": "D",
+      "explanation": "A slice with step -1 traverses the string backwards, reversing it.",
+      "difficulty": "intermediate",
+      "topic": "Strings",
+      "subtopic": "Slicing"
+    },
+    {
+      "question": "In a try statement, which block always runs whether or not an exception occurred?",
+      "options": [
+        "finally",
+        "else",
+        "except",
+        "catch"
+      ],
+      "correct": "A",
+      "explanation": "The finally block executes in all cases; else runs only when no exception occurred, and catch is not Python syntax.",
+      "difficulty": "intermediate",
+      "topic": "Exceptions",
+      "subtopic": "try/finally"
+    },
+    {
+      "question": "a = [1, 2]\nb = a\nb.append(3)\nprint(a)\nWhat is printed?",
+      "options": [
+        "[1, 2]",
+        "[1, 2, 3]",
+        "[3]",
+        "An error"
+      ],
+      "correct": "B",
+      "explanation": "b = a binds both names to the same list object, so appending via b changes a too.",
+      "difficulty": "intermediate",
+      "topic": "Data model",
+      "subtopic": "References and aliasing"
+    },
+    {
+      "question": "In def f(*args):, what is args inside the function?",
+      "options": [
+        "A dict of keyword arguments",
+        "A list of all arguments",
+        "A tuple of the extra positional arguments",
+        "Only the first argument"
+      ],
+      "correct": "C",
+      "explanation": "*args collects extra positional arguments into a tuple; **kwargs would collect keyword arguments into a dict.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "Variable arguments"
+    },
+    {
+      "question": "def f(x, L=[]):\n    L.append(x)\n    return L\nf(1)\nprint(f(2))\nWhat is printed?",
+      "options": [
+        "[2]",
+        "[1]",
+        "An error",
+        "[1, 2]"
+      ],
+      "correct": "D",
+      "explanation": "Default arguments are evaluated once at definition time, so the same list is reused across calls.",
+      "difficulty": "advanced",
+      "topic": "Functions",
+      "subtopic": "Mutable default arguments"
+    },
+    {
+      "question": "What is the main advantage of a generator over building a full list?",
+      "options": [
+        "It produces values lazily, one at a time, saving memory",
+        "It computes all values in parallel threads",
+        "It supports random access by index",
+        "It stores values in sorted order automatically"
+      ],
+      "correct": "A",
+      "explanation": "Generators yield items on demand instead of materialising the whole sequence in memory.",
+      "difficulty": "advanced",
+      "topic": "Iterators",
+      "subtopic": "Generators"
+    },
+    {
+      "question": "In CPython, what does the Global Interpreter Lock (GIL) do?",
+      "options": [
+        "Prevents more than one process from running Python",
+        "Allows only one thread to execute Python bytecode at a time",
+        "Locks global variables so they cannot be reassigned",
+        "Encrypts the interpreter's memory"
+      ],
+      "correct": "B",
+      "explanation": "The GIL serialises bytecode execution across threads in a process, limiting CPU-bound thread parallelism.",
+      "difficulty": "advanced",
+      "topic": "Concurrency",
+      "subtopic": "GIL"
+    },
+    {
+      "question": "What does print(0.1 + 0.2 == 0.3) output?",
+      "options": [
+        "True",
+        "None",
+        "False",
+        "It raises an error"
+      ],
+      "correct": "C",
+      "explanation": "0.1 and 0.2 cannot be represented exactly in binary floating point, so the sum is 0.30000000000000004.",
+      "difficulty": "advanced",
+      "topic": "Data types",
+      "subtopic": "Floating-point precision"
+    },
+    {
+      "question": "What is a decorator in Python?",
+      "options": [
+        "A comment that documents a function",
+        "A class attribute that stores metadata",
+        "A keyword that makes a function private",
+        "A callable that takes a function and returns a new or modified function"
+      ],
+      "correct": "D",
+      "explanation": "Using @dec above def f is equivalent to f = dec(f), wrapping the function's behaviour.",
+      "difficulty": "advanced",
+      "topic": "Functions",
+      "subtopic": "Decorators"
+    },
+    {
+      "question": "x = [[0] * 2] * 2\nx[0][0] = 1\nprint(x)\nWhat is printed?",
+      "options": [
+        "[[1, 0], [1, 0]]",
+        "[[1, 0], [0, 0]]",
+        "[[1, 1], [0, 0]]",
+        "An error"
+      ],
+      "correct": "A",
+      "explanation": "Multiplying the outer list repeats a reference to the same inner list, so both rows change.",
+      "difficulty": "advanced",
+      "topic": "Data model",
+      "subtopic": "Shallow copies"
+    }
+  ]
+}

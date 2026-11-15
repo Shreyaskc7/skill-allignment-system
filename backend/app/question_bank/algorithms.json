@@ -1,0 +1,313 @@
+{
+  "skill": "Algorithms",
+  "questions": [
+    {
+      "question": "What precondition does binary search require?",
+      "options": [
+        "The array must be sorted",
+        "The array must contain unique values",
+        "The array size must be a power of 2",
+        "The array must be stored in a linked list"
+      ],
+      "correct": "A",
+      "explanation": "Binary search discards half the range based on ordering.",
+      "difficulty": "beginner",
+      "topic": "Searching",
+      "subtopic": "Binary search"
+    },
+    {
+      "question": "What is the worst-case time complexity of binary search on n elements?",
+      "options": [
+        "O(n)",
+        "O(1)",
+        "O(log n)",
+        "O(n log n)"
+      ],
+      "correct": "C",
+      "explanation": "Each comparison halves the search range.",
+      "difficulty": "beginner",
+      "topic": "Searching",
+      "subtopic": "Binary search complexity"
+    },
+    {
+      "question": "What is the worst-case time complexity of linear search on n elements?",
+      "options": [
+        "O(log n)",
+        "O(n)",
+        "O(1)",
+        "O(n^2)"
+      ],
+      "correct": "B",
+      "explanation": "It may need to check every element.",
+      "difficulty": "beginner",
+      "topic": "Searching",
+      "subtopic": "Linear search"
+    },
+    {
+      "question": "What is the worst-case time complexity of bubble sort?",
+      "options": [
+        "O(n)",
+        "O(n log n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "correct": "D",
+      "explanation": "Up to n passes, each with up to n comparisons.",
+      "difficulty": "beginner",
+      "topic": "Sorting",
+      "subtopic": "Bubble sort"
+    },
+    {
+      "question": "Why does a recursive function need a base case?",
+      "options": [
+        "To stop recursion and avoid infinite calls",
+        "To speed up loops",
+        "To allocate memory for arrays",
+        "To make the function iterative"
+      ],
+      "correct": "A",
+      "explanation": "Without a base case, calls never terminate and the stack overflows.",
+      "difficulty": "beginner",
+      "topic": "Recursion",
+      "subtopic": "Base case"
+    },
+    {
+      "question": "What does Big-O notation describe?",
+      "options": [
+        "The exact running time in seconds",
+        "A lower bound only",
+        "The memory address of data",
+        "An asymptotic upper bound on growth rate"
+      ],
+      "correct": "D",
+      "explanation": "Big-O bounds how a function grows from above as input size increases.",
+      "difficulty": "beginner",
+      "topic": "Complexity",
+      "subtopic": "Big-O"
+    },
+    {
+      "question": "Which sorting algorithm repeatedly selects the minimum of the unsorted part and moves it into place?",
+      "options": [
+        "Insertion sort",
+        "Selection sort",
+        "Merge sort",
+        "Quick sort"
+      ],
+      "correct": "B",
+      "explanation": "Selection sort swaps the minimum of the remaining elements into the next position.",
+      "difficulty": "beginner",
+      "topic": "Sorting",
+      "subtopic": "Selection sort"
+    },
+    {
+      "question": "What characterizes a greedy algorithm?",
+      "options": [
+        "It tries every possible solution",
+        "It always stores subproblem results in a table",
+        "It makes the locally optimal choice at each step",
+        "It splits the problem into halves"
+      ],
+      "correct": "C",
+      "explanation": "Greedy algorithms commit to the best immediate choice.",
+      "difficulty": "beginner",
+      "topic": "Paradigms",
+      "subtopic": "Greedy"
+    },
+    {
+      "question": "What is the worst-case time complexity of merge sort?",
+      "options": [
+        "O(n log n)",
+        "O(n^2)",
+        "O(n)",
+        "O(log n)"
+      ],
+      "correct": "A",
+      "explanation": "It always splits into halves (log n levels) and merges in O(n) per level.",
+      "difficulty": "intermediate",
+      "topic": "Sorting",
+      "subtopic": "Merge sort"
+    },
+    {
+      "question": "What is the worst-case time complexity of quick sort?",
+      "options": [
+        "O(n log n)",
+        "O(n^2)",
+        "O(n)",
+        "O(log n)"
+      ],
+      "correct": "B",
+      "explanation": "Consistently bad pivots produce unbalanced partitions of size n-1.",
+      "difficulty": "intermediate",
+      "topic": "Sorting",
+      "subtopic": "Quick sort"
+    },
+    {
+      "question": "Which of these sorting algorithms is stable?",
+      "options": [
+        "Heap sort",
+        "Selection sort (standard swap-based)",
+        "Merge sort",
+        "Quick sort (standard in-place)"
+      ],
+      "correct": "C",
+      "explanation": "Merge sort preserves the relative order of equal keys when merging.",
+      "difficulty": "intermediate",
+      "topic": "Sorting",
+      "subtopic": "Stability"
+    },
+    {
+      "question": "Which data structure does depth-first search use, explicitly or via recursion?",
+      "options": [
+        "Queue",
+        "Hash table",
+        "Min-heap",
+        "Stack"
+      ],
+      "correct": "D",
+      "explanation": "DFS explores the most recently discovered vertex first.",
+      "difficulty": "intermediate",
+      "topic": "Graphs",
+      "subtopic": "DFS"
+    },
+    {
+      "question": "Dijkstra's shortest-path algorithm requires that edge weights are:",
+      "options": [
+        "Non-negative",
+        "All equal",
+        "Integers",
+        "Negative"
+      ],
+      "correct": "A",
+      "explanation": "A negative edge could improve an already-finalized distance.",
+      "difficulty": "intermediate",
+      "topic": "Graphs",
+      "subtopic": "Dijkstra"
+    },
+    {
+      "question": "Which two properties make a problem suitable for dynamic programming?",
+      "options": [
+        "Sorted input and unique keys",
+        "Greedy choice and no subproblems",
+        "Overlapping subproblems and optimal substructure",
+        "Random input and parallelism"
+      ],
+      "correct": "C",
+      "explanation": "DP reuses solutions of repeated subproblems that compose into an optimal solution.",
+      "difficulty": "intermediate",
+      "topic": "Paradigms",
+      "subtopic": "Dynamic programming"
+    },
+    {
+      "question": "What is the time complexity of the naive recursive Fibonacci fib(n) = fib(n-1) + fib(n-2)?",
+      "options": [
+        "O(n)",
+        "Exponential, O(2^n)",
+        "O(n log n)",
+        "O(n^2)"
+      ],
+      "correct": "B",
+      "explanation": "Each call branches twice and subproblems are recomputed.",
+      "difficulty": "intermediate",
+      "topic": "Recursion",
+      "subtopic": "Fibonacci"
+    },
+    {
+      "question": "What does T(n) = 2T(n/2) + n solve to?",
+      "options": [
+        "Θ(n)",
+        "Θ(n^2)",
+        "Θ(log n)",
+        "Θ(n log n)"
+      ],
+      "correct": "D",
+      "explanation": "By the Master theorem, f(n) = Θ(n^(log2 2)) gives Θ(n log n).",
+      "difficulty": "intermediate",
+      "topic": "Complexity",
+      "subtopic": "Recurrences"
+    },
+    {
+      "question": "What is the worst-case lower bound for any comparison-based sorting algorithm?",
+      "options": [
+        "Ω(n log n)",
+        "Ω(n)",
+        "Ω(n^2)",
+        "Ω(log n)"
+      ],
+      "correct": "A",
+      "explanation": "A decision tree must have n! leaves, so its height is Ω(n log n).",
+      "difficulty": "advanced",
+      "topic": "Sorting",
+      "subtopic": "Lower bound"
+    },
+    {
+      "question": "What is the time complexity of Kruskal's MST algorithm with sorting and Union-Find?",
+      "options": [
+        "O(V^2 E)",
+        "O(V + E)",
+        "O(E^2)",
+        "O(E log E)"
+      ],
+      "correct": "D",
+      "explanation": "Sorting edges dominates; Union-Find operations are nearly constant.",
+      "difficulty": "advanced",
+      "topic": "Graphs",
+      "subtopic": "Kruskal"
+    },
+    {
+      "question": "Which is true of the Bellman-Ford algorithm?",
+      "options": [
+        "It runs in O(E log V) and needs non-negative weights",
+        "It runs in O(VE) and can detect negative-weight cycles",
+        "It only works on DAGs",
+        "It finds minimum spanning trees"
+      ],
+      "correct": "B",
+      "explanation": "An extra relaxation pass that still improves a distance reveals a negative cycle.",
+      "difficulty": "advanced",
+      "topic": "Graphs",
+      "subtopic": "Bellman-Ford"
+    },
+    {
+      "question": "The standard DP for 0/1 knapsack with n items and capacity W runs in O(nW). Why is it called pseudo-polynomial?",
+      "options": [
+        "It uses randomization",
+        "It only approximates the answer",
+        "Its running time is polynomial in the numeric value W, not in the number of bits of W",
+        "It is polynomial only when n is small"
+      ],
+      "correct": "C",
+      "explanation": "W can be exponential in its input length, so O(nW) is not truly polynomial.",
+      "difficulty": "advanced",
+      "topic": "Dynamic programming",
+      "subtopic": "Knapsack"
+    },
+    {
+      "question": "A topological ordering of a directed graph exists if and only if the graph:",
+      "options": [
+        "Has no directed cycles (is a DAG)",
+        "Is strongly connected",
+        "Is undirected",
+        "Has a vertex with no outgoing edges"
+      ],
+      "correct": "A",
+      "explanation": "A cycle would require a vertex to come before itself.",
+      "difficulty": "advanced",
+      "topic": "Graphs",
+      "subtopic": "Topological sort"
+    },
+    {
+      "question": "What does T(n) = T(n-1) + n with T(1) = 1 solve to?",
+      "options": [
+        "Θ(n log n)",
+        "Θ(n^2)",
+        "Θ(n)",
+        "Θ(2^n)"
+      ],
+      "correct": "B",
+      "explanation": "Unrolling gives 1 + 2 + ... + n = n(n+1)/2.",
+      "difficulty": "advanced",
+      "topic": "Complexity",
+      "subtopic": "Recurrences"
+    }
+  ]
+}

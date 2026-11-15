@@ -1,18 +1,27 @@
+# Local PostgreSQL for development.
+#
+# Credentials match backend/.env.example:
+#   DATABASE_URL=postgresql+psycopg://postgres:<POSTGRES_PASSWORD>@localhost:5432/skill_alignment_db
+# Set POSTGRES_PASSWORD in a root-level .env file (see .env.example); it is never hardcoded here.
+#
+# Note: PostgreSQL applies POSTGRES_DB/USER/PASSWORD only when the data volume is
+# first created. An existing skill_alignment_pgdata volume keeps its original
+# credentials. This file never removes or recreates the volume.
 services:
   postgres:
     image: postgres:16-alpine
     container_name: skill-alignment-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: skill_alignment
-      POSTGRES_USER: skill_user
-      POSTGRES_PASSWORD: change_me_local_only
+      POSTGRES_DB: ${POSTGRES_DB:-skill_alignment_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (see .env.example)}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - skill_alignment_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U skill_user -d skill_alignment"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10

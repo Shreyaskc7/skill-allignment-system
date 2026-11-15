@@ -2,7 +2,15 @@
 
 A working academic prototype built with React + TypeScript, FastAPI, SQLAlchemy and PostgreSQL. It supports a student demo workflow: career-role catalogue, skill assessments, transparent skill-gap scoring, learning resources/progress, CSV job ingestion, dictionary-baseline skill extraction, job-market analytics and a faculty summary.
 
-> This is a development/academic prototype, not a production hiring or psychometric assessment product. It uses a local demo student profile, a small authored question bank and a rule/dictionary-based extractor. It does not claim a trained SkillSpan model or live ESCO API integration. Review the limitations below before describing results in a report.
+> This is a development/academic prototype, not a production hiring or psychometric assessment product. It uses a small authored question bank and a rule/dictionary-based extractor. It does not claim a trained SkillSpan model or live ESCO API integration. Review the limitations below before describing results in a report.
+
+## Quick start (one step)
+
+1. Run `start.bat` (Windows, double-click) or `./start.sh` (Linux/macOS). The first run creates `.env` from `.env.example`.
+2. Open `.env`, replace `YOUR_PASSWORD` with your PostgreSQL password, and run the script again.
+3. The script sets up the Python and npm packages, checks the database (it asks before migrating), offers to create the first admin, then starts the API (http://127.0.0.1:8000) and the website (http://127.0.0.1:5173).
+
+`start.bat -CheckOnly` / `./start.sh --check-only` runs the checks without starting anything. `.env` holds all credentials and is never committed. The manual steps below still work.
 
 ## 1. Requirements
 - Python 3.10+
@@ -20,22 +28,43 @@ python -m pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-Edit `backend/.env` and set the password for your local PostgreSQL `postgres` user. The database must already exist. For the database created during setup, use:
+Edit `backend/.env`:
 
-```env
-DATABASE_URL=postgresql+psycopg://postgres:YOUR_PASSWORD@localhost:5432/skill_alignment_db
-CREATE_TABLES_ON_START=true
+- `DATABASE_URL`: your local PostgreSQL password and database (the database must already exist).
+  URL-encode reserved characters in the password (`@`, `:`, `/`, `#`, `%`).
+- `SECRET_KEY`: a random value of at least 32 characters. Generate one with
+  `python -c "import secrets; print(secrets.token_urlsafe(48))"`.
+
+Keep `.env` private and do not commit it.
+
+### Create or upgrade the database schema (Alembic)
+The schema is managed by Alembic migrations. **Back up an existing database first:**
+
+```powershell
+pg_dump -U postgres -F c -f skill_alignment_backup.dump skill_alignment_db
+alembic upgrade head
 ```
 
-If your password contains URL-reserved characters (`@`, `:`, `/`, `#`, `%`), URL-encode those characters. Keep `.env` private and do not commit it.
+`alembic upgrade head` creates a fresh schema, or safely adopts a version 1 database: it only adds
+missing tables, columns and indexes, never drops data, and runs as one transaction on PostgreSQL.
+The old shared demo account (`student@skillalign.local`) is deactivated; its records are kept.
+The API refuses to start if the schema is not at the latest revision.
 
-Start the API from the `backend` directory:
+### Create the first administrator
+No accounts are seeded. Create an administrator (the password is prompted for and hidden):
+
+```powershell
+python -m app.cli create-admin --email admin@your-college.edu --name "Your Name"
+```
+
+### Start the API
 
 ```powershell
 uvicorn app.main:app --reload
 ```
 
-On first start, SQLAlchemy creates any missing tables and the application seeds a demo student, career roles, skill catalogue, question bank and free learning resources. Existing starter tables are retained; `create_all` does not alter existing columns. API docs: http://127.0.0.1:8000/docs
+On startup the application seeds the career roles, skill catalogue, question bank and free learning
+resources (idempotently). API docs: http://127.0.0.1:8000/docs
 
 Health checks:
 - http://127.0.0.1:8000/health
@@ -50,16 +79,28 @@ Copy-Item .env.example .env
 npm run dev
 ```
 
-Open the Vite URL, normally http://localhost:5173. The frontend expects the API at `http://127.0.0.1:8000`. Change `VITE_API_BASE_URL` in `frontend/.env` if needed.
+Open http://127.0.0.1:5173. The Vite dev server forwards `/api` requests to FastAPI
+(`VITE_API_PROXY_TARGET`, default `http://127.0.0.1:8000`), so the browser talks to a single origin.
+Leave `VITE_API_BASE_URL` empty: the secure refresh cookie only works on the same origin.
+
+### Accounts and roles
+- **Students** register themselves at `/register`.
+- **Teachers/mentors** cannot self-register. An administrator invites them from *Mentor Invitations*;
+  the invitee sets a password through the single-use link (emailed, or shown to the admin when SMTP is
+  not configured).
+- **Administrators** are created with the CLI above.
+- Forgot password sends a 30-minute single-use link. Without SMTP settings, development mode prints the
+  email to the API console.
 
 ## 4. Implemented modules
 1. **Overview** — live counts, target role selector, weighted alignment and top skills from imported job postings.
 2. **Skill assessment** — skill selection, MCQ delivery, answer submission, score, proficiency estimate and explanations. Results update the demo student's skill profile.
 3. **Skill-gap analysis** — role skill requirements compared with latest assessed levels. Score is weighted and explainable; unassessed skills count as zero.
-4. **Learning resources** — curated free official docs/courses/practice links with not-started, in-progress and completed tracking.
+4. **Learning resources and paths** — 81 verified free resources for all 26 skills; a personalised learning path built from the target career's gaps; progress with notes and history.
 5. **Job market** — CSV import, required column validation, duplicate skip, simple text cleaning through field trimming, dictionary-based skill extraction and job/skill storage.
 6. **Progress** — assessment history and tracked learning resource totals.
-7. **Faculty insights** — aggregate local demo metrics.
+7. **Faculty insights** — aggregate metrics, scoped to a mentor's assigned students.
+8. **Administration** — system statistics, user accounts, catalogue (skills, career roles, resources), mentor invitations and assignments, audit log.
 
 ## 5. CSV import format
 Required columns: `title` (or `job_title` / `position`) and `description` (or `job_description` / `job_details`). Optional: `company`, `location`, `date` or `posted_date`.
@@ -67,21 +108,32 @@ Required columns: `title` (or `job_title` / `position`) and `description` (or `j
 A sample file is provided at `frontend/public/sample_jobs.csv`. In the Job Market page, download the template and upload it. The extractor currently recognizes a curated list of skill names and aliases. It is a baseline, not a production-grade NLP model.
 
 ## 6. API endpoints
-- `GET /api/v1/dashboard`
-- `GET /api/v1/careers`, `GET /api/v1/skills`
-- `GET /api/v1/assessments/skills`
-- `GET /api/v1/assessments/questions/{skill_id}`
-- `POST /api/v1/assessments/submit`
-- `GET /api/v1/assessments/history`
-- `GET /api/v1/gaps/{career_id}`
-- `GET /api/v1/resources`, `POST /api/v1/progress/{resource_id}`, `GET /api/v1/progress`
-- `POST /api/v1/jobs/import-csv`, `GET /api/v1/jobs`
-- `GET /api/v1/analytics/skills`, `GET /api/v1/faculty/summary`
+All `/api/v1` endpoints except the public auth endpoints require `Authorization: Bearer <access token>`.
+Permissions are enforced by the backend.
+
+| Endpoint | Access |
+|---|---|
+| `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/forgot-password`, `/auth/reset-password`, `GET /auth/invitations/{token}`, `POST /auth/accept-invitation` | Public (rate-limited) |
+| `GET /auth/me`, `POST /auth/change-password` | Any signed-in user |
+| `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/analytics/skills`, `/assessments/skills` | Any signed-in user |
+| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET /careers/recommendations`, `GET /learning/path`, `GET /learning/history`, `GET/POST /progress` | Students (own data only) |
+| `GET/POST /question-bank/questions`, `PUT /question-bank/questions/{id}` | Teachers and administrators |
+| `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
+| `GET /students/me/mentoring` | Students (own mentors and shared notes) |
+| `GET/PUT /teachers/me/profile`, `POST/GET/DELETE /teachers/me/photo` | Teachers (own profile) |
+| `GET /mentor/dashboard`, `GET /mentor/students`, `GET /mentor/students/{id}`, `POST /mentor/students/{id}/notes`, `DELETE /mentor/notes/{id}` | Teachers (assigned students only) and administrators |
+| `GET /jobs` (search, filters, sort, pagination; students get match %), `GET /jobs/{id}` | Any signed-in user |
+| `POST /jobs`, `PUT /jobs/{id}`, `POST /jobs/import-csv`, `GET /faculty/summary` | Teachers (summary scoped to assigned students) and administrators |
+| `/admin/*`: invitations, users, assignments, `stats`, `accounts`, `skills`, `careers`, `resources`, `audit` | Administrators (every mutation is audited) |
 
 ## 7. Important limitations and next research steps
-- **Authentication/authorization:** the UI currently uses a seeded demo student. Add real registration/login, password hashing, JWT/session security and role-based access before any multi-user deployment. Faculty summary is not access-controlled.
-- **Assessment validity:** the included questions are a small demonstrative question bank. Add reviewed questions, broader difficulty coverage, question randomization, and validation with faculty/subject experts. A quiz score is not proof of employability.
-- **NLP:** skill extraction is a transparent dictionary/regex baseline. To make a research-grade extractor, annotate a local India-focused test set, evaluate precision/recall/F1, and compare this baseline with a SkillSpan-trained token-classification model. SkillSpan is English-focused and is not included in this ZIP; obtain it from its official dataset page and follow its licence/terms.
+- **Authentication/authorization:** implemented in version 2 (Argon2id password hashing, 15-minute JWT access
+  tokens kept in memory, rotating HttpOnly refresh cookies with reuse detection, role-based access checked
+  against the database on every request, rate limiting, audit log). Rate limits are per process; use a
+  shared store or proxy limits when running several workers. Mentors can access only students actively assigned to them
+  by an administrator.
+- **Assessment validity:** 572 AI-assisted questions (22 per skill, randomised per attempt). They need review by faculty or subject experts before academic use: in 46% of questions the correct option is the longest one, so distractors should be rewritten to similar lengths. A quiz score is not proof of employability.
+- **NLP:** skill extraction is a transparent rule-based dictionary extractor (aliases, negation, required vs optional). On a blind, hand-labelled synthetic held-out set of 40 descriptions it scores F1 0.918 (v1 baseline 0.840); run `python scripts/evaluate_extractor.py`. These are small synthetic sets, not evidence of real-world accuracy. A trained model (e.g. SkillSpan-based) can be plugged in behind the `SkillExtractor` interface; SkillSpan is not included.
 - **ESCO:** the app has a skill catalogue that can be extended with ESCO identifiers/labels. It does not automatically download or synchronize ESCO. Download the official ESCO CSV and implement a reviewed concept/alias import before claiming ESCO integration.
 - **Forecasting:** no demand forecasting model is implemented. Reliable dated job-posting history is required before forecasting.
 - **Migrations:** SQLAlchemy `create_all` creates missing tables but does not migrate existing schema changes. Use Alembic for future schema changes.
@@ -89,6 +141,7 @@ A sample file is provided at `frontend/public/sample_jobs.csv`. In the Job Marke
 
 ## 8. Suggested validation checklist
 - Verify `/health/db` returns `{"status":"ok","database":"connected"}`.
+- Register a student, sign in, reload the page and confirm the session persists.
 - Verify the seeded career roles and skills appear in the UI.
 - Complete one assessment and confirm the result appears in Progress and changes the gap score.
 - Import `sample_jobs.csv` and confirm job count/skill analytics update.
@@ -96,4 +149,4 @@ A sample file is provided at `frontend/public/sample_jobs.csv`. In the Job Marke
 - Test invalid CSV, empty assessment answers and API-offline behavior.
 
 ## 9. Project architecture
-`frontend/` contains the React app. `backend/app/` contains SQLAlchemy models, database setup, configuration and FastAPI endpoints. PostgreSQL stores users, skills, career roles, job postings, extracted job skills, questions, attempts, student skill levels, learning resources and learning progress.
+`frontend/` contains the React app. `backend/app/` contains SQLAlchemy models, `routers/` (API endpoints), `services/` (business logic), authentication (`security.py`, `deps.py`) and configuration. `backend/alembic/` holds the database migrations and `backend/tests/` the automated tests (`TEST_DATABASE_URL=... pytest`; never point it at a real database). PostgreSQL stores users, skills, career roles, job postings, extracted job skills, questions, attempts, student skill levels, learning resources and learning progress.

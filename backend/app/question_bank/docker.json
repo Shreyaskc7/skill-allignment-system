@@ -1,0 +1,313 @@
+{
+  "skill": "Docker",
+  "questions": [
+    {
+      "question": "Which command lists running containers?",
+      "options": [
+        "docker ps",
+        "docker images",
+        "docker list",
+        "docker show"
+      ],
+      "correct": "A",
+      "explanation": "docker ps lists running containers; add -a to include stopped ones.",
+      "difficulty": "beginner",
+      "topic": "Containers",
+      "subtopic": "ps"
+    },
+    {
+      "question": "Which file contains the instructions for building a Docker image?",
+      "options": [
+        "compose.yaml",
+        "Dockerfile",
+        ".dockerignore",
+        "docker.json"
+      ],
+      "correct": "B",
+      "explanation": "docker build reads build steps from a Dockerfile.",
+      "difficulty": "beginner",
+      "topic": "Images",
+      "subtopic": "Dockerfile"
+    },
+    {
+      "question": "Which command builds an image tagged myapp from the current directory?",
+      "options": [
+        "docker make myapp",
+        "docker run -t myapp .",
+        "docker build -t myapp .",
+        "docker create myapp ."
+      ],
+      "correct": "C",
+      "explanation": "docker build -t names the image and . is the build context.",
+      "difficulty": "beginner",
+      "topic": "Images",
+      "subtopic": "build"
+    },
+    {
+      "question": "What is the relationship between an image and a container?",
+      "options": [
+        "They are the same thing",
+        "An image is a running instance of a container",
+        "A container is a compressed image file",
+        "A container is a runnable instance created from an image"
+      ],
+      "correct": "D",
+      "explanation": "Images are read-only templates; containers add a writable layer and a process.",
+      "difficulty": "beginner",
+      "topic": "Concepts",
+      "subtopic": "Image vs container"
+    },
+    {
+      "question": "Which docker run flag maps host port 8080 to container port 80?",
+      "options": [
+        "-p 8080:80",
+        "-p 80:8080",
+        "-e 8080:80",
+        "--expose 8080"
+      ],
+      "correct": "A",
+      "explanation": "The -p format is HOST:CONTAINER.",
+      "difficulty": "beginner",
+      "topic": "Networking",
+      "subtopic": "Port publishing"
+    },
+    {
+      "question": "Which Dockerfile instruction sets the base image?",
+      "options": [
+        "BASE",
+        "FROM",
+        "IMAGE",
+        "USE"
+      ],
+      "correct": "B",
+      "explanation": "Every build stage begins with FROM naming its base image.",
+      "difficulty": "beginner",
+      "topic": "Images",
+      "subtopic": "FROM"
+    },
+    {
+      "question": "With Compose v2, which command starts all services from compose.yaml in the background?",
+      "options": [
+        "docker compose start --all",
+        "docker compose run -d",
+        "docker compose up -d",
+        "docker up compose"
+      ],
+      "correct": "C",
+      "explanation": "up creates and starts services; -d detaches.",
+      "difficulty": "beginner",
+      "topic": "Compose",
+      "subtopic": "up"
+    },
+    {
+      "question": "Which command downloads the nginx image from a registry without running it?",
+      "options": [
+        "docker get nginx",
+        "docker fetch nginx",
+        "docker load nginx",
+        "docker pull nginx"
+      ],
+      "correct": "D",
+      "explanation": "docker pull fetches an image; docker load imports one from a tar archive.",
+      "difficulty": "beginner",
+      "topic": "Images",
+      "subtopic": "pull"
+    },
+    {
+      "question": "How do ENTRYPOINT and CMD typically work together?",
+      "options": [
+        "ENTRYPOINT sets the executable; CMD gives default arguments that docker run arguments replace",
+        "CMD runs at build time, ENTRYPOINT at run time",
+        "ENTRYPOINT is ignored when CMD is present",
+        "They are exact synonyms"
+      ],
+      "correct": "A",
+      "explanation": "Arguments after the image name in docker run override CMD and are appended to ENTRYPOINT.",
+      "difficulty": "intermediate",
+      "topic": "Dockerfile",
+      "subtopic": "CMD vs ENTRYPOINT"
+    },
+    {
+      "question": "Why use a named volume for a database container's data directory?",
+      "options": [
+        "It makes the container start faster",
+        "The data persists independently of the container's lifecycle",
+        "It encrypts the data automatically",
+        "It shares the data with every image"
+      ],
+      "correct": "B",
+      "explanation": "Volumes are managed outside the container's writable layer and survive container removal.",
+      "difficulty": "intermediate",
+      "topic": "Storage",
+      "subtopic": "Volumes"
+    },
+    {
+      "question": "What does a .dockerignore file do?",
+      "options": [
+        "Hides containers from docker ps",
+        "Prevents images from being pushed",
+        "Excludes matching files from the build context sent to the builder",
+        "Lists Dockerfile instructions to skip"
+      ],
+      "correct": "C",
+      "explanation": "Excluding files shrinks the context and keeps them out of COPY.",
+      "difficulty": "intermediate",
+      "topic": "Images",
+      "subtopic": ".dockerignore"
+    },
+    {
+      "question": "In a default Compose project, how can service web connect to service db?",
+      "options": [
+        "Using the host machine's IP only",
+        "Via a manually created link file",
+        "Using localhost inside web",
+        "Using the hostname db on the project's default network"
+      ],
+      "correct": "D",
+      "explanation": "Compose puts services on a shared network where service names resolve via DNS.",
+      "difficulty": "intermediate",
+      "topic": "Compose",
+      "subtopic": "Service networking"
+    },
+    {
+      "question": "Why copy requirements.txt and run pip install before COPY . . in a Dockerfile?",
+      "options": [
+        "So cached dependency layers are reused when only source code changes",
+        "So pip runs as root",
+        "Because COPY . . must be the last instruction",
+        "To reduce the number of build stages"
+      ],
+      "correct": "A",
+      "explanation": "A layer is rebuilt only if its inputs change, so dependencies stay cached across code edits.",
+      "difficulty": "intermediate",
+      "topic": "Images",
+      "subtopic": "Layer caching"
+    },
+    {
+      "question": "What does docker exec -it web sh do?",
+      "options": [
+        "Creates a new container named web",
+        "Starts an interactive shell inside the running container web",
+        "Restarts container web with sh as its command",
+        "Attaches to web's main process output"
+      ],
+      "correct": "B",
+      "explanation": "exec runs an extra process in an existing running container.",
+      "difficulty": "intermediate",
+      "topic": "Containers",
+      "subtopic": "exec"
+    },
+    {
+      "question": "What does docker compose down -v do beyond plain docker compose down?",
+      "options": [
+        "Also removes the images",
+        "Also stops containers of other projects",
+        "Also removes named volumes declared in the file and anonymous volumes",
+        "Also deletes the compose.yaml file"
+      ],
+      "correct": "C",
+      "explanation": "down removes containers and networks; -v also removes the project's volumes.",
+      "difficulty": "intermediate",
+      "topic": "Compose",
+      "subtopic": "down -v"
+    },
+    {
+      "question": "Which command shows container web's output and keeps following new output?",
+      "options": [
+        "docker attach --logs web",
+        "docker inspect -f web",
+        "docker events web",
+        "docker logs -f web"
+      ],
+      "correct": "D",
+      "explanation": "docker logs -f streams the container's stdout and stderr.",
+      "difficulty": "intermediate",
+      "topic": "Containers",
+      "subtopic": "logs"
+    },
+    {
+      "question": "What is the main benefit of a multi-stage Dockerfile?",
+      "options": [
+        "Build tools stay in earlier stages and the final image copies only needed artifacts",
+        "Stages run in separate containers at runtime",
+        "It lets one Dockerfile push to several registries",
+        "It disables layer caching"
+      ],
+      "correct": "A",
+      "explanation": "Only the final stage ships, so compilers and build dependencies are excluded.",
+      "difficulty": "advanced",
+      "topic": "Images",
+      "subtopic": "Multi-stage builds"
+    },
+    {
+      "question": "What does the short form depends_on: [db] guarantee for service web?",
+      "options": [
+        "web waits until db accepts connections",
+        "db is started before web, but not that it is ready",
+        "web and db share a filesystem",
+        "web restarts whenever db restarts"
+      ],
+      "correct": "B",
+      "explanation": "Short-form depends_on only orders startup; readiness needs a healthcheck condition.",
+      "difficulty": "advanced",
+      "topic": "Compose",
+      "subtopic": "depends_on"
+    },
+    {
+      "question": "Which Compose configuration makes web wait until db's healthcheck reports healthy?",
+      "options": [
+        "links: [db]",
+        "restart: on-failure",
+        "depends_on: {db: {condition: service_healthy}}",
+        "healthcheck: {wait_for: db}"
+      ],
+      "correct": "C",
+      "explanation": "The long-form condition service_healthy waits for db's healthcheck to pass.",
+      "difficulty": "advanced",
+      "topic": "Compose",
+      "subtopic": "Healthchecks"
+    },
+    {
+      "question": "Why prefer CMD [\"python\", \"app.py\"] over CMD python app.py?",
+      "options": [
+        "Exec form builds faster",
+        "Shell form cannot use environment variables",
+        "Exec form is required for multi-stage builds",
+        "The process runs as PID 1 directly and receives SIGTERM from docker stop"
+      ],
+      "correct": "D",
+      "explanation": "Shell form wraps the command in /bin/sh -c, which may not forward signals to the app.",
+      "difficulty": "advanced",
+      "topic": "Dockerfile",
+      "subtopic": "Exec form"
+    },
+    {
+      "question": "If neither the Dockerfile nor its base image sets USER, which user do container processes run as?",
+      "options": [
+        "root",
+        "nobody",
+        "docker",
+        "The host user who ran docker run"
+      ],
+      "correct": "A",
+      "explanation": "Containers default to root (UID 0), so a non-root USER is recommended.",
+      "difficulty": "advanced",
+      "topic": "Security",
+      "subtopic": "Default user"
+    },
+    {
+      "question": "What happens to data written in a container's writable layer (no volume) after docker rm?",
+      "options": [
+        "It is copied into the image",
+        "It is deleted along with the container",
+        "It moves to an anonymous volume",
+        "It stays until the next docker build"
+      ],
+      "correct": "B",
+      "explanation": "The writable layer belongs to the container and is removed with it.",
+      "difficulty": "advanced",
+      "topic": "Storage",
+      "subtopic": "Writable layer"
+    }
+  ]
+}

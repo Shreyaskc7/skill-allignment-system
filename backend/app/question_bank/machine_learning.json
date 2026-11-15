@@ -1,0 +1,313 @@
+{
+  "skill": "Machine Learning",
+  "questions": [
+    {
+      "question": "What characterizes supervised learning?",
+      "options": [
+        "Training on examples with known target labels",
+        "Training without any labels",
+        "Learning only through rewards from an environment",
+        "Hand-coding rules without data"
+      ],
+      "correct": "A",
+      "explanation": "Supervised learning maps inputs to labeled outputs.",
+      "difficulty": "beginner",
+      "topic": "Fundamentals",
+      "subtopic": "Learning paradigms"
+    },
+    {
+      "question": "Predicting the selling price of a house is what type of task?",
+      "options": [
+        "Classification",
+        "Regression",
+        "Clustering",
+        "Dimensionality reduction"
+      ],
+      "correct": "B",
+      "explanation": "The target is a continuous numeric value, which makes it regression.",
+      "difficulty": "beginner",
+      "topic": "Fundamentals",
+      "subtopic": "Regression vs classification"
+    },
+    {
+      "question": "Which algorithm is an unsupervised clustering method?",
+      "options": [
+        "Linear regression",
+        "Logistic regression",
+        "k-means",
+        "Decision tree classifier"
+      ],
+      "correct": "C",
+      "explanation": "k-means groups unlabeled points into k clusters.",
+      "difficulty": "beginner",
+      "topic": "Unsupervised learning",
+      "subtopic": "Clustering"
+    },
+    {
+      "question": "What is the purpose of a held-out test set?",
+      "options": [
+        "To train the model's parameters",
+        "To increase the training set size",
+        "To remove outliers",
+        "To estimate how the model performs on unseen data"
+      ],
+      "correct": "D",
+      "explanation": "The test set is kept aside so its score approximates generalization performance.",
+      "difficulty": "beginner",
+      "topic": "Model evaluation",
+      "subtopic": "Train/test split"
+    },
+    {
+      "question": "What is overfitting?",
+      "options": [
+        "The model fits training data well but performs poorly on new data",
+        "The model performs poorly on both training and new data",
+        "The model trains too slowly",
+        "The model has too few features"
+      ],
+      "correct": "A",
+      "explanation": "An overfit model memorises noise in the training set and fails to generalize.",
+      "difficulty": "beginner",
+      "topic": "Model evaluation",
+      "subtopic": "Overfitting"
+    },
+    {
+      "question": "In machine learning, what is a feature?",
+      "options": [
+        "The predicted output",
+        "An input variable used to make predictions",
+        "The model's error metric",
+        "A hyperparameter of the optimizer"
+      ],
+      "correct": "B",
+      "explanation": "Features are the measurable input attributes the model learns from.",
+      "difficulty": "beginner",
+      "topic": "Fundamentals",
+      "subtopic": "Features and labels"
+    },
+    {
+      "question": "How is classification accuracy calculated?",
+      "options": [
+        "True positives divided by predicted positives",
+        "True positives divided by actual positives",
+        "Correct predictions divided by total predictions",
+        "Errors divided by correct predictions"
+      ],
+      "correct": "C",
+      "explanation": "Accuracy is the fraction of all predictions that are correct.",
+      "difficulty": "beginner",
+      "topic": "Model evaluation",
+      "subtopic": "Accuracy"
+    },
+    {
+      "question": "Despite its name, logistic regression is mainly used for which task?",
+      "options": [
+        "Predicting continuous values",
+        "Clustering",
+        "Dimensionality reduction",
+        "Binary classification"
+      ],
+      "correct": "D",
+      "explanation": "It models the probability of a class with the logistic function.",
+      "difficulty": "beginner",
+      "topic": "Supervised learning",
+      "subtopic": "Logistic regression"
+    },
+    {
+      "question": "Which formula defines precision?",
+      "options": [
+        "TP / (TP + FP)",
+        "TP / (TP + FN)",
+        "(TP + TN) / total",
+        "TN / (TN + FP)"
+      ],
+      "correct": "A",
+      "explanation": "Precision is the share of predicted positives that are actually positive.",
+      "difficulty": "intermediate",
+      "topic": "Model evaluation",
+      "subtopic": "Precision"
+    },
+    {
+      "question": "What does k-fold cross-validation do?",
+      "options": [
+        "Trains k different algorithms and picks the best",
+        "Splits data into k parts and uses each part once as validation while training on the rest",
+        "Repeats training k times on the full dataset",
+        "Removes k outliers before training"
+      ],
+      "correct": "B",
+      "explanation": "Averaging over k validation folds gives a more stable performance estimate.",
+      "difficulty": "intermediate",
+      "topic": "Model evaluation",
+      "subtopic": "Cross-validation"
+    },
+    {
+      "question": "Which regularization technique can shrink some coefficients exactly to zero?",
+      "options": [
+        "L2 (Ridge)",
+        "Dropout",
+        "L1 (Lasso)",
+        "Early stopping"
+      ],
+      "correct": "C",
+      "explanation": "The L1 penalty's geometry produces sparse solutions, performing feature selection.",
+      "difficulty": "intermediate",
+      "topic": "Regularization",
+      "subtopic": "L1 vs L2"
+    },
+    {
+      "question": "For which algorithm is feature scaling most important?",
+      "options": [
+        "Decision tree",
+        "Random forest",
+        "Naive Bayes with categorical features",
+        "k-nearest neighbors"
+      ],
+      "correct": "D",
+      "explanation": "k-NN uses distances, so features with large ranges dominate unless scaled; tree splits are scale-invariant.",
+      "difficulty": "intermediate",
+      "topic": "Preprocessing",
+      "subtopic": "Feature scaling"
+    },
+    {
+      "question": "A model with high bias and low variance is most likely to be:",
+      "options": [
+        "Underfitting",
+        "Overfitting",
+        "Perfectly fit",
+        "Suffering from data leakage"
+      ],
+      "correct": "A",
+      "explanation": "High bias means the model is too simple to capture the underlying pattern.",
+      "difficulty": "intermediate",
+      "topic": "Model evaluation",
+      "subtopic": "Bias-variance tradeoff"
+    },
+    {
+      "question": "A classifier has TP=40, FP=10, FN=20, TN=30. What is its recall?",
+      "options": [
+        "0.80",
+        "0.67",
+        "0.70",
+        "0.57"
+      ],
+      "correct": "B",
+      "explanation": "Recall = TP/(TP+FN) = 40/60 ≈ 0.67 (0.80 is precision, 0.70 is accuracy).",
+      "difficulty": "intermediate",
+      "topic": "Model evaluation",
+      "subtopic": "Recall"
+    },
+    {
+      "question": "What can happen if the learning rate in gradient descent is too large?",
+      "options": [
+        "Training always converges faster to the exact minimum",
+        "The model automatically becomes regularized",
+        "Updates overshoot the minimum and the loss may diverge",
+        "The gradients become exactly zero"
+      ],
+      "correct": "C",
+      "explanation": "Too large a step jumps past the minimum and can make the loss oscillate or grow.",
+      "difficulty": "intermediate",
+      "topic": "Optimization",
+      "subtopic": "Learning rate"
+    },
+    {
+      "question": "How does a random forest build its ensemble?",
+      "options": [
+        "Trains trees sequentially, each correcting the previous one's errors",
+        "Trains a single very deep tree",
+        "Clusters the data and fits a tree per cluster",
+        "Trains many decision trees on bootstrap samples with random feature subsets and combines their votes"
+      ],
+      "correct": "D",
+      "explanation": "Bagging plus random feature selection decorrelates the trees and reduces variance.",
+      "difficulty": "intermediate",
+      "topic": "Ensemble methods",
+      "subtopic": "Random forest"
+    },
+    {
+      "question": "Which practice introduces data leakage?",
+      "options": [
+        "Fitting a scaler on the full dataset before splitting into train and test",
+        "Fitting a scaler on the training set only",
+        "Using a fixed random seed",
+        "Stratifying the train/test split"
+      ],
+      "correct": "A",
+      "explanation": "The scaler then learns statistics from test data, leaking information into training.",
+      "difficulty": "advanced",
+      "topic": "Model evaluation",
+      "subtopic": "Data leakage"
+    },
+    {
+      "question": "What does a ROC AUC of 0.5 indicate?",
+      "options": [
+        "The model is perfect",
+        "The model ranks positives no better than random guessing",
+        "The model predicts positives half the time",
+        "The model has 50% precision"
+      ],
+      "correct": "B",
+      "explanation": "AUC is the probability a random positive is ranked above a random negative; 0.5 is chance.",
+      "difficulty": "advanced",
+      "topic": "Model evaluation",
+      "subtopic": "ROC AUC"
+    },
+    {
+      "question": "On a dataset with 99% negatives, why is accuracy a poor metric?",
+      "options": [
+        "Accuracy cannot be computed on imbalanced data",
+        "Accuracy always equals recall on imbalanced data",
+        "Predicting all negatives scores 99% accuracy while missing every positive",
+        "Accuracy penalizes false negatives too heavily"
+      ],
+      "correct": "C",
+      "explanation": "Metrics like precision, recall, F1 or PR-AUC better reflect minority-class performance.",
+      "difficulty": "advanced",
+      "topic": "Model evaluation",
+      "subtopic": "Imbalanced data"
+    },
+    {
+      "question": "How does boosting differ from bagging?",
+      "options": [
+        "Boosting uses only one model; bagging uses many",
+        "Boosting is unsupervised; bagging is supervised",
+        "Boosting averages bootstrap models; bagging reweights errors",
+        "Boosting trains models sequentially, each focusing on previous errors; bagging trains them independently"
+      ],
+      "correct": "D",
+      "explanation": "Boosting mainly reduces bias by sequential correction; bagging mainly reduces variance.",
+      "difficulty": "advanced",
+      "topic": "Ensemble methods",
+      "subtopic": "Boosting vs bagging"
+    },
+    {
+      "question": "What does Principal Component Analysis (PCA) find?",
+      "options": [
+        "Orthogonal directions that capture maximum variance in the data",
+        "Clusters of similar points",
+        "The most predictive features for a target label",
+        "A nonlinear decision boundary"
+      ],
+      "correct": "A",
+      "explanation": "PCA projects data onto uncorrelated components ordered by explained variance.",
+      "difficulty": "advanced",
+      "topic": "Unsupervised learning",
+      "subtopic": "PCA"
+    },
+    {
+      "question": "In k-NN classification, what usually happens as k increases?",
+      "options": [
+        "The model overfits more",
+        "The decision boundary becomes smoother: variance falls and bias rises",
+        "Training time increases sharply",
+        "Bias decreases and variance increases"
+      ],
+      "correct": "B",
+      "explanation": "Averaging over more neighbours smooths predictions, trading variance for bias.",
+      "difficulty": "advanced",
+      "topic": "Supervised learning",
+      "subtopic": "k-NN"
+    }
+  ]
+}

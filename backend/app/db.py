@@ -11,10 +11,12 @@ class Base(DeclarativeBase):
 
 
 def _build_engine():
+    if settings.database_url.startswith("sqlite"):
+        # Used only for local experiments/tests; PostgreSQL is the supported database.
+        return create_engine(settings.database_url, connect_args={"check_same_thread": False})
     return create_engine(
         settings.database_url,
         pool_pre_ping=True,
-        future=True,
         pool_size=10,
         max_overflow=20,
         pool_timeout=30,

@@ -1,31 +1,115 @@
-import { useEffect, useState } from 'react';
-import { Activity, BookOpen, Briefcase, CheckCircle2, ClipboardList, GraduationCap, LayoutDashboard, RefreshCw, Target, Upload } from 'lucide-react';
-import './styles.css';
-const API=(import.meta.env.VITE_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
-type Page='Overview'|'Assessment'|'Skill Gaps'|'Learning Resources'|'Job Market'|'Progress'|'Faculty Insights';
-type Career={id:number;name:string;description:string;skills:{skill_id:number;skill_name:string;required_level:number;importance_weight:number}[]};
-type Skill={id:number;name:string;category:string};
-type Resource={id:number;skill_id:number;skill:string;title:string;provider:string;url:string;type:string;difficulty:string;description:string;is_free:boolean};
-async function request(path:string,init?:RequestInit){const r=await fetch(API+path,init);if(!r.ok){let m='Request failed';try{m=(await r.json()).detail||m}catch{}throw new Error(m)}return r.json()}
-export default function App(){
- const [page,setPage]=useState<Page>('Overview'),[online,setOnline]=useState(false),[careers,setCareers]=useState<Career[]>([]),[skills,setSkills]=useState<Skill[]>([]),[role,setRole]=useState(''),[dashboard,setDashboard]=useState<any>(null),[gap,setGap]=useState<any>(null),[resources,setResources]=useState<Resource[]>([]),[progress,setProgress]=useState<any>(null),[analytics,setAnalytics]=useState<any[]>([]),[faculty,setFaculty]=useState<any>(null),[jobs,setJobs]=useState<any[]>([]),[assessmentSkills,setAssessmentSkills]=useState<any[]>([]),[selectedSkill,setSelectedSkill]=useState<number|''>(''),[questions,setQuestions]=useState<any[]>([]),[answers,setAnswers]=useState<Record<string,string>>({}),[result,setResult]=useState<any>(null),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[file,setFile]=useState<File|null>(null);
- async function load(){try{const [c,s,d,res,p,a,f,j,as]=await Promise.all([request('/api/v1/careers'),request('/api/v1/skills'),request('/api/v1/dashboard'),request('/api/v1/resources'),request('/api/v1/progress'),request('/api/v1/analytics/skills'),request('/api/v1/faculty/summary'),request('/api/v1/jobs'),request('/api/v1/assessments/skills')]);setCareers(c);setSkills(s);setDashboard(d);setResources(res);setProgress(p);setAnalytics(a);setFaculty(f);setJobs(j);setAssessmentSkills(as);setRole(old=>old||String(c[0]?.id||''));setSelectedSkill(old=>old||as[0]?.id||'');setOnline(true)}catch(e:any){setOnline(false);setNotice(e.message+' — start FastAPI and check its database connection.')}}
- useEffect(()=>{load()},[]);useEffect(()=>{if(role){request('/api/v1/gaps/'+role).then(setGap).catch(e=>setNotice(e.message))}},[role,progress]);
- async function startAssessment(){if(!selectedSkill)return;setBusy(true);try{const q=await request(`/api/v1/assessments/questions/${selectedSkill}`);setQuestions(q);setAnswers({});setResult(null)}catch(e:any){setNotice(e.message)}finally{setBusy(false)}}
- async function submitAssessment(){setBusy(true);try{const r=await request('/api/v1/assessments/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({skill_id:selectedSkill,answers})});setResult(r);await load()}catch(e:any){setNotice(e.message)}finally{setBusy(false)}}
- async function importCsv(){if(!file)return;setBusy(true);try{const fd=new FormData();fd.append('file',file);const r=await request('/api/v1/jobs/import-csv',{method:'POST',body:fd});setNotice(`Imported ${r.imported} jobs; skipped ${r.skipped}. Extracted skills: ${Object.keys(r.skills_found).join(', ')||'none detected'}`);setFile(null);await load()}catch(e:any){setNotice(e.message)}finally{setBusy(false)}}
- async function markResource(id:number,status:string){try{await request('/api/v1/progress/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});await load();setNotice('Learning progress updated.')}catch(e:any){setNotice(e.message)}}
- const nav: {name:Page;icon:any}[]=[{name:'Overview',icon:LayoutDashboard},{name:'Assessment',icon:ClipboardList},{name:'Skill Gaps',icon:Target},{name:'Learning Resources',icon:BookOpen},{name:'Job Market',icon:Briefcase},{name:'Progress',icon:Activity},{name:'Faculty Insights',icon:GraduationCap}];
- return <div className="shell"><aside className="sidebar"><div className="brand"><div className="brand-icon">S</div><div><b>skill<span>align</span></b><small>WORKFORCE INTELLIGENCE</small></div></div><div className="workspace"><GraduationCap/> <div><b>MCA Workspace</b><small>Student demo profile</small></div></div><nav>{nav.map(n=><button key={n.name} className={page===n.name?'active':''} onClick={()=>{setPage(n.name);setNotice('')}}><n.icon size={18}/>{n.name}</button>)}</nav><div className="side-bottom"><span className={online?'dot':'dot off'}/>{online?'API connected':'API offline'}<button onClick={load}><RefreshCw size={15}/> Refresh data</button></div></aside>
- <main><header><div><small>WORKSPACE / {page.toUpperCase()}</small><h1>{page==='Overview'?'Build skills. Unlock potential.':page}</h1></div><div className="profile"> <span className={online?'dot':'dot off'}/> Student Preview</div></header><div className="content">{notice&&<div className="notice">{notice}<button onClick={()=>setNotice('')}>×</button></div>}
- {page==='Overview'&&<><section className="hero"><div><label>YOUR CAREER JOURNEY</label><h2>Turn your skills into<br/><em>career readiness.</em></h2><p>Assess your abilities, discover skill gaps and follow a practical learning path.</p><button className="primary" onClick={()=>setPage('Assessment')}>Start assessment →</button></div><div className="hero-score"><span>CAREER ALIGNMENT</span><strong>{gap?.alignment_score??0}<small>%</small></strong><div className="progress"><i style={{width:`${gap?.alignment_score??0}%`}}/></div><small>{gap?.career||'Select a target role'}</small></div></section><div className="toolbar"><label>Target career role</label><select value={role} onChange={e=>setRole(e.target.value)}>{careers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></div><div className="metrics"><Metric icon={<Briefcase/>} label="Job postings" value={dashboard?.job_count??0}/><Metric icon={<Target/>} label="Skills catalogued" value={dashboard?.skill_count??0}/><Metric icon={<ClipboardList/>} label="Assessments taken" value={dashboard?.assessment_count??0}/><Metric icon={<BookOpen/>} label="Learning resources" value={dashboard?.resource_count??0}/></div><div className="grid2"><section className="panel"><h3>Priority skill gaps</h3><p className="muted">Based on assessments and your selected career.</p>{(gap?.skills||[]).slice(0,7).map((x:any)=><div className="gaprow" key={x.skill}><div><b>{x.skill}</b><small>Current {x.current_level||'Not assessed'} / 5 · Target {x.required_level}/5</small></div><span className={'pill '+(x.priority==='High'?'high':'')}>{x.priority}</span></div>)}{!gap?.skills?.length&&<Empty text="Choose a career role to view required skills."/>}</section><section className="panel"><h3>Most requested skills</h3><p className="muted">Extracted from imported job postings.</p>{analytics.slice(0,7).map((x:any)=><div className="barrow" key={x.skill}><span>{x.skill}</span><div className="bar"><i style={{width:`${Math.max(5,x.postings/(analytics[0]?.postings||1)*100)}%`}}/></div><b>{x.postings}</b></div>)}{!analytics.length&&<Empty text="Import job-posting CSV files to see demand analytics."/>}</section></div></>}
- {page==='Assessment'&&<section className="panel"><h2>Skill assessment</h2><p className="muted">Answer the multiple-choice questions. Your result updates your skill profile and career alignment.</p><div className="toolbar"><label>Select skill</label><select value={selectedSkill} onChange={e=>{setSelectedSkill(Number(e.target.value));setQuestions([]);setResult(null)}}>{assessmentSkills.map(s=><option value={s.id} key={s.id}>{s.name} ({s.question_count} questions)</option>)}</select><button className="primary" onClick={startAssessment} disabled={busy}>Load questions</button></div>{questions.map((q,i)=><div className="question" key={q.id}><b>{i+1}. {q.question}</b>{Object.entries(q.options).map(([k,v])=><label className="option" key={k}><input type="radio" name={'q'+q.id} checked={answers[String(q.id)]===k} onChange={()=>setAnswers(a=>({...a,[String(q.id)]:k}))}/><span>{k}. {v as string}</span></label>)}</div>)}{questions.length>0&&<button className="primary" disabled={busy||Object.keys(answers).length!==questions.length} onClick={submitAssessment}>Submit assessment</button>}{result&&<div className="result"><h3>Assessment result: {result.score_percent}%</h3><p>{result.correct} correct out of {result.total}. Estimated proficiency level: {result.estimated_level}/5.</p>{result.review.map((r:any,i:number)=><div className="review" key={r.question_id}><b>Question {i+1}: {r.is_correct?'Correct':'Review this answer'}</b><p>Your answer: {r.your_answer||'Not answered'} · Correct: {r.correct_option}</p><small>{r.explanation}</small></div>)}</div>}</section>}
- {page==='Skill Gaps'&&<><div className="toolbar"><label>Target career role</label><select value={role} onChange={e=>setRole(e.target.value)}>{careers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select><div className="scorechip">Alignment {gap?.alignment_score??0}%</div></div><section className="panel"><h2>{gap?.career||'Skill gap analysis'}</h2><p className="muted">Weighted alignment = assessed proficiency capped at required level, divided by total role importance weights.</p>{(gap?.skills||[]).map((x:any)=><div className="gapdetail" key={x.skill}><div><b>{x.skill}</b><small>{x.priority} priority · Weight {x.importance}</small></div><div className="levelbars"><span>Current {x.current_level}/5</span><span>Required {x.required_level}/5</span><div className="progress"><i style={{width:`${x.current_level/5*100}%`}}/></div></div></div>)}</section></>}
- {page==='Learning Resources'&&<section className="panel"><h2>Learning resources</h2><p className="muted">Curated free documentation, courses and practice material. Open a resource to study, then track your progress.</p><div className="resource-grid">{resources.map(r=><article className="resource" key={r.id}><div className="resource-top"><span>{r.skill}</span><span className="pill">{r.difficulty}</span></div><h3>{r.title}</h3><p>{r.description}</p><small>{r.provider} · {r.type} · {r.is_free?'Free':'Paid'}</small><div className="resource-actions"><a href={r.url} target="_blank" rel="noreferrer">Open resource ↗</a><select defaultValue="not_started" onChange={e=>markResource(r.id,e.target.value)}><option value="not_started">Not started</option><option value="in_progress">In progress</option><option value="completed">Completed</option></select></div></article>)}</div></section>}
- {page==='Job Market'&&<><section className="panel"><h2>Import job-market dataset</h2><p className="muted">Upload a CSV containing a job title and description. Optional columns: company, location, date or posted_date. The current baseline extracts known skills using a curated dictionary.</p><div className="upload"><input type="file" accept=".csv,text/csv" onChange={e=>setFile(e.target.files?.[0]||null)}/><button className="primary" disabled={!file||busy} onClick={importCsv}><Upload size={16}/> Import CSV</button></div><a href="/sample_jobs.csv" download>Download sample CSV template</a></section><section className="panel"><h2>Imported job postings ({jobs.length})</h2>{jobs.map(j=><div className="job" key={j.id}><b>{j.title}</b><small>{j.company||'Company not specified'} · {j.location||'Location not specified'}</small><div className="tags">{j.skills.map((s:string)=><span key={s}>{s}</span>)}</div></div>)}{!jobs.length&&<Empty text="No job postings imported yet."/>}</section></>}
- {page==='Progress'&&<><div className="metrics"><Metric icon={<ClipboardList/>} label="Assessments" value={progress?.attempts?.length||0}/><Metric icon={<CheckCircle2/>} label="Resources completed" value={progress?.resources?.completed||0}/><Metric icon={<Activity/>} label="In progress" value={progress?.resources?.in_progress||0}/></div><section className="panel"><h2>Assessment history</h2>{(progress?.attempts||[]).map((a:any,i:number)=><div className="gaprow" key={i}><div><b>{a.skill}</b><small>{a.date?new Date(a.date).toLocaleString():''}</small></div><span className="scorechip">{a.score}%</span></div>)}{!progress?.attempts?.length&&<Empty text="Complete an assessment to start tracking your progress."/>}</section></>}
- {page==='Faculty Insights'&&<><div className="metrics"><Metric icon={<GraduationCap/>} label="Student profiles" value={faculty?.students??0}/><Metric icon={<Briefcase/>} label="Job postings" value={faculty?.job_postings??0}/><Metric icon={<ClipboardList/>} label="Assessments" value={faculty?.assessments??0}/><Metric icon={<Award/>} label="Average score" value={`${faculty?.average_assessment_score??0}%`}/></div><section className="panel"><h2>Department snapshot</h2><p className="muted">Aggregate local demo environment metrics. This view is not access-controlled and should be secured before institutional deployment.</p><p>Skills catalogued: <b>{faculty?.skills_catalogued??0}</b></p></section></>}
- <footer>SkillAlign · Intelligent Workforce Skill Alignment System <span>Academic project prototype</span></footer></div></main></div>
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { homeFor, useAuth } from './auth/AuthContext';
+import { AnonymousOnly, RequireAuth, RequireRole } from './auth/guards';
+import { AppLayout, useApp } from './components/AppLayout';
+import { InvitationsPage } from './pages/admin/InvitationsPage';
+import { AssessmentPage } from './pages/assessment/AssessmentPage';
+import { ResultsPage } from './pages/assessment/ResultsPage';
+import { QuestionBankPage } from './pages/mentor/QuestionBankPage';
+import { AcceptInvitationPage } from './pages/auth/AcceptInvitationPage';
+import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
+import { LoginPage } from './pages/auth/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage';
+import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
+import { FacultyInsightsPage } from './pages/FacultyInsightsPage';
+import { JobMarketPage } from './pages/jobs/JobMarketPage';
+import { JobDetailPage } from './pages/jobs/JobDetailPage';
+import { LandingPage } from './pages/LandingPage';
+import { LearningResourcesPage } from './pages/LearningResourcesPage';
+import { StudentDashboardPage } from './pages/StudentDashboardPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { AccountPage } from './pages/AccountPage';
+import { CareersPage } from './pages/CareersPage';
+import { LearningPathPage } from './pages/learning/LearningPathPage';
+import { AssignmentsPage } from './pages/admin/AssignmentsPage';
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AuditPage } from './pages/admin/AuditPage';
+import { CataloguePage } from './pages/admin/CataloguePage';
+import { UsersPage } from './pages/admin/UsersPage';
+import { MentorDashboardPage } from './pages/mentor/MentorDashboardPage';
+import { StudentDetailPage } from './pages/mentor/StudentDetailPage';
+import { StudentsPage } from './pages/mentor/StudentsPage';
+import { TeacherProfilePage } from './pages/mentor/TeacherProfilePage';
+import { ProgressPage } from './pages/ProgressPage';
+import { SkillGapsPage } from './pages/SkillGapsPage';
+
+// --- thin route adapters: read shared data from the layout and pass it to the page components
+
+function Resources() {
+  const { user } = useAuth();
+  return <LearningResourcesPage canTrack={user!.role === 'student'} />;
 }
-function Metric({icon,label,value}:{icon:any;label:string;value:any}){return <div className="metric"><div>{icon}<small>{label}</small></div><strong>{value}</strong></div>}
-function Empty({text}:{text:string}){return <div className="empty">{text}</div>}
+
+function RootRedirect() {
+  const { status, user } = useAuth();
+  if (status === 'authenticated') return <Navigate to={homeFor(user)} replace />;
+  return <LandingPage />;
+}
+
+function AppHome() {
+  const { user } = useAuth();
+  return user!.role === 'student' ? <StudentDashboardPage /> : <Navigate to={homeFor(user)} replace />;
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route element={<AnonymousOnly />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      </Route>
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/accept-invitation" element={<AcceptInvitationPage />} />
+
+      <Route element={<RequireAuth />}>
+        <Route path="/app" element={<AppLayout />}>
+          <Route index element={<AppHome />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="jobs" element={<JobMarketPage />} />
+          <Route path="jobs/:id" element={<JobDetailPage />} />
+          <Route path="account" element={<AccountPage />} />
+          <Route element={<RequireRole roles={['student']} />}>
+            <Route path="assessment" element={<AssessmentPage />} />
+            <Route path="assessment/results/:id" element={<ResultsPage />} />
+            <Route path="skill-gaps" element={<SkillGapsRoute />} />
+            <Route path="careers" element={<CareersPage />} />
+            <Route path="learning-path" element={<LearningPathPage />} />
+            <Route path="progress" element={<ProgressRoute />} />
+            <Route path="profile" element={<ProfilePage />} />
+          </Route>
+          <Route element={<RequireRole roles={['teacher', 'admin']} />}>
+            <Route path="faculty" element={<FacultyRoute />} />
+            <Route path="mentor" element={<MentorDashboardPage />} />
+            <Route path="mentor/students" element={<StudentsPage />} />
+            <Route path="mentor/students/:id" element={<StudentDetailPage />} />
+            <Route path="question-bank" element={<QuestionBankPage />} />
+          </Route>
+          <Route element={<RequireRole roles={['teacher']} />}>
+            <Route path="teacher-profile" element={<TeacherProfilePage />} />
+          </Route>
+          <Route element={<RequireRole roles={['admin']} />}>
+            <Route path="admin" element={<AdminDashboardPage />} />
+            <Route path="admin/users" element={<UsersPage />} />
+            <Route path="admin/catalogue" element={<CataloguePage />} />
+            <Route path="admin/audit" element={<AuditPage />} />
+            <Route path="admin/invitations" element={<InvitationsPage />} />
+            <Route path="admin/assignments" element={<AssignmentsPage />} />
+          </Route>
+        </Route>
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+function SkillGapsRoute() {
+  return <SkillGapsPage data={useApp().data} />;
+}
+function ProgressRoute() {
+  return <ProgressPage progress={useApp().data.progress} />;
+}
+function FacultyRoute() {
+  return <FacultyInsightsPage faculty={useApp().data.faculty} />;
+}
