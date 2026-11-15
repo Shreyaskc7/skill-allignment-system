@@ -101,6 +101,7 @@ export async function request<T = unknown>(path: string, init: RequestInit = {},
     onSessionExpired();
   }
   if (!r.ok) throw await toError(r);
+  if (r.status === 204) return undefined as T;
   return r.json() as Promise<T>;
 }
 

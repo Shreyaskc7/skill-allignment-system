@@ -22,7 +22,8 @@ export function AppLayout() {
   const data = useAppData(user!.role, onError);
   const assessment = useAssessment(data.assessmentSkills, data.load, onError);
 
-  const current = [...NAV].reverse().find((n) => location.pathname.startsWith(n.to));
+  const current = NAV.filter((n) => location.pathname === n.to || location.pathname.startsWith(n.to + '/'))
+    .sort((a, b) => b.to.length - a.to.length)[0] ?? NAV.find((n) => n.to === '/app');
   const title = current?.to === '/app' ? 'Your dashboard' : current?.label ?? 'SkillAlign';
 
   async function signOut() {

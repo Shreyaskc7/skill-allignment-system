@@ -18,6 +18,11 @@ import { LearningResourcesPage } from './pages/LearningResourcesPage';
 import { StudentDashboardPage } from './pages/StudentDashboardPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AccountPage } from './pages/AccountPage';
+import { AssignmentsPage } from './pages/admin/AssignmentsPage';
+import { MentorDashboardPage } from './pages/mentor/MentorDashboardPage';
+import { StudentDetailPage } from './pages/mentor/StudentDetailPage';
+import { StudentsPage } from './pages/mentor/StudentsPage';
+import { TeacherProfilePage } from './pages/mentor/TeacherProfilePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SkillGapsPage } from './pages/SkillGapsPage';
 import type { ProgressStatus } from './types';
@@ -98,9 +103,16 @@ export default function App() {
           </Route>
           <Route element={<RequireRole roles={['teacher', 'admin']} />}>
             <Route path="faculty" element={<FacultyRoute />} />
+            <Route path="mentor" element={<MentorDashboardPage />} />
+            <Route path="mentor/students" element={<StudentsPage />} />
+            <Route path="mentor/students/:id" element={<StudentDetailPage />} />
+          </Route>
+          <Route element={<RequireRole roles={['teacher']} />}>
+            <Route path="teacher-profile" element={<TeacherProfilePage />} />
           </Route>
           <Route element={<RequireRole roles={['admin']} />}>
             <Route path="admin/invitations" element={<InvitationsPage />} />
+            <Route path="admin/assignments" element={<AssignmentsPage />} />
           </Route>
         </Route>
       </Route>

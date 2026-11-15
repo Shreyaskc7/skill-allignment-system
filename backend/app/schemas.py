@@ -873,3 +873,61 @@ class SelfSkillOut(BaseModel):
     skill_name: str
     category: str
     level: int
+
+
+# =====================================================================
+# Teacher profile, assignments and mentoring (Phase 5 API)
+# =====================================================================
+
+class TeacherProfileIn(BaseModel):
+    full_name: str = Field(min_length=2, max_length=160)
+    phone: Optional[str] = Field(None, max_length=30, pattern=r"^[0-9+()\-\s]{6,30}$")
+    qualification: Optional[str] = Field(None, max_length=200)
+    institution: Optional[str] = Field(None, max_length=200)
+    department: Optional[str] = Field(None, max_length=120)
+    designation: Optional[str] = Field(None, max_length=120)
+    specialization: Optional[str] = Field(None, max_length=160)
+    years_experience: Optional[int] = Field(None, ge=0, le=60)
+    areas_of_expertise: Optional[str] = Field(None, max_length=2000)
+    biography: Optional[str] = Field(None, max_length=4000)
+
+    @field_validator("full_name")
+    @classmethod
+    def clean_name(cls, v: str) -> str:
+        v = " ".join(v.split())
+        if len(v) < 2:
+            raise ValueError("Full name is too short")
+        return v
+
+    @field_validator("phone", "qualification", "institution", "department", "designation", "specialization",
+                     "areas_of_expertise", "biography", mode="before")
+    @classmethod
+    def blank_to_none(cls, v):
+        if isinstance(v, str):
+            v = v.strip()
+            return v or None
+        return v
+
+
+class AssignmentIn(BaseModel):
+    student_id: int
+    teacher_id: int
+
+
+class AssignmentEnd(BaseModel):
+    reason: str = Field(min_length=3, max_length=500)
+
+
+class MentoringNoteIn(BaseModel):
+    note: str = Field(min_length=1, max_length=4000)
+    note_type: Literal["general", "feedback", "resource_recommendation", "concern"] = "general"
+    resource_id: Optional[int] = None
+    visible_to_student: bool = True
+
+    @field_validator("note")
+    @classmethod
+    def strip_note(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("Note cannot be empty")
+        return v

@@ -102,15 +102,18 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Tests: 26 new (89 total) on PostgreSQL 18 and SQLite: validation, uploads with disguised and oversized files, traversal, self-skills not counted (alignment stays 0), dashboard alignment = Skill Gaps value (13% hand-calculated), student-to-student isolation, staff/anonymous rejection.
 - Browser: register → dashboard → choose career → profile to 100% (real PNG upload; disguised file rejected) → self-skill added, alignment unchanged → password change (old rejected, session kept). No overflow at 375 px; no console errors.
 
-## Phase 5: Teacher/mentor module and student assignment
-- Teacher profile CRUD (`TeacherProfile` already modelled).
-- Admin-only assignment API: assign, reassign, remove, with reason, history and audit log.
-- Mentor dashboard: assigned students, active count, assessment participation, average performance, gap and alignment summaries, learning progress, "needs attention" rules (documented thresholds).
-- Student management: search, profile, assessment history, topic-wise performance, gaps, progress (read-only).
-- Mentoring notes and feedback, and resource recommendations to a student.
-- Mentors can only access assigned students, enforced in queries and not just the UI.
-
-**Exit tests:** mentor sees assigned student only; access to an unassigned student is rejected; notes CRUD; assignment history preserved after reassignment.
+## Phase 5: Teacher/mentor module and student assignment ✅ done
+- Migration `0004`: mentoring notes can link a recommended learning resource and carry `visible_to_student` (concerns are always staff-only).
+- **Scoping rule** (one service, `services/mentoring.py`, used by every mentor endpoint): administrators see all students; a teacher sees a student only while an active assignment exists; anything else returns 404 (no enumeration). Ending an assignment removes access immediately. `/faculty/summary` is scoped the same way.
+- Teacher profile: `GET/PUT /teachers/me/profile` and a photo (same validated upload service as students).
+- Admin: `GET /admin/users`, `GET/POST /admin/assignments`, `POST /admin/assignments/{id}/end` with a required reason. History is preserved (the Phase 3 partial index allows repeated inactive rows), and every change is audited.
+- Mentor: `GET /mentor/dashboard` (students, participation, average score and alignment, completed resources, needs attention), `GET /mentor/students?search=`, `GET /mentor/students/{id}` (profile without personal data such as date of birth, gaps, assessment history, skill-level performance, learning, unverified self-reported skills, notes), `POST /mentor/students/{id}/notes`, `DELETE /mentor/notes/{id}` (own notes; admins any).
+- "Needs attention" rules (documented, rule-based): no assessment, none in 14 days, average < 50%, alignment < 40%, no target career, or no tracked learning.
+- Student: `GET /students/me/mentoring` shows active mentors and shared notes only; the dashboard has a Mentor feedback panel.
+- Frontend: mentor dashboard (home for teachers and admins), Students (search and table), student detail with notes (feedback, recommendation with resource, private concern, delete with confirmation), teacher profile, admin Assignments (assign, end with reason, history toggle).
+- Tests: 10 new (99 total) on PostgreSQL 18 and SQLite: cross-mentor isolation, search scoping, dashboard flags, detail contents (alignment 17% hand-checked), note visibility and ownership, end/reassign history, validation and permissions, audit.
+- Browser: admin invites → mentor accepts → admin assigns via UI → mentor sees only the assigned student and adds three note types → unassigned student by URL shows "Student not found" → student sees shared notes only → admin ends assignment with a reason → mentor loses access. No console errors.
+- **Deferred:** topic-wise performance needs per-question attempt records (Phase 6); skill-level performance is shown meanwhile.
 
 ## Phase 6: Assessment engine and question bank
 - Question bank: ≥20 MCQs for each of the 26 skills, balanced beginner/intermediate/advanced, each with topic/subtopic, explanation and active flag. Authored as versioned seed files (`backend/app/seed/questions/*.json`), loaded idempotently, with duplicate detection.

@@ -10,6 +10,9 @@ import {
   KeyRound,
   UserRound,
   MailPlus,
+  Users,
+  Link2,
+  HeartHandshake,
   RefreshCw,
   Target,
   type LucideIcon,
@@ -26,8 +29,12 @@ export const NAV: NavItem[] = [
   { to: '/app/resources', label: 'Learning Resources', icon: BookOpen, roles: ['student', 'teacher', 'admin'] },
   { to: '/app/jobs', label: 'Job Market', icon: Briefcase, roles: ['student', 'teacher', 'admin'] },
   { to: '/app/progress', label: 'Progress', icon: Activity, roles: ['student'] },
+  { to: '/app/mentor', label: 'Mentor Dashboard', icon: HeartHandshake, roles: ['teacher', 'admin'] },
+  { to: '/app/mentor/students', label: 'Students', icon: Users, roles: ['teacher', 'admin'] },
   { to: '/app/faculty', label: 'Faculty Insights', icon: GraduationCap, roles: ['teacher', 'admin'] },
+  { to: '/app/teacher-profile', label: 'My Profile', icon: UserRound, roles: ['teacher'] },
   { to: '/app/admin/invitations', label: 'Mentor Invitations', icon: MailPlus, roles: ['admin'] },
+  { to: '/app/admin/assignments', label: 'Assignments', icon: Link2, roles: ['admin'] },
   { to: '/app/account', label: 'Account', icon: KeyRound, roles: ['student', 'teacher', 'admin'] },
 ];
 

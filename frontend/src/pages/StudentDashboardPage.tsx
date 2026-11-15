@@ -5,18 +5,22 @@ import { errorMessage, putJson, request } from '../api/client';
 import { useApp } from '../components/AppLayout';
 import { Empty, Metric } from '../components/common';
 import { Alert, LoadingScreen, useToast } from '../components/ui';
-import type { StudentDashboard } from '../types';
+import type { MentoringNote, StudentDashboard } from '../types';
+
+type Mentoring = { mentors: { full_name: string; email: string }[]; notes: MentoringNote[] };
 
 export function StudentDashboardPage() {
   const { data } = useApp();
   const toast = useToast();
   const [d, setD] = useState<StudentDashboard | null>(null);
   const [error, setError] = useState('');
+  const [mentoring, setMentoring] = useState<Mentoring | null>(null);
 
   const load = useCallback(() => {
     request<StudentDashboard>('/api/v1/students/me/dashboard')
       .then(setD)
       .catch((e) => setError(errorMessage(e)));
+    request<Mentoring>('/api/v1/students/me/mentoring').then(setMentoring).catch(() => setMentoring(null));
   }, []);
   // Reload whenever the shared data reloads (e.g. after an assessment or progress update).
   useEffect(load, [load, data.progress]);
@@ -171,6 +175,23 @@ export function StudentDashboardPage() {
             </div>
           ))}
           {!d.recent_activity.length && <Empty text="No activity yet." />}
+        </section>
+
+        <section className="panel">
+          <h3>Mentor feedback</h3>
+          <p className="muted">
+            {mentoring?.mentors.length
+              ? `Your mentor: ${mentoring.mentors.map((m) => m.full_name).join(', ')}`
+              : 'No mentor assigned yet.'}
+          </p>
+          {mentoring?.notes.slice(0, 4).map((n) => (
+            <div className="note" key={n.id}>
+              <div className="note-meta"><b>{n.teacher_name}</b> · {new Date(n.created_at).toLocaleDateString()}</div>
+              <p>{n.note}</p>
+              {n.resource && <a href={n.resource.url} target="_blank" rel="noreferrer" className="link-button">{n.resource.title} ↗</a>}
+            </div>
+          ))}
+          {mentoring && !mentoring.notes.length && <Empty text="No feedback yet." />}
         </section>
 
         <section className="panel">

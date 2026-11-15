@@ -109,15 +109,18 @@ Permissions are enforced by the backend.
 | `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/jobs`, `/analytics/skills`, `/assessments/skills`, `/assessments/questions/{skill_id}` | Any signed-in user |
 | `POST /assessments/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET/POST /progress` | Students (own data only) |
 | `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
-| `POST /jobs/import-csv`, `GET /faculty/summary` | Teachers and administrators |
-| `GET/POST /admin/invitations`, `POST /admin/invitations/{id}/revoke` | Administrators |
+| `GET /students/me/mentoring` | Students (own mentors and shared notes) |
+| `GET/PUT /teachers/me/profile`, `POST/GET/DELETE /teachers/me/photo` | Teachers (own profile) |
+| `GET /mentor/dashboard`, `GET /mentor/students`, `GET /mentor/students/{id}`, `POST /mentor/students/{id}/notes`, `DELETE /mentor/notes/{id}` | Teachers (assigned students only) and administrators |
+| `POST /jobs/import-csv`, `GET /faculty/summary` | Teachers (scoped to assigned students) and administrators |
+| `GET/POST /admin/invitations`, `POST /admin/invitations/{id}/revoke`, `GET /admin/users`, `GET/POST /admin/assignments`, `POST /admin/assignments/{id}/end` | Administrators |
 
 ## 7. Important limitations and next research steps
 - **Authentication/authorization:** implemented in version 2 (Argon2id password hashing, 15-minute JWT access
   tokens kept in memory, rotating HttpOnly refresh cookies with reuse detection, role-based access checked
   against the database on every request, rate limiting, audit log). Rate limits are per process; use a
-  shared store or proxy limits when running several workers. Mentor scoping to assigned students arrives
-  in Phase 5 (currently teachers see aggregate faculty metrics only).
+  shared store or proxy limits when running several workers. Mentors can access only students actively assigned to them
+  by an administrator.
 - **Assessment validity:** the included questions are a small demonstrative question bank. Add reviewed questions, broader difficulty coverage, question randomization, and validation with faculty/subject experts. A quiz score is not proof of employability.
 - **NLP:** skill extraction is a transparent dictionary/regex baseline. To make a research-grade extractor, annotate a local India-focused test set, evaluate precision/recall/F1, and compare this baseline with a SkillSpan-trained token-classification model. SkillSpan is English-focused and is not included in this ZIP; obtain it from its official dataset page and follow its licence/terms.
 - **ESCO:** the app has a skill catalogue that can be extended with ESCO identifiers/labels. It does not automatically download or synchronize ESCO. Download the official ESCO CSV and implement a reviewed concept/alias import before claiming ESCO integration.

@@ -199,3 +199,83 @@ export type StudentDashboard = {
   matching_jobs: { available: boolean; reason: string };
   recent_activity: { type: 'assessment' | 'learning'; text: string; at: string }[];
 };
+
+export type StudentSummary = {
+  id: number;
+  full_name: string;
+  email: string;
+  is_active: boolean;
+  college: string | null;
+  department: string | null;
+  current_semester: number | null;
+  target_career: null | { id: number; name: string; alignment_score: number; high_priority_gaps: string[] };
+  assessments: { count: number; average_score: number | null; last_at: string | null };
+  learning: { completed: number; in_progress: number };
+  needs_attention: string[];
+};
+
+export type MentorDashboard = {
+  scope: string;
+  total_students: number;
+  participating: number;
+  average_score: number | null;
+  average_alignment: number | null;
+  resources_completed: number;
+  needs_attention: { id: number; full_name: string; reasons: string[] }[];
+};
+
+export type NoteType = 'general' | 'feedback' | 'resource_recommendation' | 'concern';
+
+export type MentoringNote = {
+  id: number;
+  teacher_id: number;
+  teacher_name: string;
+  note: string;
+  note_type: NoteType;
+  visible_to_student: boolean;
+  created_at: string;
+  resource: null | { id: number; title: string; url: string };
+};
+
+export type StudentDetail = {
+  summary: StudentSummary;
+  profile: null | Record<string, string | number | null>;
+  assessments: { id: number; skill: string; score_percent: number; correct: number; total: number; created_at: string }[];
+  skill_performance: { skill: string; attempts: number; best: number; latest: number; average: number }[];
+  gaps: null | { career: string; alignment_score: number; skills: GapItem[] };
+  learning: { resource: string; skill: string; status: ProgressStatus; updated_at: string }[];
+  self_reported_skills: { skill: string; level: number }[];
+  notes: MentoringNote[];
+};
+
+export type Assignment = {
+  id: number;
+  student_id: number;
+  student_name: string;
+  student_email: string;
+  teacher_id: number;
+  teacher_name: string;
+  assigned_by: string | null;
+  assigned_at: string;
+  is_active: boolean;
+  removed_at: string | null;
+  removal_reason: string | null;
+};
+
+export type AdminUser = { id: number; full_name: string; email: string; role: Role; is_active: boolean };
+
+export type TeacherProfile = {
+  user_id: number;
+  email: string;
+  full_name: string;
+  phone: string | null;
+  qualification: string | null;
+  institution: string | null;
+  department: string | null;
+  designation: string | null;
+  specialization: string | null;
+  years_experience: number | null;
+  areas_of_expertise: string | null;
+  biography: string | null;
+  has_profile_image: boolean;
+};

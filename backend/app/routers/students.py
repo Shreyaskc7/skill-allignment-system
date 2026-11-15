@@ -160,3 +160,22 @@ def dashboard(user: models.User = Depends(require_student), db: Session = Depend
     data = student_dashboard(db, user)
     db.commit()  # profile may have been created lazily
     return data
+
+
+# ------------------------------------------------------------------ mentor feedback
+
+@router.get("/mentoring")
+def my_mentoring(user: models.User = Depends(require_student), db: Session = Depends(get_db)):
+    """The student's active mentors and the notes they chose to share (private notes are excluded)."""
+    from app.routers.mentor import student_visible_notes
+
+    mentors = db.execute(
+        select(models.User.full_name, models.User.email)
+        .join(models.StudentTeacherAssignment, models.StudentTeacherAssignment.teacher_id == models.User.id)
+        .where(models.StudentTeacherAssignment.student_id == user.id,
+               models.StudentTeacherAssignment.is_active.is_(True))
+    ).all()
+    return {
+        "mentors": [{"full_name": n, "email": e} for n, e in mentors],
+        "notes": student_visible_notes(db, user.id),
+    }

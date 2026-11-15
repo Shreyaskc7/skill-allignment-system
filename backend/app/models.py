@@ -324,10 +324,17 @@ class MentoringNote(Base):
     student_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     note: Mapped[str] = mapped_column(Text, nullable=False)
     note_type: Mapped[str] = mapped_column(String(30), default="general")  # general, feedback, resource_recommendation, concern
+    # Optional learning resource recommended by the mentor.
+    resource_id: Mapped[int | None] = mapped_column(ForeignKey("learning_resources.id", ondelete="SET NULL"))
+    # Private notes (e.g. concerns) are visible only to staff.
+    visible_to_student: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (Index("ix_mentoring_notes_student_created", "student_id", "created_at"),)
 
     teacher: Mapped["User"] = relationship(foreign_keys=[teacher_id], back_populates="mentoring_notes")
     student: Mapped["User"] = relationship(foreign_keys=[student_id])
+    resource: Mapped["LearningResource | None"] = relationship()
 
 
 class AuditLog(Base):
