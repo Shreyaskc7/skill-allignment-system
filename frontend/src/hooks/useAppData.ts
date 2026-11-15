@@ -7,6 +7,7 @@ import type {
   FacultySummary,
   Gap,
   Job,
+  JobPage,
   ProgressSummary,
   Resource,
   Role,
@@ -39,7 +40,7 @@ export function useAppData(role: Role, onError: (message: string) => void) {
         request<Dashboard>('/api/v1/dashboard'),
         request<Resource[]>('/api/v1/resources'),
         request<SkillDemand[]>('/api/v1/analytics/skills'),
-        request<Job[]>('/api/v1/jobs'),
+        request<JobPage>('/api/v1/jobs?page_size=100'),
         request<AssessmentSkill[]>('/api/v1/assessments/skills'),
       ]);
       setCareers(c);
@@ -47,7 +48,7 @@ export function useAppData(role: Role, onError: (message: string) => void) {
       setDashboard(d);
       setResources(res);
       setAnalytics(a);
-      setJobs(j);
+      setJobs(j.items);
       setAssessmentSkills(as);
       setCareerId((old) => old || String(c[0]?.id || ''));
       if (isStudent) setProgress(await request<ProgressSummary>('/api/v1/progress'));

@@ -119,7 +119,22 @@ def student_dashboard(db: Session, user: models.User) -> dict:
             "tracked": len(progress),
         },
         "recommended_resources": recommended,
-        # Job matching is implemented in Phase 8; nothing is shown until then (never fabricated).
-        "matching_jobs": {"available": False, "reason": "Job matching becomes available in a later release."},
+        "matching_jobs": _matching_jobs(db, levels),
         "recent_activity": activity,
+    }
+
+
+def _matching_jobs(db: Session, levels: dict[int, int]) -> dict:
+    from app.services import jobs as job_svc
+
+    jobs = db.scalars(select(models.JobPosting).where(models.JobPosting.is_active.is_(True))
+                      .options(selectinload(models.JobPosting.skills).selectinload(models.JobSkill.skill))).all()
+    scored = [job_svc.job_out(j, levels) for j in jobs]
+    scored = [j for j in scored if j["match_percent"]]
+    scored.sort(key=lambda j: -j["match_percent"])
+    return {
+        "available": True,
+        "rule": job_svc.MATCH_RULE,
+        "total_jobs": len(jobs),
+        "top": [{k: j[k] for k in ("id", "title", "company", "location", "match_percent", "missing_skills")} for j in scored[:3]],
     }

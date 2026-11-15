@@ -196,8 +196,23 @@ export function StudentDashboardPage() {
 
         <section className="panel">
           <h3>Matching jobs</h3>
-          <p className="muted">Jobs compared against your assessed skills.</p>
-          <Empty text={d.matching_jobs.available ? '' : d.matching_jobs.reason} />
+          <p className="muted">Best matches among {d.matching_jobs.total_jobs} posting(s), by your assessed skills.</p>
+          {d.matching_jobs.top.map((j) => (
+            <div className="gaprow" key={j.id}>
+              <div>
+                <Link to={`/app/jobs/${j.id}`} className="table-link">{j.title}</Link>
+                <small>
+                  {[j.company, j.location].filter(Boolean).join(' · ')}
+                  {j.missing_skills.length > 0 && ` · missing ${j.missing_skills.join(', ')}`}
+                </small>
+              </div>
+              <span className="scorechip">{j.match_percent}%</span>
+            </div>
+          ))}
+          {!d.matching_jobs.top.length && (
+            <Empty text={d.matching_jobs.total_jobs ? 'No matches yet: take assessments to unlock job matches.' : 'No job postings yet.'} />
+          )}
+          <Link to="/app/jobs" className="more-link">All jobs →</Link>
         </section>
 
         <section className="panel">

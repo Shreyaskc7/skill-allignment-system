@@ -150,15 +150,33 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - **Randomness check:** a student answering "B" to every HTML question scored 60%. 20,000 simulated draws confirmed selection is unbiased (observed 0.40% vs 0.28% theoretical); it was a rare outcome. Short 10-question attempts can be inflated by guessing, so 15–20 questions are recommended for any graded use.
 - Note for Phase 9: only 9 skills have learning resources yet, so some next steps say "reassess" instead of naming a resource.
 
-## Phase 8: Job market, extraction and student-to-job matching
-- Migration: experience requirement, required vs optional skills, posting date as a date type (with safe conversion of existing string values).
-- Manual job entry (teacher/admin); CSV import kept, with stronger validation, a per-row error report and duplicate detection.
-- Extractor refactor: alias table in the DB, case-insensitive multi-word matching, normalisation, behind an `Extractor` interface so a trained model can plug in later. Precision/recall reported on a small **hand-labelled** sample set in `data/`.
-- Job matching: match % = share of the job's required skills the student meets at the assessed level, with the formula shown in the UI. Lists matching, missing and additional skills.
-- Job list with search (title, company), filters (location, skill, min match), sort (relevance, date), pagination; job detail page with gap info.
-- *(Optional, needs your dataset)* ESCO concept mapping with source and licence recorded.
+## Phase 8: Job market, extraction and student-to-job matching ✅ done
+- Migration `0006`:
+  - jobs gain `posted_on` (parsed date; raw text kept and back-filled), experience range, `is_active`, `dedupe_hash` and `created_by`
+  - job skills gain `is_required` and `source` (extracted or manual)
+  - new `skill_aliases` table, seeded idempotently
+- **Extractor** (`services/skill_extraction.py`, rule-based, not ML, behind a `SkillExtractor` interface so a trained model can replace it): catalogue names plus ~60 aliases from the database, longest match first, negation ("no Java needed"), the verb sense of "excel in/at", and required vs optional from cues such as "nice to have", "preferred", "a plus" and "bonus".
+- **Evaluation** (`scripts/evaluate_extractor.py`, `data/`): two hand-labelled SYNTHETIC sets, not real postings.
 
-**Exit tests:** import validation and duplicates, extractor cases, match calculation, filters and pagination.
+  | Set | Extractor | Precision | Recall | F1 |
+  |---|---|---|---|---|
+  | Development (30, written by the developer alongside the rules; overfit by design) | v1 baseline | 0.964 | 0.870 | 0.915 |
+  | | current | 1.000 | 1.000 | 1.000 |
+  | **Blind held-out** (40, written by an independent author who never saw the extractor) | v1 baseline | 0.851 | 0.829 | 0.840 |
+  | | **current** | **0.922** | **0.915** | **0.918** |
+
+  Required-vs-optional accuracy on the held-out set is 0.935. The held-out set was **not** used to tune rules. Remaining error types: "react"/"java" in other senses, "placement statistics", "X not required" negations, and soft-skill phrasings missing from the dictionary. CI fails if held-out F1 drops below 0.90.
+- **Matching** (`services/jobs.py`, documented in the UI): a skill counts when the assessed level is ≥ 3/5 (self-reported never counts); match % = matched required ÷ required; optional skills are shown separately and never lower the score; no recognised skills → no score (not 0 or 100); "a high match does not guarantee selection".
+- API:
+  - `GET /jobs` (search by title/company, location, skill, minimum match, sort by relevance or date, pagination; inactive hidden from students)
+  - `GET /jobs/{id}` (description, per-skill your-level vs needed, rule)
+  - staff `POST /jobs` (manual entry, explicit skills or extraction, validation, 409 on duplicates) and `PUT /jobs/{id}`
+  - CSV import: limits of 2 MB / 2000 rows, extra columns (experience, salary, url, employment type, explicit `skills`), per-row errors and warnings, duplicate detection within the file and against the database, date parsing, audited
+- Student dashboard shows the top 3 real matches.
+- Frontend: Job Market (filters, match badges, colour-coded skill chips, pagination, staff import with row report and an Add job dialog) and Job detail (required and nice-to-have with your level, "Assess/Improve" links, safe external apply link).
+- Tests: 20 new (154 total) on PostgreSQL 18 and SQLite (extractor rules, evaluation regression floor, import validation, limits, manual entry, match rule, no-skill jobs, filters/sort/pagination, inactive jobs, dashboard).
+- Browser: admin imported the sample plus a file with a bad row (row error reported), added a manual job; a student with Python 4, SQL 3, Linux 2, Java 5 saw 100% / 50% / 33% (hand-checked), filters, detail, dashboard top matches. No console errors.
+- **Not done (optional, needs your data):** ESCO mapping and a trained extractor. The `esco_identifier`/`esco_label` columns exist but are unused.
 
 ## Phase 9: Personalised learning paths and progress
 - Resource model: type (documentation, video, tutorial, practice, project, certification), verified duration, free/paid. More curated resources for all 26 skills, linking only legitimate free or official sources.

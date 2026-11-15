@@ -140,7 +140,7 @@ def test_dashboard_reflects_real_activity(client, student, db):
     empty = client.get(f"{API}/dashboard", headers=student).json()
     assert empty["target_career"] is None and empty["assessments"]["count"] == 0
     assert empty["assessments"]["average_score"] is None and empty["recommended_resources"] == []
-    assert empty["matching_jobs"]["available"] is False and empty["recent_activity"] == []
+    assert empty["matching_jobs"]["top"] == [] and empty["recent_activity"] == []
 
     cid = _career_id(client, student, "Data Analyst")
     client.put(f"{API}/target-career", headers=student, json={"target_career_id": cid})

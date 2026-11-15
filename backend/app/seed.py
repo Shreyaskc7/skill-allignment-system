@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app import models
 from app.seed_data import CATALOG, RESOURCES, ROLE_SKILLS
 from app.services.question_bank import load_question_bank
+from app.services.skill_extraction import seed_aliases
 
 
 def seed(db: Session) -> None:
@@ -43,6 +44,7 @@ def seed(db: Session) -> None:
 
     # Assessment questions come from app/question_bank/*.json (Phase 6).
     load_question_bank(db)
+    seed_aliases(db)
 
     for skill, items in RESOURCES.items():
         sk = db.scalar(select(models.Skill).where(models.Skill.name == skill))

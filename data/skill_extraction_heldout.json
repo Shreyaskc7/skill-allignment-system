@@ -1,0 +1,412 @@
+{
+  "description": "Held-out synthetic job descriptions, written blind to the extractor (independent author). Labels: catalogue skills only.",
+  "version": 1,
+  "items": [
+    {
+      "id": 1,
+      "text": "Data Analyst | Bengaluru | 4-6 LPA. Strong SQL and MS-Excel (VLOOKUP, pivots). Build and maintain dashboards in Power BI. Good communication skills required.",
+      "required": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 2,
+      "text": "Backend Developer (2-4 yrs). Python, FastAPI, Postgres. Docker knowledge is a plus. No Java needed for this role.",
+      "required": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "optional": [
+        "Docker"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Field Sales Executive, Pune. Must excel in client handling and react quickly to customer queries. Fluent Hindi/Marathi, own two-wheeler. Good interpersonal skills a must.",
+      "required": [
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 4,
+      "text": "Campus Drive - 2026 batch, B.Tech CSE/IT only. Written test on DSA + aptitude. Candidates should be comfortable coding in Java. Team player attitude expected. 60% throughout.",
+      "required": [
+        "Data Structures",
+        "Algorithms",
+        "Java",
+        "Teamwork"
+      ],
+      "optional": []
+    },
+    {
+      "id": 5,
+      "text": "Hiring ReactJS Developer: JS (ES6+), HTML5, CSS3, Redux, TypeScript. Git/GitHub mandatory. Next.js good to have. WFO Hyderabad.",
+      "required": [
+        "React",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "optional": []
+    },
+    {
+      "id": 6,
+      "text": "Java Full Stack Developer - Spring Boot, Microservices, Angular 14, AWS (EC2, S3, Lambda), Kafka, Jenkins, Kubernetes, Oracle DB. 5+ yrs. Immediate joiners preferred. Hyderabad.",
+      "required": [
+        "Java"
+      ],
+      "optional": []
+    },
+    {
+      "id": 7,
+      "text": "Barista wanted at our Koramangala outlet! Prepare espresso, Java and filter coffee blends. Good communication with customers and ability to work as part of a team in rotating shifts.",
+      "required": [
+        "Communication",
+        "Teamwork"
+      ],
+      "optional": []
+    },
+    {
+      "id": 8,
+      "text": "ML Engineer: Python, NumPy, Pandas, scikit-learn, PyTorch. Strong in statistics and probability. Exposure to MLOps (MLflow, Kubeflow) desirable. Docker preferred. Build and deploy ML models.",
+      "required": [
+        "Python",
+        "NumPy",
+        "Pandas",
+        "Statistics",
+        "Machine Learning"
+      ],
+      "optional": [
+        "Docker"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "SAP FICO Consultant - S/4HANA implementation, GL, AP/AR, asset accounting, ABAP debugging basics. Client-facing role requiring strong communication. Excel knowledge an added advantage.",
+      "required": [
+        "Communication"
+      ],
+      "optional": [
+        "Excel"
+      ]
+    },
+    {
+      "id": 10,
+      "text": "HR Recruiter (Non-IT), Noida. Sourcing via Naukri, LinkedIn, references. Excellent verbal and written communication. Salary 2.4 LPA + incentives.",
+      "required": [
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 11,
+      "text": "DevOps Engineer - Linux administration, Docker, Kubernetes, Terraform, AWS/Azure. Git branching strategies, CI/CD via Jenkins. Shell scripting. Python scripting is a bonus.",
+      "required": [
+        "Linux",
+        "Docker",
+        "Git"
+      ],
+      "optional": [
+        "Python"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "Android Developer: Kotlin, Jetpack Compose, MVVM, Retrofit, Room, Firebase, Play Store publishing. Java is not required for this role. Working knowledge of Git.",
+      "required": [
+        "Git"
+      ],
+      "optional": []
+    },
+    {
+      "id": 13,
+      "text": "Business Analyst - Tableau dashboards, advanced Excel, writing SQL queries. Stakeholder communication. Power BI not needed (we are a Tableau shop).",
+      "required": [
+        "Tableau",
+        "Excel",
+        "SQL",
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 14,
+      "text": "Data Science Intern (6 months, stipend 25k/month). Python, pandas, basic ML. Knowledge of statistics. Should be a quick learner with problem-solving ability.",
+      "required": [
+        "Python",
+        "Pandas",
+        "Machine Learning",
+        "Statistics",
+        "Problem Solving"
+      ],
+      "optional": []
+    },
+    {
+      "id": 15,
+      "text": "Join ABC Institute as Admission Counsellor! Our placement statistics speak for themselves - 92% placed. Need someone with convincing communication and a target-driven mindset. Walk-in Mon-Sat.",
+      "required": [
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 16,
+      "text": "Django Developer, remote. Python 3.x, Django REST Framework, PostgreSQL, Celery, Redis. Pure backend - no React/Angular work. Linux server deployment experience.",
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "Linux"
+      ],
+      "optional": []
+    },
+    {
+      "id": 17,
+      "text": "Software Engineer Trainee. Good knowledge of data structures and algorithms in any language. Strong analytical skills. 2-year service agreement. Package 3.6 LPA.",
+      "required": [
+        "Data Structures",
+        "Algorithms",
+        "Problem Solving"
+      ],
+      "optional": []
+    },
+    {
+      "id": 18,
+      "text": "MIS Executive - maintain daily reports in MS Excel (macros, VBA) and Google Sheets. Basic SQL preferred. Good with numbers, attention to detail.",
+      "required": [
+        "Excel"
+      ],
+      "optional": [
+        "SQL"
+      ]
+    },
+    {
+      "id": 19,
+      "text": "Delivery Partner - food delivery. Own bike, smartphone and valid DL. Earn up to 30k/month + petrol allowance. No experience needed. Join today!",
+      "required": [],
+      "optional": []
+    },
+    {
+      "id": 20,
+      "text": "QA Automation Engineer: Selenium WebDriver, TestNG, Java, Cucumber BDD, Jenkins, JIRA, Postman, REST Assured. Good communication skills. 3-6 yrs, Pune.",
+      "required": [
+        "Java",
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 21,
+      "text": "Data Engineer - PySpark, Databricks, Azure Data Factory, Snowflake, Airflow, Delta Lake. Strong SQL and Python. Git for version control. Hybrid, Gurugram.",
+      "required": [
+        "SQL",
+        "Python",
+        "Git"
+      ],
+      "optional": []
+    },
+    {
+      "id": 22,
+      "text": "Web Designer: HTML, CSS, Figma, Adobe XD. JavaScript a plus. You should excel at translating mockups into pixel-perfect pages.",
+      "required": [
+        "HTML",
+        "CSS"
+      ],
+      "optional": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": 23,
+      "text": "Full Stack (MERN) Developer: MongoDB, Express, React, Node.js, JavaScript (ES6). REST APIs. Git. Docker good-to-have. Must be a team player.",
+      "required": [
+        "React",
+        "JavaScript",
+        "Git",
+        "Teamwork"
+      ],
+      "optional": [
+        "Docker"
+      ]
+    },
+    {
+      "id": 24,
+      "text": "Reporting Analyst: Power BI, DAX, SQL Server. No coding in Python/R required. Strong data analysis, plus communication and presentation skills.",
+      "required": [
+        "Power BI",
+        "SQL",
+        "Data Analysis",
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 25,
+      "text": "Quant Research Intern: statistics, probability, Python (NumPy). C++ is a plus. Competitive programming / algorithms background preferred. Mumbai, stipend 80k.",
+      "required": [
+        "Statistics",
+        "Python",
+        "NumPy"
+      ],
+      "optional": [
+        "Algorithms"
+      ]
+    },
+    {
+      "id": 26,
+      "text": "Customer Support Associate (Voice) - night shift, Gurgaon. Fluent English and good communication. Typing 30 wpm. Must react calmly under pressure. Cab facility.",
+      "required": [
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 27,
+      "text": "Linux System Admin: RHEL/CentOS, bash scripting, cron, Nginx, Apache, LVM. On-call rotation. Docker not required.",
+      "required": [
+        "Linux"
+      ],
+      "optional": []
+    },
+    {
+      "id": 28,
+      "text": "Data Analyst Fresher: Excel, SQL, Python (pandas, numpy), Power BI (Tableau a plus). Statistics basics and hands-on data analysis. Good communication.",
+      "required": [
+        "Excel",
+        "SQL",
+        "Python",
+        "Pandas",
+        "NumPy",
+        "Power BI",
+        "Statistics",
+        "Data Analysis",
+        "Communication"
+      ],
+      "optional": [
+        "Tableau"
+      ]
+    },
+    {
+      "id": 29,
+      "text": "iOS Developer: Swift, SwiftUI, Xcode, CoreData, Combine, App Store deployment. Git. Problem-solving mindset. 6-12 LPA.",
+      "required": [
+        "Git",
+        "Problem Solving"
+      ],
+      "optional": []
+    },
+    {
+      "id": 30,
+      "text": "Content Writer - tech blogs. Excellent written communication in English. Knowledge of SEO and WordPress. Familiarity with Python or ML topics is a bonus for writing tutorials.",
+      "required": [
+        "Communication"
+      ],
+      "optional": [
+        "Python",
+        "Machine Learning"
+      ]
+    },
+    {
+      "id": 31,
+      "text": "Python Developer (Automation), Chennai. Selenium, requests, BeautifulSoup scripts. Linux CLI. Git. 3-5 LPA.",
+      "required": [
+        "Python",
+        "Linux",
+        "Git"
+      ],
+      "optional": []
+    },
+    {
+      "id": 32,
+      "text": "Backend Java Developer: Core Java, collections, multithreading, JDBC, MySQL / SQL queries. Interview has problem-solving and DSA rounds.",
+      "required": [
+        "Java",
+        "SQL",
+        "Problem Solving",
+        "Data Structures",
+        "Algorithms"
+      ],
+      "optional": []
+    },
+    {
+      "id": 33,
+      "text": "Mobile Developer: React and React Native, TypeScript, Redux. No web frontend (HTML/CSS) work involved.",
+      "required": [
+        "React"
+      ],
+      "optional": []
+    },
+    {
+      "id": 34,
+      "text": "Accountant - Tally ERP, GST filing, TDS, bank reconciliation. MS-Excel must. B.Com graduates, 1-3 yrs, Coimbatore.",
+      "required": [
+        "Excel"
+      ],
+      "optional": []
+    },
+    {
+      "id": 35,
+      "text": "Office Assistant - Andheri East. Tea/coffee service, filing, courier handling. 10th pass. Must be punctual and work well with the team.",
+      "required": [
+        "Teamwork"
+      ],
+      "optional": []
+    },
+    {
+      "id": 36,
+      "text": "ML Engineer (NLP): transformers, Hugging Face, LangChain, vector DBs, AWS SageMaker. Machine learning fundamentals and Python must. Docker, FastAPI preferred. Kubernetes nice to have.",
+      "required": [
+        "Machine Learning",
+        "Python"
+      ],
+      "optional": [
+        "Docker",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": 37,
+      "text": "Graduate Engineer Trainee (Mechanical) - AutoCAD, SolidWorks, GD&T, shop floor exposure. No IT skills required. Diploma/BE Mech.",
+      "required": [],
+      "optional": []
+    },
+    {
+      "id": 38,
+      "text": "Junior Data Analyst - Excel, SQL. We do not use Tableau here. Should be able to clean and analyse datasets and explain insights clearly to managers.",
+      "required": [
+        "Excel",
+        "SQL",
+        "Data Analysis",
+        "Communication"
+      ],
+      "optional": []
+    },
+    {
+      "id": 39,
+      "text": "Frontend Intern: HTML, CSS, vanilla JavaScript. You will learn React on the job (not required beforehand). Git basics.",
+      "required": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Git"
+      ],
+      "optional": []
+    },
+    {
+      "id": 40,
+      "text": "Reptile Keeper - Mysuru zoo. Care for reptiles including the Indian rock python and cobras. Communicate safety rules to visitors and work closely with the vet team.",
+      "required": [
+        "Communication",
+        "Teamwork"
+      ],
+      "optional": []
+    }
+  ]
+}

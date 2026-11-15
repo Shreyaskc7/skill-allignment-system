@@ -1,9 +1,10 @@
 """SQLAlchemy models for the SkillAlign application."""
 
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum as PyEnum
 from sqlalchemy import (
     Boolean,
+    Date,
     DateTime,
     Enum,
     ForeignKey,
@@ -189,13 +190,21 @@ class JobPosting(Base):
     location: Mapped[str | None] = mapped_column(String(160))
     description: Mapped[str] = mapped_column(Text, nullable=False)
     source: Mapped[str] = mapped_column(String(100), default="manual")
+    # Raw date text as supplied (version 1); `posted_on` is the parsed date used for sorting.
     posted_date: Mapped[str | None] = mapped_column(String(40))
+    posted_on: Mapped[date | None] = mapped_column(Date)
     # Optional fields
     employment_type: Mapped[str | None] = mapped_column(String(60))
+    experience_min_years: Mapped[int | None] = mapped_column(Integer)
+    experience_max_years: Mapped[int | None] = mapped_column(Integer)
     salary_min: Mapped[int | None] = mapped_column(Integer)
     salary_max: Mapped[int | None] = mapped_column(Integer)
     salary_currency: Mapped[str | None] = mapped_column(String(10))
     application_url: Mapped[str | None] = mapped_column(String(500))
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
+    # Normalised hash of title + company + description, used for duplicate detection.
+    dedupe_hash: Mapped[str | None] = mapped_column(String(64), index=True)
+    created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     skills: Mapped[list["JobSkill"]] = relationship(back_populates="job", cascade="all, delete-orphan")
@@ -208,9 +217,21 @@ class JobSkill(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     job_id: Mapped[int] = mapped_column(ForeignKey("job_postings.id", ondelete="CASCADE"))
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"))
+    # Required vs "nice to have"; how the link was made (extracted from text, or entered by staff).
+    is_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text("true"))
+    source: Mapped[str] = mapped_column(String(20), nullable=False, default="extracted", server_default="extracted")
 
     job: Mapped["JobPosting"] = relationship(back_populates="skills")
     skill: Mapped["Skill"] = relationship(back_populates="job_skills")
+
+
+class SkillAlias(Base):
+    """Alternative names that map to a catalogue skill for job-text extraction (e.g. "postgres")."""
+
+    __tablename__ = "skill_aliases"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False, index=True)
+    alias: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)  # stored lower-case
 
 
 class AssessmentQuestion(Base):

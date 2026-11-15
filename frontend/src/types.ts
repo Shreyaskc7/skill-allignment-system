@@ -68,14 +68,37 @@ export type FacultySummary = {
   average_assessment_score: number;
 };
 
+export type JobSkillMatch = { skill_id: number; skill: string; your_level: number | null; has: boolean };
+
 export type Job = {
   id: number;
   title: string;
   company: string | null;
   location: string | null;
+  employment_type: string | null;
+  experience_min_years: number | null;
+  experience_max_years: number | null;
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_currency: string | null;
+  application_url: string | null;
+  posted_on: string | null;
+  posted_date: string | null;
   source: string;
+  is_active: boolean;
+  created_at: string;
   skills: string[];
+  match_percent: number | null;
+  matching_skills: string[];
+  missing_skills: string[];
+  additional_skills: string[];
+  required: JobSkillMatch[];
+  optional: JobSkillMatch[];
+  description?: string;
+  match_rule?: string;
 };
+
+export type JobPage = { items: Job[]; total: number; page: number; page_size: number; total_pages: number; match_rule: string };
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
@@ -170,7 +193,14 @@ export type BankQuestion = {
   source: 'bundled' | 'staff';
 };
 
-export type ImportResult = { imported: number; skipped: number; skills_found: Record<string, number>; message: string };
+export type ImportResult = {
+  imported: number;
+  skipped: number;
+  skills_found: Record<string, number>;
+  errors: { row: number; message: string }[];
+  warnings: { row: number; message: string }[];
+  message: string;
+};
 
 export type Role = 'student' | 'teacher' | 'admin';
 
@@ -265,7 +295,12 @@ export type StudentDashboard = {
     type: string;
     status: ProgressStatus;
   }[];
-  matching_jobs: { available: boolean; reason: string };
+  matching_jobs: {
+    available: boolean;
+    rule: string;
+    total_jobs: number;
+    top: { id: number; title: string; company: string | null; location: string | null; match_percent: number; missing_skills: string[] }[];
+  };
   recent_activity: { type: 'assessment' | 'learning'; text: string; at: string }[];
 };
 

@@ -14,7 +14,8 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
 import { FacultyInsightsPage } from './pages/FacultyInsightsPage';
-import { JobMarketPage } from './pages/JobMarketPage';
+import { JobMarketPage } from './pages/jobs/JobMarketPage';
+import { JobDetailPage } from './pages/jobs/JobDetailPage';
 import { LandingPage } from './pages/LandingPage';
 import { LearningResourcesPage } from './pages/LearningResourcesPage';
 import { StudentDashboardPage } from './pages/StudentDashboardPage';
@@ -50,20 +51,6 @@ function Resources() {
   );
 }
 
-function Jobs() {
-  const { data } = useApp();
-  const { user } = useAuth();
-  const toast = useToast();
-  return (
-    <JobMarketPage
-      jobs={data.jobs}
-      reload={data.load}
-      canImport={user!.role !== 'student'}
-      notify={(kind, message) => toast(kind, message)}
-    />
-  );
-}
-
 function RootRedirect() {
   const { status, user } = useAuth();
   if (status === 'authenticated') return <Navigate to={homeFor(user)} replace />;
@@ -91,7 +78,8 @@ export default function App() {
         <Route path="/app" element={<AppLayout />}>
           <Route index element={<AppHome />} />
           <Route path="resources" element={<Resources />} />
-          <Route path="jobs" element={<Jobs />} />
+          <Route path="jobs" element={<JobMarketPage />} />
+          <Route path="jobs/:id" element={<JobDetailPage />} />
           <Route path="account" element={<AccountPage />} />
           <Route element={<RequireRole roles={['student']} />}>
             <Route path="assessment" element={<AssessmentPage />} />
