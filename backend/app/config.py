@@ -6,11 +6,15 @@ must never be committed. See ``.env.example`` for the required names.
 
 import logging
 import secrets
+from pathlib import Path
 
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 log = logging.getLogger("skillalign.config")
+
+BACKEND_DIR = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = BACKEND_DIR.parent
 
 INSECURE_SECRETS = {"", "CHANGE_ME_IN_PRODUCTION", "change_me"}
 
@@ -65,8 +69,11 @@ class Settings(BaseSettings):
     smtp_from: str = "SkillAlign <no-reply@skillalign.local>"
     smtp_starttls: bool = True
 
+    # Credentials live in the git-ignored project-root `.env` (the single place to edit).
+    # `backend/.env` is still read for backward compatibility; the root file wins when both set a
+    # value, and real environment variables override both.
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(BACKEND_DIR / ".env", PROJECT_ROOT / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
