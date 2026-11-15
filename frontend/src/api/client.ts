@@ -113,3 +113,22 @@ export function postJson<T = unknown>(path: string, body: unknown): Promise<T> {
 }
 
 export const errorMessage = (e: unknown) => (e instanceof Error ? e.message : String(e));
+
+/** Authenticated binary download (e.g. profile photo) as an object URL. Caller revokes it. */
+export async function requestObjectUrl(path: string): Promise<string | null> {
+  const headers = new Headers();
+  if (accessToken) headers.set('Authorization', `Bearer ${accessToken}`);
+  const r = await fetch(API + path, { headers, credentials: 'include' });
+  if (!r.ok) return null;
+  return URL.createObjectURL(await r.blob());
+}
+
+export function putJson<T = unknown>(path: string, body: unknown): Promise<T> {
+  return request<T>(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+}
+
+export function uploadFile<T = unknown>(path: string, file: File): Promise<T> {
+  const fd = new FormData();
+  fd.append('file', file);
+  return request<T>(path, { method: 'POST', body: fd });
+}

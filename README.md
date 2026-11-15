@@ -108,6 +108,7 @@ Permissions are enforced by the backend.
 | `GET /auth/me`, `POST /auth/change-password` | Any signed-in user |
 | `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/jobs`, `/analytics/skills`, `/assessments/skills`, `/assessments/questions/{skill_id}` | Any signed-in user |
 | `POST /assessments/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET/POST /progress` | Students (own data only) |
+| `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
 | `POST /jobs/import-csv`, `GET /faculty/summary` | Teachers and administrators |
 | `GET/POST /admin/invitations`, `POST /admin/invitations/{id}/revoke` | Administrators |
 

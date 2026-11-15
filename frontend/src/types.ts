@@ -127,3 +127,75 @@ export type Invitation = {
   status: 'pending' | 'accepted' | 'revoked' | 'expired';
   invite_url?: string;
 };
+
+export type ExperienceLevel = 'fresher' | 'internship' | '0-1 years' | '1-3 years' | '3+ years';
+
+export type StudentProfile = {
+  user_id: number;
+  email: string;
+  full_name: string;
+  phone: string | null;
+  date_of_birth: string | null;
+  location: string | null;
+  college: string | null;
+  degree: string | null;
+  department: string | null;
+  specialization: string | null;
+  current_semester: number | null;
+  graduation_year: number | null;
+  cgpa: number | null;
+  career_interests: string | null;
+  target_job_roles: string | null;
+  technical_skills: string | null;
+  soft_skills: string | null;
+  preferred_locations: string | null;
+  experience_level: ExperienceLevel | null;
+  target_career_id: number | null;
+  target_career_name: string | null;
+  has_profile_image: boolean;
+  has_resume: boolean;
+  completion: { percent: number; missing: string[] };
+};
+
+export type SelfSkill = { skill_id: number; skill_name: string; category: string; level: number };
+
+export type StudentDashboard = {
+  user: { full_name: string; email: string };
+  profile_completion: { percent: number; missing: string[] };
+  target_career: null | {
+    id: number;
+    name: string;
+    alignment_score: number;
+    skills_met: number;
+    skills_total: number;
+    missing_skills: {
+      skill_id: number;
+      skill: string;
+      current_level: number;
+      required_level: number;
+      importance: number;
+      priority: 'High' | 'Medium' | 'On track';
+      assessed: boolean;
+    }[];
+  };
+  assessed_skills: { skill_id: number; skill: string; level: number; updated_at: string }[];
+  self_reported_skill_count: number;
+  assessments: {
+    count: number;
+    average_score: number | null;
+    best_score: number | null;
+    latest: { skill: string; score_percent: number; created_at: string }[];
+  };
+  learning: { completed: number; in_progress: number; tracked: number };
+  recommended_resources: {
+    id: number;
+    title: string;
+    skill: string;
+    provider: string;
+    url: string;
+    type: string;
+    status: ProgressStatus;
+  }[];
+  matching_jobs: { available: boolean; reason: string };
+  recent_activity: { type: 'assessment' | 'learning'; text: string; at: string }[];
+};

@@ -88,14 +88,19 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 
 **Deferred:** account/password-change screen (API exists) → Phase 4 profile; mentor scoping → Phase 5.
 
-## Phase 4: Student profile and dashboard
-- Student profile CRUD (`StudentProfile` already modelled): personal, academic and career fields; profile image and resume upload with type and size validation, stored outside the web root.
-- Profile completion percentage; target career selection persisted per student.
-- Self-reported skills stored separately (`source=self_reported`) and never counted as assessed proficiency.
-- Student dashboard from real data: alignment, assessed and missing skills, assessment performance, learning progress, recommended resources, matching jobs (placeholder section until Phase 8, shown as "not available yet", not faked), recent activity.
-- Object-level authorization: a student can only read or write their own records.
-
-**Exit tests:** profile read/update, upload validation, cross-student access returns 403/404.
+## Phase 4: Student profile and dashboard ✅ done
+- Migration `0003`: `student_profiles.target_career_id`, plus a `student_self_skills` table. Self-reported levels are stored apart from assessed `student_skills`, so they never count as proficiency.
+- `/api/v1/students/me/*` (student-only, always the signed-in student):
+  - `GET/PUT profile` (personal, academic and career fields with validation; completion % listing what is missing)
+  - `PUT target-career`
+  - `POST/GET/DELETE photo|resume`
+  - `GET/PUT self-skills`
+  - `GET dashboard`
+- Uploads: content checked by magic bytes (PNG/JPEG/WebP ≤ 2 MB, PDF ≤ 5 MB), stored under a random name in `backend/uploads/` (git-ignored, outside the web root), served only to their owner with `nosniff` and `no-store`. Path traversal in stored keys is refused, and replaced or deleted files are removed from disk.
+- Dashboard from real records: target-career alignment (same weighted formula as Skill Gaps), prioritised missing skills, assessed skills, assessment count/average/best, learning progress, recommended resources for gap skills (excluding completed ones), and recent activity. Matching jobs show "available in a later release" (Phase 8) rather than fabricated data.
+- Frontend: dashboard (target career chosen and saved from the hero), My Profile (sectioned form, inline validation, photo and resume, self-skill editor), Account (change password, available to all roles).
+- Tests: 26 new (89 total) on PostgreSQL 18 and SQLite: validation, uploads with disguised and oversized files, traversal, self-skills not counted (alignment stays 0), dashboard alignment = Skill Gaps value (13% hand-calculated), student-to-student isolation, staff/anonymous rejection.
+- Browser: register → dashboard → choose career → profile to 100% (real PNG upload; disguised file rejected) → self-skill added, alignment unchanged → password change (old rejected, session kept). No overflow at 375 px; no console errors.
 
 ## Phase 5: Teacher/mentor module and student assignment
 - Teacher profile CRUD (`TeacherProfile` already modelled).

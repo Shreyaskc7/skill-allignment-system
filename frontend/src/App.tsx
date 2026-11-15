@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { errorMessage, postJson } from './api/client';
 import { homeFor, useAuth } from './auth/AuthContext';
 import { AnonymousOnly, RequireAuth, RequireRole } from './auth/guards';
@@ -15,18 +15,14 @@ import { FacultyInsightsPage } from './pages/FacultyInsightsPage';
 import { JobMarketPage } from './pages/JobMarketPage';
 import { LandingPage } from './pages/LandingPage';
 import { LearningResourcesPage } from './pages/LearningResourcesPage';
-import { OverviewPage } from './pages/OverviewPage';
+import { StudentDashboardPage } from './pages/StudentDashboardPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { AccountPage } from './pages/AccountPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SkillGapsPage } from './pages/SkillGapsPage';
 import type { ProgressStatus } from './types';
 
 // --- thin route adapters: read shared data from the layout and pass it to the page components
-
-function Overview() {
-  const { data } = useApp();
-  const navigate = useNavigate();
-  return <OverviewPage data={data} onStartAssessment={() => navigate('/app/assessment')} />;
-}
 
 function Assessment() {
   const { data, assessment } = useApp();
@@ -73,7 +69,7 @@ function RootRedirect() {
 
 function AppHome() {
   const { user } = useAuth();
-  return user!.role === 'student' ? <Overview /> : <Navigate to={homeFor(user)} replace />;
+  return user!.role === 'student' ? <StudentDashboardPage /> : <Navigate to={homeFor(user)} replace />;
 }
 
 export default function App() {
@@ -93,10 +89,12 @@ export default function App() {
           <Route index element={<AppHome />} />
           <Route path="resources" element={<Resources />} />
           <Route path="jobs" element={<Jobs />} />
+          <Route path="account" element={<AccountPage />} />
           <Route element={<RequireRole roles={['student']} />}>
             <Route path="assessment" element={<Assessment />} />
             <Route path="skill-gaps" element={<SkillGapsRoute />} />
             <Route path="progress" element={<ProgressRoute />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
           <Route element={<RequireRole roles={['teacher', 'admin']} />}>
             <Route path="faculty" element={<FacultyRoute />} />

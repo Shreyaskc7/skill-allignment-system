@@ -568,3 +568,189 @@ td {
     padding: 10px;
   }
 }
+
+/* ------------------------------------------------------------------ Phase 4: profile and dashboard */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 18px;
+  margin-top: 14px;
+}
+
+.field textarea, .field select {
+  border: 1px solid #d5dcea;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: #17243b;
+  background: white;
+  width: 100%;
+  resize: vertical;
+}
+
+.field input:disabled {
+  background: #f3f5f9;
+  color: #6b7891;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: #eef0ff;
+  color: #6c73e8;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: none;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-head-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-head-text .muted {
+  margin-bottom: 8px;
+}
+
+.completion small {
+  color: #6b7891;
+  font-size: 12px;
+}
+
+.file-actions {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.resume-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid #edf0f5;
+  padding-top: 14px;
+  font-size: 13px;
+  color: #44516b;
+}
+
+.sticky-actions {
+  position: sticky;
+  bottom: 12px;
+  display: flex;
+  justify-content: flex-end;
+  margin: -6px 0 17px;
+  z-index: 3;
+}
+
+.sticky-actions .primary {
+  box-shadow: 0 8px 24px #696fe255;
+  padding: 12px 22px;
+}
+
+.self-skills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.self-skill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e7ebf2;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.self-skill > div {
+  flex: 1;
+}
+
+.self-skill b {
+  font-size: 13px;
+}
+
+.self-skill small {
+  display: block;
+  color: #8490a3;
+  font-size: 11px;
+}
+
+.add-skill {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.narrow {
+  max-width: 560px;
+}
+
+.hero .primary {
+  text-decoration: none;
+}
+
+.hero-select {
+  width: 100%;
+  margin: 8px 0 6px;
+  background: #ffffff1c;
+  color: white;
+  border-color: #ffffff40;
+}
+
+.hero-select option {
+  color: #17243b;
+}
+
+.completion-card {
+  display: grid;
+  grid-template-columns: 1fr 200px auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.completion-card h3 {
+  margin: 0;
+}
+
+.completion-card .muted {
+  margin: 4px 0 0;
+}
+
+.more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  color: #5f68d5;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 650px) {
+  .form-grid, .self-skills, .completion-card {
+    grid-template-columns: 1fr;
+  }
+  .profile-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

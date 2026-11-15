@@ -7,6 +7,8 @@ import {
   GraduationCap,
   LayoutDashboard,
   LogOut,
+  KeyRound,
+  UserRound,
   MailPlus,
   RefreshCw,
   Target,
@@ -17,7 +19,8 @@ import type { Role, User } from '../types';
 export type NavItem = { to: string; label: string; icon: LucideIcon; roles: Role[] };
 
 export const NAV: NavItem[] = [
-  { to: '/app', label: 'Overview', icon: LayoutDashboard, roles: ['student'] },
+  { to: '/app', label: 'Dashboard', icon: LayoutDashboard, roles: ['student'] },
+  { to: '/app/profile', label: 'My Profile', icon: UserRound, roles: ['student'] },
   { to: '/app/assessment', label: 'Assessment', icon: ClipboardList, roles: ['student'] },
   { to: '/app/skill-gaps', label: 'Skill Gaps', icon: Target, roles: ['student'] },
   { to: '/app/resources', label: 'Learning Resources', icon: BookOpen, roles: ['student', 'teacher', 'admin'] },
@@ -25,6 +28,7 @@ export const NAV: NavItem[] = [
   { to: '/app/progress', label: 'Progress', icon: Activity, roles: ['student'] },
   { to: '/app/faculty', label: 'Faculty Insights', icon: GraduationCap, roles: ['teacher', 'admin'] },
   { to: '/app/admin/invitations', label: 'Mentor Invitations', icon: MailPlus, roles: ['admin'] },
+  { to: '/app/account', label: 'Account', icon: KeyRound, roles: ['student', 'teacher', 'admin'] },
 ];
 
 const ROLE_LABEL: Record<Role, string> = { student: 'Student', teacher: 'Teacher / Mentor', admin: 'Administrator' };

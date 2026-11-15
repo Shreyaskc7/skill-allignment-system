@@ -47,6 +47,12 @@ class Settings(BaseSettings):
     argon2_memory_cost_kib: int = 65536
     argon2_parallelism: int = 4
 
+    # Uploaded profile images and resumes (outside any web root; served only through
+    # authenticated endpoints). Relative paths are resolved from the backend directory.
+    upload_dir: str = "uploads"
+    max_image_bytes: int = 2 * 1024 * 1024
+    max_resume_bytes: int = 5 * 1024 * 1024
+
     # Rate limiting: attempts per minute per client IP on sensitive auth endpoints.
     rate_limit_auth: int = 10
 

@@ -23,7 +23,7 @@ export function AppLayout() {
   const assessment = useAssessment(data.assessmentSkills, data.load, onError);
 
   const current = [...NAV].reverse().find((n) => location.pathname.startsWith(n.to));
-  const title = current?.to === '/app' ? 'Build skills. Unlock potential.' : current?.label ?? 'SkillAlign';
+  const title = current?.to === '/app' ? 'Your dashboard' : current?.label ?? 'SkillAlign';
 
   async function signOut() {
     setConfirmLogout(false);

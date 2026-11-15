@@ -768,3 +768,108 @@ class PaginatedResponse(BaseModel):
     page: int
     page_size: int
     total_pages: int
+
+# =====================================================================
+# Student profile (Phase 4 API)
+# =====================================================================
+
+class StudentProfileIn(BaseModel):
+    """Editable profile fields. File references are set only through upload endpoints."""
+
+    full_name: str = Field(min_length=2, max_length=160)
+    phone: Optional[str] = Field(None, max_length=30, pattern=r"^[0-9+()\-\s]{6,30}$")
+    date_of_birth: Optional[datetime] = None
+    location: Optional[str] = Field(None, max_length=160)
+    college: Optional[str] = Field(None, max_length=200)
+    degree: Optional[str] = Field(None, max_length=120)
+    department: Optional[str] = Field(None, max_length=120)
+    specialization: Optional[str] = Field(None, max_length=120)
+    current_semester: Optional[int] = Field(None, ge=1, le=12)
+    graduation_year: Optional[int] = Field(None, ge=1990, le=2060)
+    cgpa: Optional[float] = Field(None, ge=0, le=100, description="CGPA (0-10) or percentage (0-100)")
+    career_interests: Optional[str] = Field(None, max_length=2000)
+    target_job_roles: Optional[str] = Field(None, max_length=2000)
+    technical_skills: Optional[str] = Field(None, max_length=2000, description="Other skills not in the catalogue")
+    soft_skills: Optional[str] = Field(None, max_length=2000)
+    preferred_locations: Optional[str] = Field(None, max_length=1000)
+    experience_level: Optional[Literal["fresher", "internship", "0-1 years", "1-3 years", "3+ years"]] = None
+    target_career_id: Optional[int] = None
+
+    @field_validator("full_name")
+    @classmethod
+    def clean_name(cls, v: str) -> str:
+        v = " ".join(v.split())
+        if len(v) < 2:
+            raise ValueError("Full name is too short")
+        return v
+
+    @field_validator(
+        "phone", "location", "college", "degree", "department", "specialization", "career_interests",
+        "target_job_roles", "technical_skills", "soft_skills", "preferred_locations", mode="before",
+    )
+    @classmethod
+    def blank_to_none(cls, v):
+        if isinstance(v, str):
+            v = v.strip()
+            return v or None
+        return v
+
+    @field_validator("date_of_birth")
+    @classmethod
+    def plausible_dob(cls, v):
+        if v is not None:
+            from datetime import timezone
+
+            now = datetime.now(timezone.utc)
+            v = v if v.tzinfo else v.replace(tzinfo=timezone.utc)
+            if not (now.year - 80 <= v.year <= now.year - 14):
+                raise ValueError("Enter a valid date of birth")
+        return v
+
+
+class ProfileCompletion(BaseModel):
+    percent: int
+    missing: List[str]
+
+
+class StudentProfileView(BaseModel):
+    user_id: int
+    email: str
+    full_name: str
+    phone: Optional[str] = None
+    date_of_birth: Optional[datetime] = None
+    location: Optional[str] = None
+    college: Optional[str] = None
+    degree: Optional[str] = None
+    department: Optional[str] = None
+    specialization: Optional[str] = None
+    current_semester: Optional[int] = None
+    graduation_year: Optional[int] = None
+    cgpa: Optional[float] = None
+    career_interests: Optional[str] = None
+    target_job_roles: Optional[str] = None
+    technical_skills: Optional[str] = None
+    soft_skills: Optional[str] = None
+    preferred_locations: Optional[str] = None
+    experience_level: Optional[str] = None
+    target_career_id: Optional[int] = None
+    target_career_name: Optional[str] = None
+    has_profile_image: bool
+    has_resume: bool
+    completion: ProfileCompletion
+
+
+class SelfSkillIn(BaseModel):
+    skill_id: int
+    level: int = Field(ge=1, le=5)
+
+
+class SelfSkillsIn(BaseModel):
+    skills: List[SelfSkillIn] = Field(max_length=60)
+
+
+class SelfSkillOut(BaseModel):
+    skill_id: int
+    skill_name: str
+    category: str
+    level: int

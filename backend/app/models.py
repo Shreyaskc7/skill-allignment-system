@@ -78,6 +78,8 @@ class StudentProfile(Base):
     preferred_locations: Mapped[str | None] = mapped_column(Text)
     experience_level: Mapped[str | None] = mapped_column(String(60))
     resume_url: Mapped[str | None] = mapped_column(String(500))
+    # Selected target career (drives the dashboard alignment and recommendations).
+    target_career_id: Mapped[int | None] = mapped_column(ForeignKey("career_roles.id", ondelete="SET NULL"))
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -382,3 +384,19 @@ class TeacherInvitation(Base):
     accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class StudentSelfSkill(Base):
+    """A skill level the student claims. Kept apart from StudentSkill (assessed
+    proficiency) so self-reported levels never count as proven proficiency."""
+
+    __tablename__ = "student_self_skills"
+    __table_args__ = (UniqueConstraint("user_id", "skill_id", name="uq_student_self_skill"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False)
+    level: Mapped[int] = mapped_column(Integer, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    skill: Mapped["Skill"] = relationship()
