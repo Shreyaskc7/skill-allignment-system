@@ -107,7 +107,7 @@ Permissions are enforced by the backend.
 | `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/forgot-password`, `/auth/reset-password`, `GET /auth/invitations/{token}`, `POST /auth/accept-invitation` | Public (rate-limited) |
 | `GET /auth/me`, `POST /auth/change-password` | Any signed-in user |
 | `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/jobs`, `/analytics/skills`, `/assessments/skills` | Any signed-in user |
-| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET/POST /progress` | Students (own data only) |
+| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET /careers/recommendations`, `GET/POST /progress` | Students (own data only) |
 | `GET/POST /question-bank/questions`, `PUT /question-bank/questions/{id}` | Teachers and administrators |
 | `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
 | `GET /students/me/mentoring` | Students (own mentors and shared notes) |

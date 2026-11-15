@@ -20,6 +20,7 @@ import { LearningResourcesPage } from './pages/LearningResourcesPage';
 import { StudentDashboardPage } from './pages/StudentDashboardPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AccountPage } from './pages/AccountPage';
+import { CareersPage } from './pages/CareersPage';
 import { AssignmentsPage } from './pages/admin/AssignmentsPage';
 import { MentorDashboardPage } from './pages/mentor/MentorDashboardPage';
 import { StudentDetailPage } from './pages/mentor/StudentDetailPage';
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="assessment" element={<AssessmentPage />} />
             <Route path="assessment/results/:id" element={<ResultsPage />} />
             <Route path="skill-gaps" element={<SkillGapsRoute />} />
+            <Route path="careers" element={<CareersPage />} />
             <Route path="progress" element={<ProgressRoute />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>

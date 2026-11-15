@@ -1,16 +1,18 @@
+"""Explainable skill-gap analysis and career recommendations (students, own data only)."""
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from app import models
 from app.db import get_db
-from app.services.alignment import career_alignment
 from app.deps import require_student
+from app.services.career import gap_analysis, recommendations
 
-router = APIRouter(prefix="/gaps", tags=["skill gaps"])
+router = APIRouter(tags=["skill gaps"])
 
 
-@router.get("/{career_id}")
+@router.get("/gaps/{career_id}")
 def gaps(career_id: int, user: models.User = Depends(require_student), db: Session = Depends(get_db)):
     role = db.scalar(
         select(models.CareerRole)
@@ -19,12 +21,9 @@ def gaps(career_id: int, user: models.User = Depends(require_student), db: Sessi
     )
     if not role:
         raise HTTPException(404, "Career not found")
-    levels = dict(
-        db.execute(
-            select(models.StudentSkill.skill_id, models.StudentSkill.level).where(
-                models.StudentSkill.user_id == user.id
-            )
-        ).all()
-    )
-    score, rows = career_alignment(role.skills, levels)
-    return {"career": role.name, "alignment_score": score, "skills": rows}
+    return gap_analysis(db, role, user.id)
+
+
+@router.get("/careers/recommendations")
+def career_recommendations(user: models.User = Depends(require_student), db: Session = Depends(get_db)):
+    return recommendations(db, user)

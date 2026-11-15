@@ -136,13 +136,19 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 **Tests:** 126 on PostgreSQL 18 and SQLite (23 new). They cover bank validity and idempotency, adoption of v1 questions, hidden answer keys, resume/restart, difficulty balance, every submission rejection, unanswered scoring, the time limit, results breakdowns, history surviving question edits, deactivated questions never delivered, and management permissions.
 **Browser:** a 10-question mixed attempt with a reload mid-attempt (same questions and answers restored), submission with 6 unanswered, results and review, timed attempt countdown, 375 px layout, admin question edit/disable. No console errors.
 
-## Phase 7: Skill analytics, skill gaps and career recommendations
-- `StudentSkill.last_assessed_at` and `evidence_attempt_id` (migration).
-- Gap engine keeps the **existing weighted formula unchanged**: `Σ(min(level, required)/required × weight) / Σweight`. Each skill's contribution is now exposed; unassessed skills are shown as unassessed, not 0-proficient-but-proven.
-- Categories: meets requirement / needs improvement / critical missing; recommended next steps.
-- Career recommendations: rank roles by the same alignment score, with a **documented, rule-based** adjustment for interests and preferences. Shows matching, missing and to-improve skills and a learning path link, plus a side-by-side role comparison. Labelled rule-based, not ML, and never presented as a hiring probability.
-
-**Exit tests:** alignment equals hand-calculated values for fixed fixtures; recommendation ordering; self-reported skills excluded from proficiency.
+## Phase 7: Skill analytics, skill gaps and career recommendations ✅ done
+- **Alignment formula unchanged** (version 1 weighted formula in `services/alignment.py`). `services/career.py` explains and ranks; it does not change the formula. Everything is rule-based, not ML.
+- `GET /gaps/{career_id}` (backward compatible, adds fields):
+  - per skill: status (meets / needs_improvement / critical = gap ≥ 2 and weight ≥ 4), assessed or not, last assessed date, evidence attempt id (links to its results), self-reported level (shown, never counted), and contribution vs maximum in score points (they add up to the score)
+  - a summary of counts, the formula text, and next steps: assess unassessed gaps first, then the first not-yet-completed resource for assessed gaps
+- `GET /careers/recommendations`: all active roles ranked by alignment. Stated interests (profile career interests/target roles matched against role name, description and skills) only break ties and appear as reasons. Each role lists matching skills, skills to improve, unassessed skills, requirements and reasons; the target career is marked. The response states that scores are guidance, not hiring predictions.
+- Frontend:
+  - Skill Gaps page: summary tiles, "How is this calculated?" with the formula, contribution bars, status badges, evidence links, next steps.
+  - New Careers page: ranked cards with reasons, set as target, gap details, side-by-side comparison of 2–3 roles.
+- Tests: 8 new (134 total) on PostgreSQL 18 and SQLite. Hand-calculated: Python Backend 36% (8/22) with contributions summing to the score; Frontend 73% (16.75/23). They also cover status rules, next steps, self-reported exclusion, evidence links, ranking, interest tie-break without score change, and permissions.
+- Browser: a real student took HTML and CSS assessments; Careers ranked Frontend Developer first at 22% (HTML 4 + CSS 1 = 5/23, hand-checked) with an interest reason; comparison, set as target, and gap details with formula and next steps all checked. No console errors.
+- **Randomness check:** a student answering "B" to every HTML question scored 60%. 20,000 simulated draws confirmed selection is unbiased (observed 0.40% vs 0.28% theoretical); it was a rare outcome. Short 10-question attempts can be inflated by guessing, so 15–20 questions are recommended for any graded use.
+- Note for Phase 9: only 9 skills have learning resources yet, so some next steps say "reassess" instead of naming a resource.
 
 ## Phase 8: Job market, extraction and student-to-job matching
 - Migration: experience requirement, required vs optional skills, posting date as a date type (with safe conversion of existing string values).

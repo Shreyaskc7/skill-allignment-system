@@ -348,3 +348,41 @@ export type TeacherProfile = {
   biography: string | null;
   has_profile_image: boolean;
 };
+
+export type GapStatus = 'meets' | 'needs_improvement' | 'critical';
+
+export type GapDetailItem = GapItem & {
+  assessed: boolean;
+  status: GapStatus;
+  last_assessed_at: string | null;
+  evidence_attempt_id: number | null;
+  self_reported_level: number | null;
+  contribution: number;
+  max_contribution: number;
+};
+
+export type GapAnalysis = {
+  career_id: number;
+  career: string;
+  description: string;
+  alignment_score: number;
+  formula: string;
+  summary: { meets: number; needs_improvement: number; critical: number; unassessed: number; total: number };
+  skills: GapDetailItem[];
+  next_steps: { type: 'assess' | 'learn' | 'done'; skill?: string; text: string; resource?: { id: number; title: string; url: string } | null }[];
+};
+
+export type CareerRecommendation = {
+  career_id: number;
+  career: string;
+  description: string;
+  alignment_score: number;
+  is_target: boolean;
+  rank: number;
+  interest_match: string[];
+  matching_skills: string[];
+  skills_to_improve: string[];
+  missing_skills: string[];
+  required_skills: { skill: string; required_level: number; weight: number; current_level: number }[];
+  reasons: string[];
+};
