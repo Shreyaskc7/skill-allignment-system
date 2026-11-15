@@ -77,28 +77,97 @@ export type Job = {
   skills: string[];
 };
 
-export type AssessmentSkill = { id: number; name: string; question_count: number };
+export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
-export type Question = {
+export type AssessmentSkill = {
   id: number;
-  question: string;
-  options: Record<string, string>;
-  difficulty: string;
+  name: string;
+  category: string;
+  question_count: number;
+  by_difficulty: Record<Difficulty, number>;
 };
 
-export type AssessmentResult = {
+export type DeliveredQuestion = {
+  id: number;
+  position: number;
+  question: string;
+  difficulty: Difficulty;
+  options: Record<'A' | 'B' | 'C' | 'D', string>;
+};
+
+export type AttemptDelivery = {
   attempt_id: number;
-  correct: number;
+  skill_id: number;
+  skill: string;
+  status: 'in_progress';
+  difficulty: string;
+  resumed: boolean;
+  started_at: string;
+  expires_at: string | null;
+  server_time: string;
+  questions: DeliveredQuestion[];
+};
+
+export type Breakdown = { name: string; correct: number; total: number; percent: number };
+
+export type AttemptResult = {
+  attempt_id: number;
+  skill_id: number;
+  skill: string;
+  status: 'submitted';
+  difficulty: string | null;
   total: number;
+  correct: number;
+  unanswered: number;
   score_percent: number;
-  estimated_level: number;
+  estimated_level: number | null;
+  level_bands: string;
+  time_spent_seconds: number | null;
+  submitted_at: string;
+  by_difficulty: Breakdown[];
+  by_topic: Breakdown[];
   review: {
-    question_id: number;
-    correct_option: string;
+    question_id: number | null;
+    position: number;
+    question: string;
+    options: Record<'A' | 'B' | 'C' | 'D', string>;
     your_answer: string | null;
+    correct_option: string;
     is_correct: boolean;
     explanation: string;
+    difficulty: Difficulty;
+    topic: string | null;
   }[];
+  detail_available: boolean;
+};
+
+export type HistoryItem = {
+  id: number;
+  skill: string;
+  score_percent: number;
+  correct: number;
+  total: number;
+  estimated_level: number | null;
+  difficulty: string | null;
+  created_at: string;
+};
+
+export type BankQuestion = {
+  id: number;
+  skill_id: number;
+  skill: string;
+  question: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  correct_option: 'A' | 'B' | 'C' | 'D';
+  explanation: string;
+  difficulty: Difficulty;
+  topic: string | null;
+  subtopic: string | null;
+  is_active: boolean;
+  source: 'bundled' | 'staff';
 };
 
 export type ImportResult = { imported: number; skipped: number; skills_found: Record<string, number>; message: string };

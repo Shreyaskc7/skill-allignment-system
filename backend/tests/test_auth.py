@@ -6,7 +6,7 @@ from datetime import timedelta
 
 import pytest
 
-from conftest import PASSWORD, auth_headers, login, make_user, register
+from conftest import PASSWORD, auth_headers, login, make_user, register, take_assessment
 
 API = "/api/v1"
 COOKIE = "skillalign_refresh"
@@ -251,7 +251,7 @@ def test_teacher_permissions(client, teacher):
     # Student-only endpoints
     assert client.get(f"{API}/progress", headers=teacher).status_code == 403
     assert client.get(f"{API}/gaps/1", headers=teacher).status_code == 403
-    assert client.post(f"{API}/assessments/submit", headers=teacher, json={"skill_id": 1, "answers": {}}).status_code == 403
+    assert client.post(f"{API}/assessments/attempts", headers=teacher, json={"skill_id": 1}).status_code == 403
     # Admin-only endpoints
     assert client.get(f"{API}/admin/invitations", headers=teacher).status_code == 403
 
@@ -268,11 +268,10 @@ def test_role_change_takes_effect_immediately(client, db, student):
     assert client.get(f"{API}/faculty/summary", headers=student).status_code == 200
 
 
-def test_students_only_see_their_own_records(client, student):
+def test_students_only_see_their_own_records(client, student, db):
     rid = client.get(f"{API}/resources", headers=student).json()[0]["id"]
     client.post(f"{API}/progress/{rid}", headers=student, json={"status": "completed"})
-    skill = client.get(f"{API}/assessments/skills", headers=student).json()[0]["id"]
-    client.post(f"{API}/assessments/submit", headers=student, json={"skill_id": skill, "answers": {}})
+    take_assessment(client, student, db, "SQL", correct=0)
 
     register(client, email="other@example.com")
     other = auth_headers(_token(login(client, "other@example.com")))

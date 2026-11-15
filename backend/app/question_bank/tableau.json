@@ -1,0 +1,313 @@
+{
+  "skill": "Tableau",
+  "questions": [
+    {
+      "question": "In Tableau, which field type is typically aggregated (e.g., SUM) when placed in a view?",
+      "options": [
+        "Dimension",
+        "Set",
+        "Parameter",
+        "Measure"
+      ],
+      "correct": "D",
+      "explanation": "Measures are quantitative fields that Tableau aggregates by default, while dimensions slice the data into categories.",
+      "difficulty": "beginner",
+      "topic": "Fields",
+      "subtopic": "Dimensions vs measures"
+    },
+    {
+      "question": "What does a blue pill on a Tableau shelf indicate?",
+      "options": [
+        "The field is continuous",
+        "The field is a measure",
+        "The field is discrete",
+        "The field is filtered"
+      ],
+      "correct": "C",
+      "explanation": "Blue pills are discrete (producing headers), green pills are continuous (producing axes), independent of dimension/measure role.",
+      "difficulty": "beginner",
+      "topic": "Fields",
+      "subtopic": "Discrete vs continuous"
+    },
+    {
+      "question": "When a continuous (green) date field is placed on Columns, what does Tableau create?",
+      "options": [
+        "Column headers",
+        "An axis",
+        "A legend",
+        "A filter card"
+      ],
+      "correct": "B",
+      "explanation": "Continuous fields produce axes; discrete fields produce headers.",
+      "difficulty": "beginner",
+      "topic": "Fields",
+      "subtopic": "Continuous fields"
+    },
+    {
+      "question": "What is a Tableau extract (.hyper)?",
+      "options": [
+        "A snapshot of data stored in Tableau's optimized format",
+        "A direct live query to the source database",
+        "A saved dashboard layout template",
+        "A calculated field shared across workbooks"
+      ],
+      "correct": "A",
+      "explanation": "Extracts are compressed snapshots of data in Hyper format that can be refreshed, often improving performance versus live connections.",
+      "difficulty": "beginner",
+      "topic": "Connections",
+      "subtopic": "Extracts vs live"
+    },
+    {
+      "question": "What is a Tableau dashboard?",
+      "options": [
+        "A single worksheet with one chart type",
+        "A data source with joined tables",
+        "A calculated field that combines measures",
+        "A collection of several worksheets and objects on one canvas"
+      ],
+      "correct": "D",
+      "explanation": "Dashboards combine multiple sheets plus objects like text, images and filters into one view.",
+      "difficulty": "beginner",
+      "topic": "Dashboards",
+      "subtopic": "Dashboard basics"
+    },
+    {
+      "question": "Which chart from Show Me is best for showing a trend of Sales over continuous months?",
+      "options": [
+        "Pie chart",
+        "Treemap",
+        "Line chart",
+        "Packed bubbles"
+      ],
+      "correct": "C",
+      "explanation": "Line charts show change over continuous time most clearly.",
+      "difficulty": "beginner",
+      "topic": "Visualization",
+      "subtopic": "Show Me"
+    },
+    {
+      "question": "Which Tableau filter is applied first in the order of operations?",
+      "options": [
+        "Dimension filter",
+        "Extract filter",
+        "Context filter",
+        "Table calculation filter"
+      ],
+      "correct": "B",
+      "explanation": "The order of operations begins with extract filters, then data source, context, FIXED LODs, dimension, INCLUDE/EXCLUDE, measure, and finally table calc filters.",
+      "difficulty": "beginner",
+      "topic": "Filters",
+      "subtopic": "Filter types"
+    },
+    {
+      "question": "Which syntax creates a valid Tableau calculated field for profit ratio?",
+      "options": [
+        "SUM([Profit]) / SUM([Sales])",
+        "SUM[Profit] / SUM[Sales]",
+        "[Profit].SUM / [Sales].SUM",
+        "RATIO([Profit], [Sales])"
+      ],
+      "correct": "A",
+      "explanation": "Field names go in square brackets inside aggregation functions; this is the standard aggregated ratio pattern.",
+      "difficulty": "beginner",
+      "topic": "Calculations",
+      "subtopic": "Calculated fields"
+    },
+    {
+      "question": "What does {FIXED [Customer ID] : MIN([Order Date])} compute?",
+      "options": [
+        "The earliest order date in the current view only",
+        "The minimum order date per row of data",
+        "The first order date after dimension filters",
+        "Each customer's first order date, regardless of view dimensions"
+      ],
+      "correct": "D",
+      "explanation": "A FIXED LOD computes at the specified dimension (Customer ID) independent of the view's level of detail.",
+      "difficulty": "intermediate",
+      "topic": "LOD Expressions",
+      "subtopic": "FIXED"
+    },
+    {
+      "question": "A FIXED LOD in the view ignores a regular dimension filter. How can you make the filter apply to the LOD?",
+      "options": [
+        "Convert the filter to a table calc filter",
+        "Change the LOD to use ATTR",
+        "Add the filter to context",
+        "Move the filter to the Marks card"
+      ],
+      "correct": "C",
+      "explanation": "Context filters are evaluated before FIXED LODs, whereas regular dimension filters are applied after them.",
+      "difficulty": "intermediate",
+      "topic": "Filters",
+      "subtopic": "Order of operations"
+    },
+    {
+      "question": "Which function computes a cumulative sum across the table in Tableau?",
+      "options": [
+        "CUMSUM([Sales])",
+        "RUNNING_SUM(SUM([Sales]))",
+        "SUM(RUNNING([Sales]))",
+        "TOTAL_RUNNING([Sales])"
+      ],
+      "correct": "B",
+      "explanation": "RUNNING_SUM is the table calculation for cumulative totals and takes an aggregated expression.",
+      "difficulty": "intermediate",
+      "topic": "Table Calculations",
+      "subtopic": "Running total"
+    },
+    {
+      "question": "What does the 'Compute Using' (addressing) setting of a table calculation determine?",
+      "options": [
+        "The direction/fields along which the calculation is performed",
+        "Which data source the calculation queries",
+        "Whether the calculation is stored in the extract",
+        "The colour palette applied to results"
+      ],
+      "correct": "A",
+      "explanation": "Addressing defines the fields the table calc moves across; the remaining fields partition it.",
+      "difficulty": "intermediate",
+      "topic": "Table Calculations",
+      "subtopic": "Compute using"
+    },
+    {
+      "question": "When is an INCLUDE LOD expression most useful?",
+      "options": [
+        "When computing at a fixed level ignoring all view dimensions",
+        "When removing a dimension from the view's level of detail",
+        "When filtering rows before the extract is created",
+        "When computing at a finer level than the view, then aggregating up"
+      ],
+      "correct": "D",
+      "explanation": "INCLUDE adds dimensions to the view's level of detail for the calculation, e.g., average of per-customer sales by region.",
+      "difficulty": "intermediate",
+      "topic": "LOD Expressions",
+      "subtopic": "INCLUDE"
+    },
+    {
+      "question": "When is a live connection generally preferable to an extract?",
+      "options": [
+        "When the source is slow and data changes monthly",
+        "When working offline without network access",
+        "When users need near-real-time data from a fast database",
+        "When you want to reduce load on the database"
+      ],
+      "correct": "C",
+      "explanation": "Live connections query the source directly, which suits real-time needs on performant databases; extracts suit offline or slow sources.",
+      "difficulty": "intermediate",
+      "topic": "Connections",
+      "subtopic": "Extracts vs live"
+    },
+    {
+      "question": "Which dashboard action lets clicking a mark in one sheet filter other sheets?",
+      "options": [
+        "Highlight action",
+        "Filter action",
+        "URL action",
+        "Go to Sheet action"
+      ],
+      "correct": "B",
+      "explanation": "Filter actions pass selected values as filters to target sheets; highlight actions only emphasize related marks.",
+      "difficulty": "intermediate",
+      "topic": "Dashboards",
+      "subtopic": "Dashboard actions"
+    },
+    {
+      "question": "What is a key benefit of Tableau relationships (the 'noodle') over physical joins?",
+      "options": [
+        "Joins are determined per view at query time, avoiding duplication",
+        "Data is always merged into a single physical table",
+        "They remove the need for matching key fields",
+        "They only work with extracts, not live data"
+      ],
+      "correct": "A",
+      "explanation": "Relationships are flexible logical connections; Tableau generates appropriate joins per viz, preventing row duplication issues.",
+      "difficulty": "intermediate",
+      "topic": "Data Blending",
+      "subtopic": "Relationships vs joins"
+    },
+    {
+      "question": "A view shows Sales by Region and Sub-Category. Which expression returns region-level sales on each row?",
+      "options": [
+        "{INCLUDE [Sub-Category] : SUM([Sales])}",
+        "{FIXED [Sub-Category] : SUM([Sales])}",
+        "{EXCLUDE [Region] : SUM([Sales])}",
+        "{EXCLUDE [Sub-Category] : SUM([Sales])}"
+      ],
+      "correct": "D",
+      "explanation": "EXCLUDE removes Sub-Category from the view's level of detail, so the sum is computed at Region level.",
+      "difficulty": "advanced",
+      "topic": "LOD Expressions",
+      "subtopic": "EXCLUDE"
+    },
+    {
+      "question": "Which filter is evaluated AFTER INCLUDE/EXCLUDE LOD expressions but BEFORE table calculations?",
+      "options": [
+        "Context filter",
+        "Data source filter",
+        "Measure filter",
+        "Extract filter"
+      ],
+      "correct": "C",
+      "explanation": "Per Tableau's order of operations, measure filters follow dimension filters and INCLUDE/EXCLUDE LODs, and precede table calculations and table calc filters.",
+      "difficulty": "advanced",
+      "topic": "Filters",
+      "subtopic": "Order of operations"
+    },
+    {
+      "question": "You want to hide some rows but keep percent-of-total unchanged. Which approach works?",
+      "options": [
+        "Use a context filter on the field",
+        "Filter using a table calculation such as LOOKUP(ATTR([Field]),0)",
+        "Use a data source filter on the field",
+        "Use a regular dimension filter on the field"
+      ],
+      "correct": "B",
+      "explanation": "Table calc filters are applied last, so they hide marks without changing the underlying values used by other table calculations.",
+      "difficulty": "advanced",
+      "topic": "Table Calculations",
+      "subtopic": "Filtering without affecting calcs"
+    },
+    {
+      "question": "Which statement about FIXED LOD expressions is correct?",
+      "options": [
+        "They ignore dimension filters but respect context filters",
+        "They respect all filters including dimension filters",
+        "They are computed after table calculations",
+        "They always ignore data source filters"
+      ],
+      "correct": "A",
+      "explanation": "FIXED LODs are computed after context filters but before dimension filters, so only context (and earlier) filters affect them.",
+      "difficulty": "advanced",
+      "topic": "LOD Expressions",
+      "subtopic": "FIXED and filters"
+    },
+    {
+      "question": "Which practice most improves performance of a slow dashboard on a large extract?",
+      "options": [
+        "Add more quick filters showing 'all values in database'",
+        "Convert all dimensions to continuous",
+        "Use many nested table calculations per sheet",
+        "Reduce marks and use fewer, simpler quick filters"
+      ],
+      "correct": "D",
+      "explanation": "Tableau's performance guidance recommends limiting marks and quick filters (especially 'all values in database'), which trigger extra queries.",
+      "difficulty": "advanced",
+      "topic": "Performance",
+      "subtopic": "Workbook performance"
+    },
+    {
+      "question": "Why does IF SUM([Sales]) > 1000 THEN [Region] END produce an error?",
+      "options": [
+        "IF statements cannot reference strings",
+        "SUM cannot be used inside IF",
+        "It mixes aggregate and non-aggregate arguments",
+        "Region must be wrapped in quotes"
+      ],
+      "correct": "C",
+      "explanation": "Tableau cannot mix aggregated and row-level fields in one expression; wrapping Region in ATTR() or an aggregation fixes it.",
+      "difficulty": "advanced",
+      "topic": "Calculations",
+      "subtopic": "Aggregation rules"
+    }
+  ]
+}

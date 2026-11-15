@@ -4,6 +4,7 @@ import io
 
 from app import schemas  # noqa: F401  (EmailStr requires email-validator)
 from app.security import hash_password, verify_password
+from conftest import take_assessment
 
 
 def test_password_hashing_round_trip():
@@ -33,9 +34,9 @@ def test_catalogue_seeded_and_no_demo_user(client, admin, db):
 
 def test_questions_do_not_expose_answers(client, student):
     skill_id = client.get("/api/v1/assessments/skills", headers=student).json()[0]["id"]
-    questions = client.get(f"/api/v1/assessments/questions/{skill_id}", headers=student).json()
-    assert questions
-    for q in questions:
+    attempt = client.post("/api/v1/assessments/attempts", headers=student, json={"skill_id": skill_id}).json()
+    assert attempt["questions"]
+    for q in attempt["questions"]:
         assert "correct_option" not in q
         assert "explanation" not in q
 
@@ -47,12 +48,7 @@ def test_gap_score_rises_after_perfect_assessment(client, student, db):
     role_id = careers["Python Backend Developer"]
     before = client.get(f"/api/v1/gaps/{role_id}", headers=student).json()["alignment_score"]
 
-    skills = client.get("/api/v1/assessments/skills", headers=student).json()
-    python_id = next(s["id"] for s in skills if s["name"] == "Python")
-    questions = client.get(f"/api/v1/assessments/questions/{python_id}", headers=student).json()
-    answers = {str(q["id"]): db.get(models.AssessmentQuestion, q["id"]).correct_option for q in questions}
-    result = client.post("/api/v1/assessments/submit", headers=student,
-                         json={"skill_id": python_id, "answers": answers}).json()
+    result = take_assessment(client, student, db, "Python")
     assert result["score_percent"] == 100
     assert result["estimated_level"] == 5
 
@@ -85,13 +81,10 @@ def test_resource_progress_status_round_trip(client, student):
         "completed": 1, "in_progress": 0, "total_tracked": 1}
 
 
-def test_assessment_history_records_attempts(client, student):
-    skill_id = client.get("/api/v1/assessments/skills", headers=student).json()[0]["id"]
-    client.post("/api/v1/assessments/submit", headers=student, json={"skill_id": skill_id, "answers": {}})
+def test_assessment_history_records_attempts(client, student, db):
+    take_assessment(client, student, db, "SQL", correct=0)
     history = client.get("/api/v1/assessments/history", headers=student).json()
     assert len(history) == 1 and history[0]["correct"] == 0
-    assert client.post("/api/v1/assessments/submit", headers=student,
-                       json={"skill_id": 999999, "answers": {}}).status_code == 404
 
 
 def test_csv_import_rejects_missing_columns(client, admin):

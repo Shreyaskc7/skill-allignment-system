@@ -1,0 +1,313 @@
+{
+  "skill": "PostgreSQL",
+  "questions": [
+    {
+      "question": "Which psql meta-command lists the tables visible in the current search path?",
+      "options": [
+        "\\l",
+        "\\dt",
+        "\\du",
+        "\\c"
+      ],
+      "correct": "B",
+      "explanation": "\\dt lists tables; \\l lists databases, \\du roles, and \\c connects.",
+      "difficulty": "beginner",
+      "topic": "psql",
+      "subtopic": "Meta-commands"
+    },
+    {
+      "question": "Which PostgreSQL column type is the classic shorthand for an auto-incrementing integer backed by a sequence?",
+      "options": [
+        "SERIAL",
+        "AUTOINC",
+        "IDENTITY_INT",
+        "SEQINT"
+      ],
+      "correct": "A",
+      "explanation": "SERIAL creates an integer column with a default from an owned sequence.",
+      "difficulty": "beginner",
+      "topic": "Data types",
+      "subtopic": "SERIAL"
+    },
+    {
+      "question": "Which operator concatenates two text values in PostgreSQL?",
+      "options": [
+        "+",
+        "&",
+        ".",
+        "||"
+      ],
+      "correct": "D",
+      "explanation": "|| is the SQL-standard string concatenation operator used by PostgreSQL.",
+      "difficulty": "beginner",
+      "topic": "Operators",
+      "subtopic": "String concatenation"
+    },
+    {
+      "question": "Which clause makes an INSERT return the generated id of the new row?",
+      "options": [
+        "OUTPUT id",
+        "SELECT LAST_ID",
+        "RETURNING id",
+        "WITH id"
+      ],
+      "correct": "C",
+      "explanation": "PostgreSQL's RETURNING clause returns values from inserted, updated or deleted rows.",
+      "difficulty": "beginner",
+      "topic": "DML",
+      "subtopic": "RETURNING"
+    },
+    {
+      "question": "Which statement creates a role named app that is allowed to log in?",
+      "options": [
+        "CREATE LOGIN app;",
+        "CREATE ROLE app LOGIN;",
+        "ADD USER app;",
+        "GRANT LOGIN TO app;"
+      ],
+      "correct": "B",
+      "explanation": "Roles get the LOGIN attribute via CREATE ROLE ... LOGIN (CREATE USER implies LOGIN).",
+      "difficulty": "beginner",
+      "topic": "Roles",
+      "subtopic": "Creating roles"
+    },
+    {
+      "question": "Which index type does a plain CREATE INDEX build by default?",
+      "options": [
+        "Hash",
+        "GIN",
+        "B-tree",
+        "BRIN"
+      ],
+      "correct": "C",
+      "explanation": "B-tree is the default access method for CREATE INDEX.",
+      "difficulty": "beginner",
+      "topic": "Indexes",
+      "subtopic": "Default index type"
+    },
+    {
+      "question": "Which type stores JSON in a decomposed binary form that supports GIN indexing?",
+      "options": [
+        "json",
+        "text",
+        "xml",
+        "jsonb"
+      ],
+      "correct": "D",
+      "explanation": "jsonb stores parsed binary JSON and supports GIN indexes; json stores the raw text.",
+      "difficulty": "beginner",
+      "topic": "JSONB",
+      "subtopic": "json vs jsonb"
+    },
+    {
+      "question": "Which command quickly removes all rows from a table without scanning them row by row?",
+      "options": [
+        "TRUNCATE",
+        "DELETE",
+        "DROP",
+        "VACUUM"
+      ],
+      "correct": "A",
+      "explanation": "TRUNCATE empties the table by reclaiming its storage instead of deleting rows individually; DROP removes the table itself.",
+      "difficulty": "beginner",
+      "topic": "DML",
+      "subtopic": "TRUNCATE"
+    },
+    {
+      "question": "Given data jsonb, which operator returns the value of key name as text?",
+      "options": [
+        "->",
+        "->>",
+        "#>",
+        "@>"
+      ],
+      "correct": "B",
+      "explanation": "->> extracts a field as text, while -> returns it as jsonb.",
+      "difficulty": "intermediate",
+      "topic": "JSONB",
+      "subtopic": "Operators"
+    },
+    {
+      "question": "Which jsonb operator tests whether the left value contains the right value?",
+      "options": [
+        "?",
+        "->",
+        "<@",
+        "@>"
+      ],
+      "correct": "D",
+      "explanation": "@> is \"contains\"; <@ is \"is contained by\" and ? tests for a key.",
+      "difficulty": "intermediate",
+      "topic": "JSONB",
+      "subtopic": "Containment"
+    },
+    {
+      "question": "What does EXPLAIN ANALYZE do that plain EXPLAIN does not?",
+      "options": [
+        "Rewrites the query into a faster form",
+        "Executes the query and reports actual times and row counts",
+        "Refreshes the planner statistics",
+        "Creates any missing indexes"
+      ],
+      "correct": "B",
+      "explanation": "EXPLAIN shows the estimated plan; ANALYZE actually runs the statement and adds real measurements.",
+      "difficulty": "intermediate",
+      "topic": "Query tuning",
+      "subtopic": "EXPLAIN ANALYZE"
+    },
+    {
+      "question": "What is the main purpose of VACUUM?",
+      "options": [
+        "Reclaiming space used by dead row versions left by updates and deletes",
+        "Compressing table data",
+        "Rebuilding every index from scratch",
+        "Forcing WAL to be flushed to disk"
+      ],
+      "correct": "A",
+      "explanation": "Under MVCC, old row versions remain until VACUUM marks their space reusable.",
+      "difficulty": "intermediate",
+      "topic": "MVCC",
+      "subtopic": "VACUUM"
+    },
+    {
+      "question": "Which index type is normally used to speed up jsonb containment (@>) queries?",
+      "options": [
+        "B-tree",
+        "Hash",
+        "GIN",
+        "BRIN"
+      ],
+      "correct": "C",
+      "explanation": "GIN indexes the keys and values inside jsonb, supporting @> and key-existence operators.",
+      "difficulty": "intermediate",
+      "topic": "Indexes",
+      "subtopic": "GIN"
+    },
+    {
+      "question": "Which statement gives role r read access to all existing tables in schema public?",
+      "options": [
+        "GRANT READ ON public TO r;",
+        "ALTER SCHEMA public GRANT SELECT TO r;",
+        "GRANT SELECT ON ALL TABLES IN SCHEMA public TO r;",
+        "GRANT USAGE ON ALL TABLES TO r;"
+      ],
+      "correct": "C",
+      "explanation": "GRANT ... ON ALL TABLES IN SCHEMA grants the privilege on every existing table in that schema.",
+      "difficulty": "intermediate",
+      "topic": "Roles",
+      "subtopic": "Privileges"
+    },
+    {
+      "question": "Which PostgreSQL syntax updates the existing row when an INSERT hits a unique-key conflict?",
+      "options": [
+        "ON DUPLICATE KEY UPDATE",
+        "ON CONFLICT (id) DO UPDATE SET ...",
+        "MERGE ON KEY id",
+        "REPLACE INTO"
+      ],
+      "correct": "B",
+      "explanation": "INSERT ... ON CONFLICT ... DO UPDATE is PostgreSQL's upsert; the others are MySQL syntax or invalid.",
+      "difficulty": "intermediate",
+      "topic": "DML",
+      "subtopic": "Upsert"
+    },
+    {
+      "question": "What does CREATE INDEX CONCURRENTLY avoid compared with a normal CREATE INDEX?",
+      "options": [
+        "Using extra disk space",
+        "Writing WAL",
+        "Needing table statistics",
+        "Blocking inserts, updates and deletes on the table during the build"
+      ],
+      "correct": "D",
+      "explanation": "A concurrent build does not take a lock that blocks writes, at the cost of a slower build.",
+      "difficulty": "intermediate",
+      "topic": "Indexes",
+      "subtopic": "CREATE INDEX CONCURRENTLY"
+    },
+    {
+      "question": "Under PostgreSQL MVCC, what happens physically when a row is updated?",
+      "options": [
+        "The row is overwritten in place",
+        "A new row version is written and the old one is marked expired",
+        "The old values move to an undo log",
+        "The page stays locked until VACUUM runs"
+      ],
+      "correct": "B",
+      "explanation": "PostgreSQL writes a new tuple version; the old one becomes dead once no snapshot needs it.",
+      "difficulty": "advanced",
+      "topic": "MVCC",
+      "subtopic": "Row versions"
+    },
+    {
+      "question": "In READ COMMITTED, PostgreSQL's default level, which snapshot does each statement see?",
+      "options": [
+        "A snapshot taken when that statement starts",
+        "A snapshot taken when the transaction started",
+        "Uncommitted changes of other sessions",
+        "Only rows it inserted itself"
+      ],
+      "correct": "A",
+      "explanation": "Each statement in READ COMMITTED takes a fresh snapshot of data committed before it began.",
+      "difficulty": "advanced",
+      "topic": "Transactions",
+      "subtopic": "READ COMMITTED"
+    },
+    {
+      "question": "What is a partial index?",
+      "options": [
+        "An index on only the first N characters of a column",
+        "An index created on only some partitions",
+        "An index built with a WHERE predicate so it covers only matching rows",
+        "An index without leaf pages"
+      ],
+      "correct": "C",
+      "explanation": "A partial index includes only rows satisfying its WHERE clause, keeping it small.",
+      "difficulty": "advanced",
+      "topic": "Indexes",
+      "subtopic": "Partial index"
+    },
+    {
+      "question": "What must be true for an Index Only Scan to skip heap fetches for most rows?",
+      "options": [
+        "The table is UNLOGGED",
+        "The index is a GIN index",
+        "enable_seqscan is off",
+        "The visibility map marks those pages all-visible"
+      ],
+      "correct": "D",
+      "explanation": "Without the all-visible bit, PostgreSQL must visit the heap to check row visibility.",
+      "difficulty": "advanced",
+      "topic": "Query tuning",
+      "subtopic": "Index-only scans"
+    },
+    {
+      "question": "What does freezing (anti-wraparound vacuum) protect against?",
+      "options": [
+        "Index bloat",
+        "Old rows appearing to be in the future after transaction ID wraparound",
+        "WAL files filling the disk",
+        "Deadlocks between sessions"
+      ],
+      "correct": "B",
+      "explanation": "Transaction IDs are 32-bit; freezing old tuples prevents them becoming invisible when IDs wrap around.",
+      "difficulty": "advanced",
+      "topic": "MVCC",
+      "subtopic": "Wraparound"
+    },
+    {
+      "question": "Which feature lets a table restrict which rows each role can see or modify?",
+      "options": [
+        "Column privileges",
+        "Tablespaces",
+        "Row-level security policies (CREATE POLICY)",
+        "Schemas"
+      ],
+      "correct": "C",
+      "explanation": "With RLS enabled, CREATE POLICY expressions filter the rows visible to each role.",
+      "difficulty": "advanced",
+      "topic": "Security",
+      "subtopic": "Row-level security"
+    }
+  ]
+}

@@ -76,7 +76,7 @@ def progress(user: models.User = Depends(require_student), db: Session = Depends
     attempts = db.execute(
         select(models.AssessmentAttempt, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.AssessmentAttempt.skill_id)
-        .where(models.AssessmentAttempt.user_id == user.id)
+        .where(models.AssessmentAttempt.user_id == user.id, models.AssessmentAttempt.status == "submitted")
         .order_by(models.AssessmentAttempt.created_at)
     ).all()
     records = db.scalars(select(models.LearningProgress).where(models.LearningProgress.user_id == user.id)).all()

@@ -55,7 +55,7 @@ def student_summary(db: Session, student: models.User) -> dict:
     profile = db.scalar(select(models.StudentProfile).where(models.StudentProfile.user_id == student.id))
     attempts = db.execute(
         select(models.AssessmentAttempt.score_percent, models.AssessmentAttempt.created_at)
-        .where(models.AssessmentAttempt.user_id == student.id)
+        .where(models.AssessmentAttempt.user_id == student.id, models.AssessmentAttempt.status == "submitted")
         .order_by(models.AssessmentAttempt.created_at.desc())
     ).all()
     scores = [a.score_percent for a in attempts]

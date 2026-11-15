@@ -1,0 +1,313 @@
+{
+  "skill": "Linux",
+  "questions": [
+    {
+      "question": "Which command prints the current working directory?",
+      "options": [
+        "pwd",
+        "cwd",
+        "dir -p",
+        "where"
+      ],
+      "correct": "A",
+      "explanation": "pwd prints the absolute path of the current directory.",
+      "difficulty": "beginner",
+      "topic": "Navigation",
+      "subtopic": "pwd"
+    },
+    {
+      "question": "Which command lists all files, including hidden ones, in long format?",
+      "options": [
+        "ls -h",
+        "ls -la",
+        "ls -r",
+        "ls -t"
+      ],
+      "correct": "B",
+      "explanation": "-l gives long format and -a includes dotfiles.",
+      "difficulty": "beginner",
+      "topic": "Files",
+      "subtopic": "ls"
+    },
+    {
+      "question": "Which command displays the last 10 lines of a file by default?",
+      "options": [
+        "head",
+        "less",
+        "tail",
+        "wc"
+      ],
+      "correct": "C",
+      "explanation": "tail prints the last 10 lines unless -n says otherwise.",
+      "difficulty": "beginner",
+      "topic": "Text processing",
+      "subtopic": "tail"
+    },
+    {
+      "question": "Which command searches files for lines matching a text pattern?",
+      "options": [
+        "find",
+        "locate",
+        "which",
+        "grep"
+      ],
+      "correct": "D",
+      "explanation": "grep prints lines matching a pattern; find searches for files by attributes.",
+      "difficulty": "beginner",
+      "topic": "Text processing",
+      "subtopic": "grep"
+    },
+    {
+      "question": "What does cd .. do?",
+      "options": [
+        "Moves to the parent directory",
+        "Moves to the home directory",
+        "Moves to the root directory",
+        "Lists the parent directory"
+      ],
+      "correct": "A",
+      "explanation": ".. refers to the parent of the current directory.",
+      "difficulty": "beginner",
+      "topic": "Navigation",
+      "subtopic": "cd"
+    },
+    {
+      "question": "Which command creates nested directories a/b/c, without error if they already exist?",
+      "options": [
+        "mkdir a/b/c",
+        "mkdir -p a/b/c",
+        "mkdir -r a/b/c",
+        "touch a/b/c"
+      ],
+      "correct": "B",
+      "explanation": "-p creates missing parents and does not fail on existing directories.",
+      "difficulty": "beginner",
+      "topic": "Files",
+      "subtopic": "mkdir -p"
+    },
+    {
+      "question": "Which command shows the manual page for ls?",
+      "options": [
+        "ls --manual",
+        "doc ls",
+        "man ls",
+        "manual ls"
+      ],
+      "correct": "C",
+      "explanation": "man displays the manual page for a command.",
+      "difficulty": "beginner",
+      "topic": "Help",
+      "subtopic": "man"
+    },
+    {
+      "question": "Which operator redirects stdout to a file, appending instead of overwriting?",
+      "options": [
+        ">",
+        "<",
+        "|",
+        ">>"
+      ],
+      "correct": "D",
+      "explanation": ">> appends; > truncates the file first.",
+      "difficulty": "beginner",
+      "topic": "Shell",
+      "subtopic": "Redirection"
+    },
+    {
+      "question": "Which permission string results from chmod 754 file?",
+      "options": [
+        "rwxr-xr--",
+        "rwxr-x---",
+        "rwxrw-r--",
+        "rwxr--r-x"
+      ],
+      "correct": "A",
+      "explanation": "7=rwx for owner, 5=r-x for group, 4=r-- for others.",
+      "difficulty": "intermediate",
+      "topic": "Permissions",
+      "subtopic": "chmod numeric"
+    },
+    {
+      "question": "A file shows -rw-r----- in ls -l. Apart from root, who can read it?",
+      "options": [
+        "Only the owner",
+        "The owner and members of the file's group",
+        "Every user",
+        "Nobody"
+      ],
+      "correct": "B",
+      "explanation": "Owner has rw-, group has r--, others have no permissions.",
+      "difficulty": "intermediate",
+      "topic": "Permissions",
+      "subtopic": "Reading ls -l"
+    },
+    {
+      "question": "Which command makes alice the owner and dev the group of file?",
+      "options": [
+        "chmod alice:dev file",
+        "chgrp alice dev file",
+        "chown alice:dev file",
+        "usermod -o alice file"
+      ],
+      "correct": "C",
+      "explanation": "chown user:group sets both owner and group.",
+      "difficulty": "intermediate",
+      "topic": "Permissions",
+      "subtopic": "chown"
+    },
+    {
+      "question": "In cmd > out.log 2>&1, what does 2>&1 do?",
+      "options": [
+        "Sends stdout to stderr",
+        "Discards stderr",
+        "Runs cmd twice",
+        "Redirects stderr to where stdout points, so both go to out.log"
+      ],
+      "correct": "D",
+      "explanation": "2>&1 duplicates file descriptor 1 onto 2 after stdout has been pointed at out.log.",
+      "difficulty": "intermediate",
+      "topic": "Shell",
+      "subtopic": "stderr redirection"
+    },
+    {
+      "question": "Which command lists all processes of all users with details such as user, CPU and memory?",
+      "options": [
+        "ps aux",
+        "jobs",
+        "bg",
+        "pwd -a"
+      ],
+      "correct": "A",
+      "explanation": "ps aux shows every process in BSD-style user-oriented format.",
+      "difficulty": "intermediate",
+      "topic": "Processes",
+      "subtopic": "ps"
+    },
+    {
+      "question": "Which signal does kill PID send when no signal is specified?",
+      "options": [
+        "SIGKILL",
+        "SIGTERM",
+        "SIGHUP",
+        "SIGINT"
+      ],
+      "correct": "B",
+      "explanation": "kill sends SIGTERM (15) by default, allowing the process to clean up.",
+      "difficulty": "intermediate",
+      "topic": "Processes",
+      "subtopic": "Signals"
+    },
+    {
+      "question": "What does find /var/log -name \"*.log\" -mtime -1 return?",
+      "options": [
+        ".log files under /var/log older than one day",
+        "Directories named log",
+        ".log files under /var/log modified less than 24 hours ago",
+        "The single newest .log file"
+      ],
+      "correct": "C",
+      "explanation": "-mtime -1 matches files modified within the last 24 hours.",
+      "difficulty": "intermediate",
+      "topic": "Searching",
+      "subtopic": "find"
+    },
+    {
+      "question": "Which command shows free and used space of mounted filesystems in human-readable units?",
+      "options": [
+        "du -s",
+        "free -h",
+        "mount -l",
+        "df -h"
+      ],
+      "correct": "D",
+      "explanation": "df reports filesystem usage; du measures directory sizes and free shows memory.",
+      "difficulty": "intermediate",
+      "topic": "System",
+      "subtopic": "Disk usage"
+    },
+    {
+      "question": "What is the effect of the setgid bit on a directory?",
+      "options": [
+        "New files created inside inherit the directory's group",
+        "Files inside run with the owner's privileges",
+        "Only root can create files inside",
+        "Files inside cannot be deleted"
+      ],
+      "correct": "A",
+      "explanation": "On directories, setgid makes new entries inherit the directory's group ownership.",
+      "difficulty": "advanced",
+      "topic": "Permissions",
+      "subtopic": "setgid directory"
+    },
+    {
+      "question": "What does the sticky bit on /tmp (drwxrwxrwt) do?",
+      "options": [
+        "Keeps files in memory",
+        "Lets only a file's owner, the directory's owner or root delete or rename it",
+        "Makes files read-only",
+        "Deletes files at reboot"
+      ],
+      "correct": "B",
+      "explanation": "Without it, anyone with write access to the directory could delete others' files.",
+      "difficulty": "advanced",
+      "topic": "Permissions",
+      "subtopic": "Sticky bit"
+    },
+    {
+      "question": "With umask 022, what mode does a newly created regular file get by default?",
+      "options": [
+        "755",
+        "022",
+        "644",
+        "666"
+      ],
+      "correct": "C",
+      "explanation": "Files start from 666; masking out 022 gives 644 (rw-r--r--).",
+      "difficulty": "advanced",
+      "topic": "Permissions",
+      "subtopic": "umask"
+    },
+    {
+      "question": "In cmd1 && cmd2 || cmd3, what happens if cmd1 fails?",
+      "options": [
+        "cmd2 runs, then cmd3",
+        "Nothing else runs",
+        "cmd2 runs but cmd3 does not",
+        "cmd3 runs and cmd2 is skipped"
+      ],
+      "correct": "D",
+      "explanation": "&& skips cmd2 on failure; the list then has a non-zero status, so || runs cmd3.",
+      "difficulty": "advanced",
+      "topic": "Shell",
+      "subtopic": "Control operators"
+    },
+    {
+      "question": "Which command adds execute permission on deploy.sh for its owner only, leaving other bits unchanged?",
+      "options": [
+        "chmod u+x deploy.sh",
+        "chmod 700 deploy.sh",
+        "chmod +x deploy.sh",
+        "chmod a+x deploy.sh"
+      ],
+      "correct": "A",
+      "explanation": "u+x changes only the user's execute bit; +x and a+x affect everyone and 700 replaces all bits.",
+      "difficulty": "advanced",
+      "topic": "Permissions",
+      "subtopic": "Symbolic chmod"
+    },
+    {
+      "question": "A hard link and a symbolic link both point to file f. What happens after rm f?",
+      "options": [
+        "Both links stop working",
+        "The hard link still accesses the data; the symlink becomes dangling",
+        "The symlink still works; the hard link breaks",
+        "Both are deleted automatically"
+      ],
+      "correct": "B",
+      "explanation": "A hard link is another name for the same inode; a symlink stores a path that no longer exists.",
+      "difficulty": "advanced",
+      "topic": "Filesystem",
+      "subtopic": "Links"
+    }
+  ]
+}

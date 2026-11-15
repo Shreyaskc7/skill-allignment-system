@@ -1,0 +1,313 @@
+{
+  "skill": "FastAPI",
+  "questions": [
+    {
+      "question": "With app = FastAPI(), how do you declare a GET endpoint at /items?",
+      "options": [
+        "@app.route(\"/items\")",
+        "@app.get(\"/items\")",
+        "@app.endpoint(\"GET\", \"/items\")",
+        "@get(app, \"/items\")"
+      ],
+      "correct": "B",
+      "explanation": "FastAPI uses method-specific decorators such as @app.get.",
+      "difficulty": "beginner",
+      "topic": "Routing",
+      "subtopic": "Path operations"
+    },
+    {
+      "question": "Route /items/{item_id} has function def read(item_id: int). What kind of parameter is item_id?",
+      "options": [
+        "A path parameter",
+        "A query parameter",
+        "A request header",
+        "A cookie"
+      ],
+      "correct": "A",
+      "explanation": "Parameters whose names appear in the path template are path parameters.",
+      "difficulty": "beginner",
+      "topic": "Parameters",
+      "subtopic": "Path parameters"
+    },
+    {
+      "question": "A parameter q: str | None = None that does not appear in the path is treated as what?",
+      "options": [
+        "A required path parameter",
+        "A request body",
+        "An optional query parameter",
+        "A header"
+      ],
+      "correct": "C",
+      "explanation": "Simple-typed parameters not in the path become query parameters; a default makes them optional.",
+      "difficulty": "beginner",
+      "topic": "Parameters",
+      "subtopic": "Query parameters"
+    },
+    {
+      "question": "Which command serves the app object in main.py with auto-reload for development?",
+      "options": [
+        "python main.py --reload",
+        "fastapi serve main",
+        "pip run main:app",
+        "uvicorn main:app --reload"
+      ],
+      "correct": "D",
+      "explanation": "Uvicorn loads module:attribute and --reload restarts on code changes.",
+      "difficulty": "beginner",
+      "topic": "Running",
+      "subtopic": "Uvicorn"
+    },
+    {
+      "question": "At which path does FastAPI serve the interactive Swagger UI by default?",
+      "options": [
+        "/swagger",
+        "/docs",
+        "/api",
+        "/openapi"
+      ],
+      "correct": "B",
+      "explanation": "Swagger UI is at /docs, ReDoc at /redoc, and the schema at /openapi.json.",
+      "difficulty": "beginner",
+      "topic": "Documentation",
+      "subtopic": "Swagger UI"
+    },
+    {
+      "question": "A request sends item_id=abc for a parameter typed int. What happens?",
+      "options": [
+        "It is coerced to 0",
+        "It is passed as the string \"abc\"",
+        "FastAPI responds with a 422 validation error",
+        "The server returns 500"
+      ],
+      "correct": "C",
+      "explanation": "Validation fails and FastAPI returns 422 Unprocessable Entity with error details.",
+      "difficulty": "beginner",
+      "topic": "Validation",
+      "subtopic": "Type errors"
+    },
+    {
+      "question": "Which class do you subclass to define a request body model?",
+      "options": [
+        "pydantic.BaseModel",
+        "fastapi.Body",
+        "dataclasses.Model",
+        "typing.TypedModel"
+      ],
+      "correct": "A",
+      "explanation": "Request bodies are declared as Pydantic BaseModel subclasses.",
+      "difficulty": "beginner",
+      "topic": "Models",
+      "subtopic": "Request body"
+    },
+    {
+      "question": "How do you return a 404 response with a detail message from a path operation?",
+      "options": [
+        "raise ValueError(404)",
+        "return Response(404)",
+        "abort(404)",
+        "raise HTTPException(status_code=404, detail=\"Not found\")"
+      ],
+      "correct": "D",
+      "explanation": "Raising fastapi.HTTPException produces the given status code and JSON detail.",
+      "difficulty": "beginner",
+      "topic": "Errors",
+      "subtopic": "HTTPException"
+    },
+    {
+      "question": "What is the role of Depends() in FastAPI?",
+      "options": [
+        "It declares a dependency whose result is injected into the path operation",
+        "It imports a package at runtime",
+        "It defines relationships between database tables",
+        "It schedules a background job"
+      ],
+      "correct": "A",
+      "explanation": "Depends tells FastAPI to call a callable and pass its result into the function.",
+      "difficulty": "intermediate",
+      "topic": "Dependencies",
+      "subtopic": "Depends"
+    },
+    {
+      "question": "Which path operation decorator argument validates and filters the output to a declared model?",
+      "options": [
+        "output_schema",
+        "response_model",
+        "serializer",
+        "return_type_only"
+      ],
+      "correct": "B",
+      "explanation": "response_model converts and filters return data, e.g. removing fields like passwords.",
+      "difficulty": "intermediate",
+      "topic": "Responses",
+      "subtopic": "response_model"
+    },
+    {
+      "question": "Which is the Pydantic v2 method (replacing the deprecated .dict()) for converting a model to a dict?",
+      "options": [
+        ".to_dict()",
+        ".as_dict()",
+        ".model_dump()",
+        ".serialize()"
+      ],
+      "correct": "C",
+      "explanation": "Pydantic v2 renamed .dict() to .model_dump().",
+      "difficulty": "intermediate",
+      "topic": "Pydantic v2",
+      "subtopic": "Serialization"
+    },
+    {
+      "question": "In the Pydantic v2 API, which decorator defines a custom validator for a specific field?",
+      "options": [
+        "@validator",
+        "@field_validator",
+        "@root_validator",
+        "@check_field"
+      ],
+      "correct": "B",
+      "explanation": "v2 uses @field_validator; @validator and @root_validator are deprecated v1 APIs.",
+      "difficulty": "intermediate",
+      "topic": "Pydantic v2",
+      "subtopic": "Validators"
+    },
+    {
+      "question": "How can an endpoint run a function after the response is sent, without an external queue?",
+      "options": [
+        "Use an @app.after_response decorator",
+        "Return a coroutine from the endpoint",
+        "Set async_mode=True on the route",
+        "Add a BackgroundTasks parameter and call add_task()"
+      ],
+      "correct": "D",
+      "explanation": "BackgroundTasks runs added tasks after the response has been sent.",
+      "difficulty": "intermediate",
+      "topic": "Background work",
+      "subtopic": "BackgroundTasks"
+    },
+    {
+      "question": "What is a dependency written with yield typically used for?",
+      "options": [
+        "Setup before the request and cleanup after it, such as closing a DB session",
+        "Streaming the response body",
+        "Generating the OpenAPI schema",
+        "Caching the value across all requests"
+      ],
+      "correct": "A",
+      "explanation": "Code before yield runs first; code after yield runs as teardown once the response is done.",
+      "difficulty": "intermediate",
+      "topic": "Dependencies",
+      "subtopic": "yield dependencies"
+    },
+    {
+      "question": "Which declaration makes a POST endpoint return 201 by default?",
+      "options": [
+        "@app.post(\"/items\", code=201)",
+        "@app.post(\"/items\").status(201)",
+        "@app.post(\"/items\", status_code=201)",
+        "@app.post(\"/items\", http_status=\"201\")"
+      ],
+      "correct": "C",
+      "explanation": "The status_code argument on the decorator sets the default response status.",
+      "difficulty": "intermediate",
+      "topic": "Responses",
+      "subtopic": "Status codes"
+    },
+    {
+      "question": "How do you add routes defined on router = APIRouter() to the application?",
+      "options": [
+        "app.mount_router(router)",
+        "app.include_router(router)",
+        "app.add(router)",
+        "router.attach(app)"
+      ],
+      "correct": "B",
+      "explanation": "app.include_router registers the router's path operations, optionally with a prefix and tags.",
+      "difficulty": "intermediate",
+      "topic": "Routing",
+      "subtopic": "APIRouter"
+    },
+    {
+      "question": "Inside an async def endpoint, what is the effect of calling time.sleep(5)?",
+      "options": [
+        "It blocks the event loop, stalling other requests on that worker",
+        "FastAPI moves it to a threadpool automatically",
+        "It raises a RuntimeError",
+        "Only that request waits; others are unaffected"
+      ],
+      "correct": "A",
+      "explanation": "async def runs on the event loop, so a blocking call freezes it; use await asyncio.sleep or a plain def.",
+      "difficulty": "advanced",
+      "topic": "Async",
+      "subtopic": "Blocking calls"
+    },
+    {
+      "question": "How does FastAPI run a path operation declared with plain def instead of async def?",
+      "options": [
+        "Directly on the event loop",
+        "In an external threadpool so it does not block the event loop",
+        "In a separate process",
+        "By converting it to a coroutine"
+      ],
+      "correct": "B",
+      "explanation": "Plain def endpoints are run in a threadpool and awaited.",
+      "difficulty": "advanced",
+      "topic": "Async",
+      "subtopic": "Sync endpoints"
+    },
+    {
+      "question": "Two dependencies of one endpoint both depend on get_db. By default, how often is get_db called per request?",
+      "options": [
+        "Twice",
+        "Once per application lifetime",
+        "Once; its result is cached for the request",
+        "Never, unless use_cache=True"
+      ],
+      "correct": "C",
+      "explanation": "FastAPI caches a dependency's value within a request unless use_cache=False.",
+      "difficulty": "advanced",
+      "topic": "Dependencies",
+      "subtopic": "Caching"
+    },
+    {
+      "question": "What is the recommended way to run startup and shutdown logic in current FastAPI?",
+      "options": [
+        "@app.middleware(\"startup\")",
+        "A __del__ method on the app module",
+        "A Depends() added to every route",
+        "An async context manager passed as FastAPI(lifespan=...)"
+      ],
+      "correct": "D",
+      "explanation": "The lifespan context manager replaces the deprecated startup/shutdown event handlers.",
+      "difficulty": "advanced",
+      "topic": "Lifecycle",
+      "subtopic": "Lifespan"
+    },
+    {
+      "question": "In Pydantic v2, what lets model_validate() read data from ORM object attributes?",
+      "options": [
+        "class Config: orm_mode = True",
+        "Field(use_orm=True)",
+        "model_config = {\"orm\": True}",
+        "model_config = ConfigDict(from_attributes=True)"
+      ],
+      "correct": "D",
+      "explanation": "v2 renamed orm_mode to from_attributes, set via model_config.",
+      "difficulty": "advanced",
+      "topic": "Pydantic v2",
+      "subtopic": "ORM mode"
+    },
+    {
+      "question": "Which FastAPI security class extracts a bearer token from the Authorization header for the OAuth2 password flow?",
+      "options": [
+        "HTTPBasic",
+        "APIKeyCookie",
+        "OAuth2PasswordBearer",
+        "OAuth2PasswordRequestForm"
+      ],
+      "correct": "C",
+      "explanation": "OAuth2PasswordBearer reads \"Authorization: Bearer <token>\"; the request form parses username/password.",
+      "difficulty": "advanced",
+      "topic": "Security",
+      "subtopic": "OAuth2"
+    }
+  ]
+}

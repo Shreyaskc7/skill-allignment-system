@@ -1,0 +1,313 @@
+{
+  "skill": "SQL",
+  "questions": [
+    {
+      "question": "Which SQL command retrieves rows?",
+      "options": [
+        "GET",
+        "FETCH",
+        "SELECT",
+        "OPEN"
+      ],
+      "correct": "C",
+      "explanation": "SELECT retrieves data from tables.",
+      "difficulty": "beginner",
+      "topic": "Querying",
+      "subtopic": "SELECT basics"
+    },
+    {
+      "question": "Which clause filters rows before grouping?",
+      "options": [
+        "HAVING",
+        "WHERE",
+        "ORDER BY",
+        "LIMIT"
+      ],
+      "correct": "B",
+      "explanation": "WHERE filters individual rows before grouping.",
+      "difficulty": "beginner",
+      "topic": "Filtering",
+      "subtopic": "WHERE vs HAVING"
+    },
+    {
+      "question": "Which join returns only matching rows?",
+      "options": [
+        "LEFT JOIN",
+        "FULL JOIN",
+        "INNER JOIN",
+        "CROSS JOIN"
+      ],
+      "correct": "C",
+      "explanation": "INNER JOIN returns rows with matching join keys.",
+      "difficulty": "intermediate",
+      "topic": "Joins",
+      "subtopic": "INNER JOIN"
+    },
+    {
+      "question": "Which function counts rows?",
+      "options": [
+        "SUM()",
+        "COUNT()",
+        "TOTAL()",
+        "NUMBER()"
+      ],
+      "correct": "B",
+      "explanation": "COUNT returns the number of rows or non-null values.",
+      "difficulty": "beginner",
+      "topic": "Aggregation",
+      "subtopic": "COUNT"
+    },
+    {
+      "question": "What does a primary key ensure?",
+      "options": [
+        "Duplicate values",
+        "Unique row identity",
+        "Sorted rows",
+        "Encrypted data"
+      ],
+      "correct": "B",
+      "explanation": "A primary key uniquely identifies each row.",
+      "difficulty": "intermediate",
+      "topic": "Constraints",
+      "subtopic": "Primary key"
+    },
+    {
+      "question": "Which keyword removes duplicate rows from a SELECT result?",
+      "options": [
+        "DISTINCT",
+        "UNIQUE ROWS",
+        "ONLY",
+        "SINGLE"
+      ],
+      "correct": "A",
+      "explanation": "SELECT DISTINCT returns each distinct row only once.",
+      "difficulty": "beginner",
+      "topic": "Querying",
+      "subtopic": "DISTINCT"
+    },
+    {
+      "question": "Which predicate correctly finds rows where column email has no value?",
+      "options": [
+        "email = NULL",
+        "email == NULL",
+        "email <> NULL",
+        "email IS NULL"
+      ],
+      "correct": "D",
+      "explanation": "Comparisons with NULL yield UNKNOWN; IS NULL is the predicate that tests for NULL.",
+      "difficulty": "beginner",
+      "topic": "NULL handling",
+      "subtopic": "IS NULL"
+    },
+    {
+      "question": "Which clause sorts the rows of a query result?",
+      "options": [
+        "GROUP BY",
+        "SORT BY",
+        "ARRANGE BY",
+        "ORDER BY"
+      ],
+      "correct": "D",
+      "explanation": "ORDER BY sorts the result set; GROUP BY groups rows for aggregation.",
+      "difficulty": "beginner",
+      "topic": "Querying",
+      "subtopic": "ORDER BY"
+    },
+    {
+      "question": "Which statement changes values in existing rows of a table?",
+      "options": [
+        "UPDATE",
+        "ALTER",
+        "MODIFY",
+        "INSERT"
+      ],
+      "correct": "A",
+      "explanation": "UPDATE modifies existing rows; ALTER changes table structure.",
+      "difficulty": "beginner",
+      "topic": "DML",
+      "subtopic": "UPDATE"
+    },
+    {
+      "question": "In a LIKE pattern, which wildcard matches any sequence of zero or more characters?",
+      "options": [
+        "_",
+        "*",
+        "%",
+        "?"
+      ],
+      "correct": "C",
+      "explanation": "% matches any sequence of characters; _ matches exactly one character.",
+      "difficulty": "beginner",
+      "topic": "Filtering",
+      "subtopic": "LIKE patterns"
+    },
+    {
+      "question": "Table t has 5 rows and column c is NULL in 2 of them. What do COUNT(*) and COUNT(c) return?",
+      "options": [
+        "5 and 5",
+        "5 and 3",
+        "3 and 3",
+        "3 and 5"
+      ],
+      "correct": "B",
+      "explanation": "COUNT(*) counts all rows, while COUNT(c) counts only non-NULL values of c.",
+      "difficulty": "intermediate",
+      "topic": "Aggregation",
+      "subtopic": "COUNT and NULL"
+    },
+    {
+      "question": "Where must a condition on an aggregate, such as SUM(amount) > 100, be written?",
+      "options": [
+        "HAVING",
+        "WHERE",
+        "ON",
+        "FROM"
+      ],
+      "correct": "A",
+      "explanation": "Aggregates are computed after grouping, so they are filtered in HAVING, not WHERE.",
+      "difficulty": "intermediate",
+      "topic": "Aggregation",
+      "subtopic": "HAVING"
+    },
+    {
+      "question": "customers LEFT JOIN orders: for a customer with no orders, what appears in the orders columns?",
+      "options": [
+        "Empty strings",
+        "Zeros",
+        "NULL",
+        "The customer row is omitted"
+      ],
+      "correct": "C",
+      "explanation": "LEFT JOIN keeps every left row and fills the unmatched right-side columns with NULL.",
+      "difficulty": "intermediate",
+      "topic": "Joins",
+      "subtopic": "LEFT JOIN"
+    },
+    {
+      "question": "Under standard SQL, what does the expression NULL = NULL evaluate to?",
+      "options": [
+        "TRUE",
+        "FALSE",
+        "An error",
+        "UNKNOWN (NULL)"
+      ],
+      "correct": "D",
+      "explanation": "Any comparison involving NULL yields UNKNOWN, so NULL = NULL is not TRUE.",
+      "difficulty": "intermediate",
+      "topic": "NULL handling",
+      "subtopic": "Three-valued logic"
+    },
+    {
+      "question": "Which constraint requires a column value to match an existing key in another table?",
+      "options": [
+        "FOREIGN KEY",
+        "CHECK",
+        "UNIQUE",
+        "DEFAULT"
+      ],
+      "correct": "A",
+      "explanation": "A FOREIGN KEY enforces referential integrity against the referenced table's key.",
+      "difficulty": "intermediate",
+      "topic": "Constraints",
+      "subtopic": "Foreign key"
+    },
+    {
+      "question": "How does UNION differ from UNION ALL?",
+      "options": [
+        "UNION removes duplicate rows from the combined result",
+        "UNION keeps duplicate rows",
+        "UNION requires both queries to read the same table",
+        "UNION always returns rows sorted by the first column"
+      ],
+      "correct": "A",
+      "explanation": "UNION eliminates duplicates; UNION ALL returns all rows including duplicates.",
+      "difficulty": "intermediate",
+      "topic": "Set operations",
+      "subtopic": "UNION vs UNION ALL"
+    },
+    {
+      "question": "t.x contains 1 and 3; subquery s returns 2 and NULL. How many rows satisfy x NOT IN (SELECT y FROM s)?",
+      "options": [
+        "2",
+        "1",
+        "0",
+        "An error is raised"
+      ],
+      "correct": "C",
+      "explanation": "x NOT IN (2, NULL) means x<>2 AND x<>NULL; the NULL comparison is UNKNOWN, so no row qualifies.",
+      "difficulty": "advanced",
+      "topic": "NULL handling",
+      "subtopic": "NOT IN with NULL"
+    },
+    {
+      "question": "For scores 90, 90, 80 ordered descending, what values does RANK() assign?",
+      "options": [
+        "1, 2, 3",
+        "1, 1, 2",
+        "1, 2, 2",
+        "1, 1, 3"
+      ],
+      "correct": "D",
+      "explanation": "RANK gives ties the same rank and leaves a gap afterwards.",
+      "difficulty": "advanced",
+      "topic": "Window functions",
+      "subtopic": "RANK"
+    },
+    {
+      "question": "For scores 90, 90, 80 ordered descending, what values does DENSE_RANK() assign?",
+      "options": [
+        "1, 1, 2",
+        "1, 1, 3",
+        "1, 2, 3",
+        "2, 2, 3"
+      ],
+      "correct": "A",
+      "explanation": "DENSE_RANK gives ties the same rank without leaving gaps.",
+      "difficulty": "advanced",
+      "topic": "Window functions",
+      "subtopic": "DENSE_RANK"
+    },
+    {
+      "question": "With an ORDER BY but no frame clause, what frame does SUM(x) OVER (ORDER BY d) use?",
+      "options": [
+        "ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING",
+        "RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW",
+        "ROWS BETWEEN 1 PRECEDING AND CURRENT ROW",
+        "Only the current row"
+      ],
+      "correct": "B",
+      "explanation": "The standard default frame with ORDER BY is RANGE UNBOUNDED PRECEDING to CURRENT ROW (peers included), giving a running total.",
+      "difficulty": "advanced",
+      "topic": "Window functions",
+      "subtopic": "Default frame"
+    },
+    {
+      "question": "Which isolation level prevents non-repeatable reads but, per the SQL standard, may still allow phantom reads?",
+      "options": [
+        "READ UNCOMMITTED",
+        "READ COMMITTED",
+        "SERIALIZABLE",
+        "REPEATABLE READ"
+      ],
+      "correct": "D",
+      "explanation": "The standard defines REPEATABLE READ as preventing dirty and non-repeatable reads while permitting phantoms.",
+      "difficulty": "advanced",
+      "topic": "Transactions",
+      "subtopic": "Isolation levels"
+    },
+    {
+      "question": "Column x holds 2, 4 and NULL. What does SELECT AVG(x) return?",
+      "options": [
+        "2",
+        "NULL",
+        "2.5",
+        "3"
+      ],
+      "correct": "D",
+      "explanation": "Aggregates ignore NULLs, so AVG is (2+4)/2 = 3.",
+      "difficulty": "advanced",
+      "topic": "Aggregation",
+      "subtopic": "AVG and NULL"
+    }
+  ]
+}

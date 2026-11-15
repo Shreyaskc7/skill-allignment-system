@@ -1,0 +1,313 @@
+{
+  "skill": "React",
+  "questions": [
+    {
+      "question": "Which hook manages local component state?",
+      "options": [
+        "useEffect",
+        "useState",
+        "useMemo",
+        "useRef"
+      ],
+      "correct": "B",
+      "explanation": "useState declares state in a function component.",
+      "difficulty": "beginner",
+      "topic": "Hooks",
+      "subtopic": "useState"
+    },
+    {
+      "question": "What is JSX?",
+      "options": [
+        "A database",
+        "A syntax extension for JavaScript",
+        "A CSS framework",
+        "A router"
+      ],
+      "correct": "B",
+      "explanation": "JSX lets developers write markup-like syntax in JavaScript.",
+      "difficulty": "beginner",
+      "topic": "JSX",
+      "subtopic": "Basics"
+    },
+    {
+      "question": "How does a parent component pass data to a child component?",
+      "options": [
+        "Through props",
+        "Through useRef",
+        "By editing the child's state directly",
+        "Through CSS variables"
+      ],
+      "correct": "A",
+      "explanation": "Props are the inputs a parent passes to a child component.",
+      "difficulty": "beginner",
+      "topic": "Components",
+      "subtopic": "Props"
+    },
+    {
+      "question": "When rendering a list with map(), which prop should each item have?",
+      "options": [
+        "id",
+        "index",
+        "ref",
+        "key"
+      ],
+      "correct": "D",
+      "explanation": "A stable key lets React identify items between renders.",
+      "difficulty": "beginner",
+      "topic": "Lists",
+      "subtopic": "Keys"
+    },
+    {
+      "question": "Which JSX attribute attaches a click handler?",
+      "options": [
+        "onclick",
+        "click",
+        "onClick",
+        "handleClick"
+      ],
+      "correct": "C",
+      "explanation": "React event props are camelCased, like onClick.",
+      "difficulty": "beginner",
+      "topic": "Events",
+      "subtopic": "Event handlers"
+    },
+    {
+      "question": "Which JSX attribute sets an element's CSS class?",
+      "options": [
+        "className",
+        "class",
+        "cssClass",
+        "styleClass"
+      ],
+      "correct": "A",
+      "explanation": "class is a reserved word in JavaScript, so JSX uses className.",
+      "difficulty": "beginner",
+      "topic": "JSX",
+      "subtopic": "Attributes"
+    },
+    {
+      "question": "How do you embed a JavaScript expression in JSX?",
+      "options": [
+        "Wrap it in double quotes",
+        "Wrap it in ${ }",
+        "Wrap it in curly braces { }",
+        "Wrap it in [[ ]]"
+      ],
+      "correct": "C",
+      "explanation": "Curly braces evaluate a JavaScript expression inside JSX.",
+      "difficulty": "beginner",
+      "topic": "JSX",
+      "subtopic": "Expressions"
+    },
+    {
+      "question": "What does <>...</> (a Fragment) do?",
+      "options": [
+        "Creates a new component",
+        "Adds a <div> wrapper",
+        "Lazily loads its children",
+        "Groups children without adding an extra DOM node"
+      ],
+      "correct": "D",
+      "explanation": "Fragments let a component return multiple elements without a wrapper element.",
+      "difficulty": "beginner",
+      "topic": "JSX",
+      "subtopic": "Fragments"
+    },
+    {
+      "question": "Outside StrictMode, when does useEffect(fn, []) run fn?",
+      "options": [
+        "Once, after the initial render",
+        "Before every render",
+        "After every render",
+        "Only when the component unmounts"
+      ],
+      "correct": "A",
+      "explanation": "An empty dependency array means the effect runs only after mount.",
+      "difficulty": "intermediate",
+      "topic": "Hooks",
+      "subtopic": "useEffect"
+    },
+    {
+      "question": "count is 0. A click handler calls setCount(count + 1); setCount(count + 1);. What is count after re-render?",
+      "options": [
+        "2",
+        "0",
+        "undefined",
+        "1"
+      ],
+      "correct": "D",
+      "explanation": "Both calls use the same snapshot value 0, so both set the state to 1.",
+      "difficulty": "intermediate",
+      "topic": "State",
+      "subtopic": "Stale state"
+    },
+    {
+      "question": "count is 0. A click handler calls setCount(c => c + 1); setCount(c => c + 1);. What is count after re-render?",
+      "options": [
+        "1",
+        "0",
+        "2",
+        "3"
+      ],
+      "correct": "C",
+      "explanation": "Updater functions are queued and each receives the latest pending state.",
+      "difficulty": "intermediate",
+      "topic": "State",
+      "subtopic": "Functional updates"
+    },
+    {
+      "question": "When does the cleanup function returned from useEffect run?",
+      "options": [
+        "Before the effect re-runs and when the component unmounts",
+        "Only on the first render",
+        "Only before the browser paints",
+        "Never, unless called manually"
+      ],
+      "correct": "A",
+      "explanation": "React calls cleanup before re-running the effect with new dependencies and on unmount.",
+      "difficulty": "intermediate",
+      "topic": "Hooks",
+      "subtopic": "Effect cleanup"
+    },
+    {
+      "question": "What happens when you change ref.current from useRef?",
+      "options": [
+        "The component re-renders immediately",
+        "React throws an error",
+        "The value updates but no re-render is triggered",
+        "The ref resets to its initial value"
+      ],
+      "correct": "C",
+      "explanation": "Refs hold mutable values that persist across renders without causing re-renders.",
+      "difficulty": "intermediate",
+      "topic": "Hooks",
+      "subtopic": "useRef"
+    },
+    {
+      "question": "What makes an <input> a controlled component?",
+      "options": [
+        "It uses defaultValue only",
+        "It is read with document.getElementById",
+        "It has a ref attached",
+        "Its value comes from state and changes go through onChange"
+      ],
+      "correct": "D",
+      "explanation": "A controlled input's value is driven by React state.",
+      "difficulty": "intermediate",
+      "topic": "Forms",
+      "subtopic": "Controlled inputs"
+    },
+    {
+      "question": "Two sibling components need the same state. What is the usual React approach?",
+      "options": [
+        "Move the state to their closest common parent and pass it down via props",
+        "Duplicate the state in both siblings",
+        "Store it in a global variable",
+        "Use useRef in one sibling"
+      ],
+      "correct": "A",
+      "explanation": "Lifting state up keeps a single source of truth.",
+      "difficulty": "intermediate",
+      "topic": "State",
+      "subtopic": "Lifting state up"
+    },
+    {
+      "question": "What does useMemo do?",
+      "options": [
+        "Caches a component's DOM output permanently",
+        "Runs side effects after render",
+        "Caches a computed value until its dependencies change",
+        "Stores a mutable value without re-rendering"
+      ],
+      "correct": "C",
+      "explanation": "useMemo recomputes its value only when a dependency changes.",
+      "difficulty": "intermediate",
+      "topic": "Hooks",
+      "subtopic": "useMemo"
+    },
+    {
+      "question": "What does wrapping a component in React.memo do?",
+      "options": [
+        "Prevents its state from changing",
+        "Skips re-rendering it when its props are shallowly equal to the previous props",
+        "Caches its fetched data",
+        "Makes it render only on the server"
+      ],
+      "correct": "B",
+      "explanation": "memo compares props shallowly and reuses the last render when they match.",
+      "difficulty": "advanced",
+      "topic": "Performance",
+      "subtopic": "React.memo"
+    },
+    {
+      "question": "What does useCallback(fn, deps) return?",
+      "options": [
+        "The result of calling fn",
+        "A promise resolving to fn",
+        "A ref object containing fn",
+        "The same function reference until deps change"
+      ],
+      "correct": "D",
+      "explanation": "useCallback memoizes the function itself, useful for stable props to memoized children.",
+      "difficulty": "advanced",
+      "topic": "Hooks",
+      "subtopic": "useCallback"
+    },
+    {
+      "question": "When does a component that calls useContext(MyContext) re-render due to context?",
+      "options": [
+        "When the nearest Provider's value changes",
+        "Only when its own props change",
+        "Never; context is read once",
+        "Whenever any component anywhere re-renders"
+      ],
+      "correct": "A",
+      "explanation": "Consumers re-render when the Provider value changes (compared with Object.is).",
+      "difficulty": "advanced",
+      "topic": "Context",
+      "subtopic": "Re-rendering"
+    },
+    {
+      "question": "Why is using the array index as key risky when list items can be reordered or inserted?",
+      "options": [
+        "React refuses to render the list",
+        "Keys must be strings, and index is a number",
+        "It disables event handlers",
+        "Component state can become attached to the wrong item"
+      ],
+      "correct": "D",
+      "explanation": "Index keys change meaning on reorder, so React may reuse the wrong component instance.",
+      "difficulty": "advanced",
+      "topic": "Lists",
+      "subtopic": "Index as key"
+    },
+    {
+      "question": "In React 18 with createRoot, how are multiple state updates inside a setTimeout callback handled?",
+      "options": [
+        "Each causes a separate synchronous re-render",
+        "They are batched into a single re-render",
+        "They are ignored",
+        "Only the first update is applied"
+      ],
+      "correct": "B",
+      "explanation": "React 18 batches updates automatically, including in timeouts and promises.",
+      "difficulty": "advanced",
+      "topic": "Rendering",
+      "subtopic": "Automatic batching"
+    },
+    {
+      "question": "When does useLayoutEffect run compared with useEffect?",
+      "options": [
+        "Before the component renders",
+        "In a web worker",
+        "Synchronously after DOM mutations, before the browser paints",
+        "After useEffect, once the browser is idle"
+      ],
+      "correct": "C",
+      "explanation": "useLayoutEffect fires before paint, so it can measure layout without flicker.",
+      "difficulty": "advanced",
+      "topic": "Hooks",
+      "subtopic": "useLayoutEffect"
+    }
+  ]
+}

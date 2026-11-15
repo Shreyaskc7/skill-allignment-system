@@ -7,7 +7,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import models
-from app.seed_data import CATALOG, QUESTIONS, RESOURCES, ROLE_SKILLS
+from app.seed_data import CATALOG, RESOURCES, ROLE_SKILLS
+from app.services.question_bank import load_question_bank
 
 
 def seed(db: Session) -> None:
@@ -40,28 +41,8 @@ def seed(db: Session) -> None:
                 )
     db.flush()
 
-    for skill, qs in QUESTIONS.items():
-        sk = db.scalar(select(models.Skill).where(models.Skill.name == skill))
-        for q, opts, correct, explain, diff in qs:
-            if not db.scalar(
-                select(models.AssessmentQuestion).where(
-                    models.AssessmentQuestion.skill_id == sk.id, models.AssessmentQuestion.question == q
-                )
-            ):
-                db.add(
-                    models.AssessmentQuestion(
-                        skill_id=sk.id,
-                        question=q,
-                        option_a=opts[0],
-                        option_b=opts[1],
-                        option_c=opts[2],
-                        option_d=opts[3],
-                        correct_option=correct,
-                        explanation=explain,
-                        difficulty=diff,
-                    )
-                )
-    db.flush()
+    # Assessment questions come from app/question_bank/*.json (Phase 6).
+    load_question_bank(db)
 
     for skill, items in RESOURCES.items():
         sk = db.scalar(select(models.Skill).where(models.Skill.name == skill))

@@ -115,16 +115,26 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Browser: admin invites → mentor accepts → admin assigns via UI → mentor sees only the assigned student and adds three note types → unassigned student by URL shows "Student not found" → student sees shared notes only → admin ends assignment with a reason → mentor loses access. No console errors.
 - **Deferred:** topic-wise performance needs per-question attempt records (Phase 6); skill-level performance is shown meanwhile.
 
-## Phase 6: Assessment engine and question bank
-- Question bank: ≥20 MCQs for each of the 26 skills, balanced beginner/intermediate/advanced, each with topic/subtopic, explanation and active flag. Authored as versioned seed files (`backend/app/seed/questions/*.json`), loaded idempotently, with duplicate detection.
-- Attempt lifecycle: `POST /assessments/start` creates an attempt (status, started_at, optional time limit) with randomised delivered question IDs and difficulty filter or mixed difficulty.
-- Submit validates: attempt owner, not already submitted, only delivered IDs, no duplicates, options A–D, time limit.
-- Per-attempt snapshot of question text, options and correct answer, so history survives later edits.
-- Results: score, per-question review with explanations, difficulty-wise and topic-wise breakdown; skill level updated only after a successful submit.
-- UI: instructions, one-question-at-a-time view, previous/next, navigation panel, answered markers, progress, optional timer, confirm-submit dialog, results page, history.
-- Question management (teacher/admin): create, edit, disable, filter, validation.
+## Phase 6: Assessment engine and question bank ✅ done
+**Question bank:** 572 MCQs in `backend/app/question_bank/*.json` covering all 26 skills (22 each: 8 beginner, 8 intermediate, 6 advanced) with topic/subtopic and explanations. Correct letters are balanced across A–D, there are no duplicates, and all 17 version 1 questions are preserved verbatim. Soft skills use workplace scenarios.
+- Loaded idempotently at startup with a stable `bank_key`. Staff edits and deactivations are never overwritten, and v1 rows are adopted rather than duplicated.
+- Verified: an automated audit (counts, balance, duplicates, v1 preservation); JavaScript outputs run with Node by the authoring agent; the unverified pandas/NumPy outputs re-run and confirmed.
+- **Needs review (honest limitation):** the correct option is the uniquely longest in 46% of questions (≈25% by chance), so test-wise guessing is easier than it should be. Questions were AI-assisted; faculty should review them, rewriting distractors to similar lengths, before using them for academic evaluation. Power BI/Tableau answers follow vendor behaviour from memory and were spot-checked, not exhaustively verified.
 
-**Exit tests:** every rejection rule; scoring accuracy; answers never in start/delivery payloads; history unchanged after a question edit.
+**Attempt engine (verified v1 bug fixed):** v1 scored every question of a skill rather than the ones delivered.
+- Migration `0005`: attempt `status` (in_progress/submitted/expired/abandoned), difficulty, level, expiry and submit time; per-question snapshots (text, options, key, explanation, difficulty, topic, position). The question link is now ON DELETE SET NULL, because previously deleting a question would cascade-delete students' answer history. Student skills record `last_assessed_at` and `evidence_attempt_id`. v1 attempts become `submitted`.
+- `POST /assessments/attempts`: server-side cryptographically random selection with a difficulty filter or a balanced mix, 5–30 questions, optional timer (90 s per question). No answer keys are sent. An unfinished attempt is resumed, not re-rolled (explicit restart abandons it).
+- `POST /assessments/attempts/{id}/submit`: owner only (404 otherwise), once (409), within time limit + 30 s grace (else expired, unscored), delivered ids only, no duplicates, options A–D. Unanswered = incorrect. The skill level is updated only on submit.
+- `GET /assessments/attempts/{id}`: in-progress view or results with difficulty-wise and topic-wise breakdowns and a full review. `GET /assessments/history`. Only submitted attempts count anywhere (dashboard, mentor, faculty, progress).
+- Removed the v1 endpoints `GET /assessments/questions/{skill_id}` and `POST /assessments/submit`.
+- **Documented correction:** the level mapping changed from v1 `round(score/20)` (half-to-even; 90% → 4 like 70%; 0% → 1) to equal bands 0–19 → 1, 20–39 → 2, 40–59 → 3, 60–79 → 4, 80–100 → 5. Stored levels are not recomputed. The weighted alignment formula is unchanged.
+
+**Question management** (`/question-bank/questions`, teachers and admins): list with skill/difficulty/status/search filters and pagination, create, edit, enable/disable (no hard delete), validation (distinct options, case-sensitive; duplicate text per skill → 409), audited.
+
+**Frontend:** setup screen (skill, count, difficulty, timer, instructions), one-question-at-a-time runner (previous/next, navigation grid with answered markers, progress, countdown with auto-submit, answers kept in the tab across reloads, confirmation naming unanswered questions), results page (score, level with bands, breakdowns, review with filter), history linked to results, staff Question Bank page.
+
+**Tests:** 126 on PostgreSQL 18 and SQLite (23 new). They cover bank validity and idempotency, adoption of v1 questions, hidden answer keys, resume/restart, difficulty balance, every submission rejection, unanswered scoring, the time limit, results breakdowns, history surviving question edits, deactivated questions never delivered, and management permissions.
+**Browser:** a 10-question mixed attempt with a reload mid-attempt (same questions and answers restored), submission with 6 unanswered, results and review, timed attempt countdown, 375 px layout, admin question edit/disable. No console errors.
 
 ## Phase 7: Skill analytics, skill gaps and career recommendations
 - `StudentSkill.last_assessed_at` and `evidence_attempt_id` (migration).

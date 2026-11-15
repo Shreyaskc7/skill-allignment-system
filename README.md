@@ -106,8 +106,9 @@ Permissions are enforced by the backend.
 |---|---|
 | `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/forgot-password`, `/auth/reset-password`, `GET /auth/invitations/{token}`, `POST /auth/accept-invitation` | Public (rate-limited) |
 | `GET /auth/me`, `POST /auth/change-password` | Any signed-in user |
-| `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/jobs`, `/analytics/skills`, `/assessments/skills`, `/assessments/questions/{skill_id}` | Any signed-in user |
-| `POST /assessments/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET/POST /progress` | Students (own data only) |
+| `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/jobs`, `/analytics/skills`, `/assessments/skills` | Any signed-in user |
+| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET/POST /progress` | Students (own data only) |
+| `GET/POST /question-bank/questions`, `PUT /question-bank/questions/{id}` | Teachers and administrators |
 | `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
 | `GET /students/me/mentoring` | Students (own mentors and shared notes) |
 | `GET/PUT /teachers/me/profile`, `POST/GET/DELETE /teachers/me/photo` | Teachers (own profile) |
@@ -121,7 +122,7 @@ Permissions are enforced by the backend.
   against the database on every request, rate limiting, audit log). Rate limits are per process; use a
   shared store or proxy limits when running several workers. Mentors can access only students actively assigned to them
   by an administrator.
-- **Assessment validity:** the included questions are a small demonstrative question bank. Add reviewed questions, broader difficulty coverage, question randomization, and validation with faculty/subject experts. A quiz score is not proof of employability.
+- **Assessment validity:** 572 AI-assisted questions (22 per skill, randomised per attempt). They need review by faculty or subject experts before academic use: in 46% of questions the correct option is the longest one, so distractors should be rewritten to similar lengths. A quiz score is not proof of employability.
 - **NLP:** skill extraction is a transparent dictionary/regex baseline. To make a research-grade extractor, annotate a local India-focused test set, evaluate precision/recall/F1, and compare this baseline with a SkillSpan-trained token-classification model. SkillSpan is English-focused and is not included in this ZIP; obtain it from its official dataset page and follow its licence/terms.
 - **ESCO:** the app has a skill catalogue that can be extended with ESCO identifiers/labels. It does not automatically download or synchronize ESCO. Download the official ESCO CSV and implement a reviewed concept/alias import before claiming ESCO integration.
 - **Forecasting:** no demand forecasting model is implemented. Reliable dated job-posting history is required before forecasting.

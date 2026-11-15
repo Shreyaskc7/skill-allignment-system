@@ -1,0 +1,313 @@
+{
+  "skill": "Data Structures",
+  "questions": [
+    {
+      "question": "Which principle does a stack follow?",
+      "options": [
+        "Last In, First Out (LIFO)",
+        "First In, First Out (FIFO)",
+        "Random access order",
+        "Priority order"
+      ],
+      "correct": "A",
+      "explanation": "The most recently pushed element is popped first.",
+      "difficulty": "beginner",
+      "topic": "Stack",
+      "subtopic": "LIFO"
+    },
+    {
+      "question": "Which principle does a queue follow?",
+      "options": [
+        "Last In, First Out (LIFO)",
+        "Sorted order",
+        "First In, First Out (FIFO)",
+        "Last In, Last Out only for priorities"
+      ],
+      "correct": "C",
+      "explanation": "Elements are removed in the order they were added.",
+      "difficulty": "beginner",
+      "topic": "Queue",
+      "subtopic": "FIFO"
+    },
+    {
+      "question": "What is the time complexity of accessing an array element by index?",
+      "options": [
+        "O(n)",
+        "O(1)",
+        "O(log n)",
+        "O(n log n)"
+      ],
+      "correct": "B",
+      "explanation": "Contiguous storage allows direct address calculation.",
+      "difficulty": "beginner",
+      "topic": "Array",
+      "subtopic": "Indexing"
+    },
+    {
+      "question": "A node in a singly linked list typically stores:",
+      "options": [
+        "Only data",
+        "Data and references to all other nodes",
+        "An index and a hash",
+        "Data and a reference to the next node"
+      ],
+      "correct": "D",
+      "explanation": "Each node holds its value and a pointer to its successor.",
+      "difficulty": "beginner",
+      "topic": "Linked List",
+      "subtopic": "Node structure"
+    },
+    {
+      "question": "In a tree, what is a node with no children called?",
+      "options": [
+        "Leaf",
+        "Root",
+        "Parent",
+        "Edge"
+      ],
+      "correct": "A",
+      "explanation": "Leaves are nodes without children.",
+      "difficulty": "beginner",
+      "topic": "Tree",
+      "subtopic": "Terminology"
+    },
+    {
+      "question": "Push 1, 2, 3 onto an empty stack, then pop once. Which value is removed?",
+      "options": [
+        "1",
+        "2",
+        "None",
+        "3"
+      ],
+      "correct": "D",
+      "explanation": "The last pushed value, 3, is on top.",
+      "difficulty": "beginner",
+      "topic": "Stack",
+      "subtopic": "Operations"
+    },
+    {
+      "question": "Which data structure maps keys to values using a hash function?",
+      "options": [
+        "Stack",
+        "Hash table",
+        "Queue",
+        "Linked list"
+      ],
+      "correct": "B",
+      "explanation": "A hash table computes a bucket index from each key.",
+      "difficulty": "beginner",
+      "topic": "Hash Table",
+      "subtopic": "Key-value"
+    },
+    {
+      "question": "Which data structure is used to implement breadth-first search?",
+      "options": [
+        "Stack",
+        "Heap",
+        "Queue",
+        "Trie"
+      ],
+      "correct": "C",
+      "explanation": "BFS processes vertices in the order they are discovered, using a FIFO queue.",
+      "difficulty": "beginner",
+      "topic": "Queue",
+      "subtopic": "Applications"
+    },
+    {
+      "question": "What is the time complexity of inserting at the head of a singly linked list?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "correct": "A",
+      "explanation": "Only the new node's next pointer and the head pointer change.",
+      "difficulty": "intermediate",
+      "topic": "Linked List",
+      "subtopic": "Insertion"
+    },
+    {
+      "question": "Which traversal of a binary search tree visits keys in ascending order?",
+      "options": [
+        "Pre-order",
+        "In-order",
+        "Post-order",
+        "Level-order"
+      ],
+      "correct": "B",
+      "explanation": "In-order visits left subtree, node, then right subtree.",
+      "difficulty": "intermediate",
+      "topic": "Tree",
+      "subtopic": "BST traversal"
+    },
+    {
+      "question": "For a hash table with chaining, what are the average and worst-case lookup times?",
+      "options": [
+        "Average O(log n), worst O(log n)",
+        "Average O(1), worst O(1)",
+        "Average O(1), worst O(n)",
+        "Average O(n), worst O(n^2)"
+      ],
+      "correct": "C",
+      "explanation": "With a good hash, chains stay short; if all keys collide, lookup scans n items.",
+      "difficulty": "intermediate",
+      "topic": "Hash Table",
+      "subtopic": "Complexity"
+    },
+    {
+      "question": "In a binary min-heap with n elements, where is the minimum and what does extract-min cost (worst case)?",
+      "options": [
+        "At a leaf; O(1)",
+        "At the root; O(n)",
+        "At the last index; O(log n)",
+        "At the root; O(log n)"
+      ],
+      "correct": "D",
+      "explanation": "The root holds the minimum; removing it requires sifting down along the height.",
+      "difficulty": "intermediate",
+      "topic": "Heap",
+      "subtopic": "Min-heap"
+    },
+    {
+      "question": "What is the maximum number of nodes in a binary tree of height h (a single root has height 0)?",
+      "options": [
+        "2^(h+1) - 1",
+        "2^h",
+        "2h + 1",
+        "h^2"
+      ],
+      "correct": "A",
+      "explanation": "A perfect binary tree has 1 + 2 + ... + 2^h = 2^(h+1) - 1 nodes.",
+      "difficulty": "intermediate",
+      "topic": "Tree",
+      "subtopic": "Binary tree size"
+    },
+    {
+      "question": "What is the main advantage of a circular (ring buffer) queue over a simple array queue?",
+      "options": [
+        "It allows access to any element in O(1) by key",
+        "It keeps elements sorted",
+        "It reuses slots freed by dequeues without shifting elements",
+        "It never needs a fixed capacity"
+      ],
+      "correct": "C",
+      "explanation": "Wrapping indices modulo capacity lets freed front slots be reused.",
+      "difficulty": "intermediate",
+      "topic": "Queue",
+      "subtopic": "Circular queue"
+    },
+    {
+      "question": "Which data structure supports insertion and deletion at both ends?",
+      "options": [
+        "Stack",
+        "Deque",
+        "Priority queue",
+        "Binary search tree"
+      ],
+      "correct": "B",
+      "explanation": "A double-ended queue allows operations at the front and back.",
+      "difficulty": "intermediate",
+      "topic": "Deque",
+      "subtopic": "Operations"
+    },
+    {
+      "question": "What is the space complexity of an adjacency matrix for a graph with V vertices and E edges?",
+      "options": [
+        "O(V + E)",
+        "O(E)",
+        "O(V log V)",
+        "O(V^2)"
+      ],
+      "correct": "D",
+      "explanation": "The matrix has V x V entries regardless of edge count.",
+      "difficulty": "intermediate",
+      "topic": "Graph",
+      "subtopic": "Representation"
+    },
+    {
+      "question": "What is the worst-case search time in an unbalanced binary search tree with n nodes?",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(1)",
+        "O(n log n)"
+      ],
+      "correct": "A",
+      "explanation": "Inserting sorted keys degenerates the tree into a linked-list-like chain.",
+      "difficulty": "advanced",
+      "topic": "Tree",
+      "subtopic": "BST worst case"
+    },
+    {
+      "question": "Which property does an AVL tree maintain at every node?",
+      "options": [
+        "All leaves are at the same depth",
+        "Every node is red or black",
+        "Left child is always larger than the node",
+        "Subtree heights differ by at most 1"
+      ],
+      "correct": "D",
+      "explanation": "The balance factor in {-1, 0, 1} keeps height O(log n).",
+      "difficulty": "advanced",
+      "topic": "Tree",
+      "subtopic": "AVL tree"
+    },
+    {
+      "question": "What is the amortized time of append in a dynamic array that doubles its capacity when full?",
+      "options": [
+        "O(n)",
+        "O(1)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "correct": "B",
+      "explanation": "Occasional O(n) copies are spread over many cheap appends.",
+      "difficulty": "advanced",
+      "topic": "Array",
+      "subtopic": "Dynamic arrays"
+    },
+    {
+      "question": "What is the worst-case time to build a binary heap from n unsorted elements using bottom-up heapify?",
+      "options": [
+        "O(n log n)",
+        "O(log n)",
+        "O(n)",
+        "O(n^2)"
+      ],
+      "correct": "C",
+      "explanation": "Most nodes are near the leaves and sift down only a short distance, summing to O(n).",
+      "difficulty": "advanced",
+      "topic": "Heap",
+      "subtopic": "Build heap"
+    },
+    {
+      "question": "In a trie, what is the worst-case time to search for a word of length L?",
+      "options": [
+        "O(L)",
+        "O(n), where n is the number of stored words",
+        "O(L log n)",
+        "O(1)"
+      ],
+      "correct": "A",
+      "explanation": "Search follows one edge per character, independent of how many words are stored.",
+      "difficulty": "advanced",
+      "topic": "Trie",
+      "subtopic": "Search"
+    },
+    {
+      "question": "With union by rank and path compression, what is the amortized cost per Union-Find operation?",
+      "options": [
+        "O(log n)",
+        "O(α(n)), the inverse Ackermann function",
+        "O(n)",
+        "O(1) worst case"
+      ],
+      "correct": "B",
+      "explanation": "The combination yields nearly constant amortized time, bounded by the inverse Ackermann function.",
+      "difficulty": "advanced",
+      "topic": "Disjoint Set",
+      "subtopic": "Union-Find"
+    }
+  ]
+}

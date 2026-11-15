@@ -4,14 +4,18 @@ Business logic preserved verbatim from version 1.
 """
 
 
-def estimate_level(score_percent: float) -> int:
-    """Map an assessment score to a 1-5 proficiency level.
+LEVEL_BANDS = "0-19% -> 1, 20-39% -> 2, 40-59% -> 3, 60-79% -> 4, 80-100% -> 5"
 
-    ``round`` is Python's round-half-to-even, so exact .5 cases round to the
-    even level: 10% -> 1, 30% -> 2, 50% -> 2, 70% -> 4, 90% -> 4. A 0% score
-    still yields level 1. Kept unchanged in Phase 2; revisited in Phase 6.
+
+def estimate_level(score_percent: float) -> int:
+    """Map an assessment score to a 1-5 proficiency level using equal 20-point bands.
+
+    Correction made in Phase 6 (documented in DEVELOPMENT_PLAN.md). Version 1 used
+    ``round(score / 20)`` with Python's round-half-to-even, which gave uneven bands
+    (90% -> 4 like 70%; only 95%+ reached 5). Levels already stored are not recomputed.
     """
-    return max(1, min(5, round(score_percent / 20)))
+    pct = max(0.0, min(100.0, float(score_percent)))
+    return min(5, int(pct // 20) + 1)
 
 
 def gap_priority(required: int, level: int, weight: int) -> str:

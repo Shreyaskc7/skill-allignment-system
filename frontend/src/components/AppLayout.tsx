@@ -3,12 +3,11 @@ import { Outlet, useLocation, useNavigate, useOutletContext } from 'react-router
 import { LogOut } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { useAppData, type AppData } from '../hooks/useAppData';
-import { useAssessment, type AssessmentState } from '../hooks/useAssessment';
 import { ConfirmDialog, LoadingScreen, useToast } from './ui';
 import { ErrorBoundary } from './ErrorBoundary';
 import { NAV, Sidebar } from './Sidebar';
 
-export type AppContext = { data: AppData; assessment: AssessmentState };
+export type AppContext = { data: AppData };
 export const useApp = () => useOutletContext<AppContext>();
 
 export function AppLayout() {
@@ -20,7 +19,6 @@ export function AppLayout() {
   const onError = useCallback((m: string) => toast('error', m), [toast]);
 
   const data = useAppData(user!.role, onError);
-  const assessment = useAssessment(data.assessmentSkills, data.load, onError);
 
   const current = NAV.filter((n) => location.pathname === n.to || location.pathname.startsWith(n.to + '/'))
     .sort((a, b) => b.to.length - a.to.length)[0] ?? NAV.find((n) => n.to === '/app');
@@ -50,7 +48,7 @@ export function AppLayout() {
         </header>
         <div className="content">
           <ErrorBoundary resetKey={location.pathname}>
-            {data.loaded ? <Outlet context={{ data, assessment } satisfies AppContext} /> : <LoadingScreen />}
+            {data.loaded ? <Outlet context={{ data } satisfies AppContext} /> : <LoadingScreen />}
           </ErrorBoundary>
           <footer>
             SkillAlign · Intelligent Workforce Skill Alignment System <span>Academic project prototype</span>

@@ -1,0 +1,313 @@
+{
+  "skill": "CSS",
+  "questions": [
+    {
+      "question": "Which property sets the text color of an element?",
+      "options": [
+        "color",
+        "font-color",
+        "text-color",
+        "background-color"
+      ],
+      "correct": "A",
+      "explanation": "The color property sets the foreground (text) color.",
+      "difficulty": "beginner",
+      "topic": "Text",
+      "subtopic": "Color"
+    },
+    {
+      "question": "Which selector targets elements with class=\"card\"?",
+      "options": [
+        "#card",
+        "card",
+        ".card",
+        "*card"
+      ],
+      "correct": "C",
+      "explanation": "A period prefix selects by class.",
+      "difficulty": "beginner",
+      "topic": "Selectors",
+      "subtopic": "Class selector"
+    },
+    {
+      "question": "In the box model, which area lies outside the border?",
+      "options": [
+        "padding",
+        "margin",
+        "content",
+        "outline-offset"
+      ],
+      "correct": "B",
+      "explanation": "Margin is the space outside the border; padding is inside.",
+      "difficulty": "beginner",
+      "topic": "Box model",
+      "subtopic": "Margin"
+    },
+    {
+      "question": "Which symbol prefixes an ID selector?",
+      "options": [
+        ".",
+        "@",
+        "&",
+        "#"
+      ],
+      "correct": "D",
+      "explanation": "#id selects the element with that id.",
+      "difficulty": "beginner",
+      "topic": "Selectors",
+      "subtopic": "ID selector"
+    },
+    {
+      "question": "Which declaration makes text bold?",
+      "options": [
+        "font-weight: bold;",
+        "font-style: bold;",
+        "text-weight: bold;",
+        "font: bold-text;"
+      ],
+      "correct": "A",
+      "explanation": "font-weight controls boldness.",
+      "difficulty": "beginner",
+      "topic": "Text",
+      "subtopic": "Font weight"
+    },
+    {
+      "question": "Which is a valid CSS comment?",
+      "options": [
+        "// comment",
+        "<!-- comment -->",
+        "# comment",
+        "/* comment */"
+      ],
+      "correct": "D",
+      "explanation": "CSS supports only /* ... */ comments.",
+      "difficulty": "beginner",
+      "topic": "Syntax",
+      "subtopic": "Comments"
+    },
+    {
+      "question": "What is the default value of the position property?",
+      "options": [
+        "relative",
+        "static",
+        "absolute",
+        "fixed"
+      ],
+      "correct": "B",
+      "explanation": "Elements are position: static by default.",
+      "difficulty": "beginner",
+      "topic": "Positioning",
+      "subtopic": "Default position"
+    },
+    {
+      "question": "Which declaration hides an element and removes it from layout?",
+      "options": [
+        "visibility: hidden;",
+        "opacity: 0;",
+        "display: none;",
+        "hidden: true;"
+      ],
+      "correct": "C",
+      "explanation": "display: none removes the box; visibility: hidden keeps its space.",
+      "difficulty": "beginner",
+      "topic": "Display",
+      "subtopic": "Hiding"
+    },
+    {
+      "question": "Which selector has the highest specificity?",
+      "options": [
+        "#main",
+        ".main .item",
+        "div p span",
+        "a:hover"
+      ],
+      "correct": "A",
+      "explanation": "An ID selector (1,0,0) outranks any number of class and type selectors.",
+      "difficulty": "intermediate",
+      "topic": "Selectors",
+      "subtopic": "Specificity"
+    },
+    {
+      "question": "With box-sizing: content-box, width: 200px, padding: 10px and border: 2px, what is the rendered border-box width?",
+      "options": [
+        "200px",
+        "224px",
+        "220px",
+        "212px"
+      ],
+      "correct": "B",
+      "explanation": "200 + 2x10 padding + 2x2 border = 224px.",
+      "difficulty": "intermediate",
+      "topic": "Box model",
+      "subtopic": "box-sizing"
+    },
+    {
+      "question": "In a flex container, justify-content aligns items along which axis?",
+      "options": [
+        "The cross axis",
+        "Always the horizontal axis",
+        "The main axis",
+        "The z-axis"
+      ],
+      "correct": "C",
+      "explanation": "justify-content works on the main axis set by flex-direction; align-items works on the cross axis.",
+      "difficulty": "intermediate",
+      "topic": "Flexbox",
+      "subtopic": "Alignment"
+    },
+    {
+      "question": "An element with position: absolute is positioned relative to:",
+      "options": [
+        "Its parent element always",
+        "The viewport always",
+        "Its previous sibling",
+        "Its nearest positioned ancestor (or the initial containing block if none)"
+      ],
+      "correct": "D",
+      "explanation": "Absolute positioning uses the nearest ancestor whose position is not static.",
+      "difficulty": "intermediate",
+      "topic": "Positioning",
+      "subtopic": "Absolute"
+    },
+    {
+      "question": "The rem unit is relative to the font size of:",
+      "options": [
+        "The root (html) element",
+        "The parent element",
+        "The element itself",
+        "The viewport width"
+      ],
+      "correct": "A",
+      "explanation": "1rem equals the root element's font-size; em is relative to the element's font-size.",
+      "difficulty": "intermediate",
+      "topic": "Units",
+      "subtopic": "rem"
+    },
+    {
+      "question": "What does grid-template-columns: repeat(3, 1fr); create?",
+      "options": [
+        "Three rows of equal height",
+        "One column three times wider",
+        "Three equal-width flexible columns",
+        "Columns exactly 1px wide"
+      ],
+      "correct": "C",
+      "explanation": "1fr takes one share of the free space, so three columns share it equally.",
+      "difficulty": "intermediate",
+      "topic": "Grid",
+      "subtopic": "Columns"
+    },
+    {
+      "question": "When does @media (min-width: 768px) { ... } apply?",
+      "options": [
+        "Only when the viewport is narrower than 768px",
+        "When the viewport is 768px wide or wider",
+        "Only at exactly 768px",
+        "Only on printed pages"
+      ],
+      "correct": "B",
+      "explanation": "min-width matches widths greater than or equal to the value.",
+      "difficulty": "intermediate",
+      "topic": "Responsive",
+      "subtopic": "Media queries"
+    },
+    {
+      "question": "Which of these is a pseudo-element?",
+      "options": [
+        ":hover",
+        ":nth-child(2)",
+        ":focus",
+        "::first-line"
+      ],
+      "correct": "D",
+      "explanation": "Pseudo-elements use :: and target part of an element; the others are pseudo-classes.",
+      "difficulty": "intermediate",
+      "topic": "Selectors",
+      "subtopic": "Pseudo-elements"
+    },
+    {
+      "question": "Two vertically adjacent block siblings have margin-bottom: 20px and margin-top: 30px. What is the gap between them?",
+      "options": [
+        "30px",
+        "50px",
+        "20px",
+        "25px"
+      ],
+      "correct": "A",
+      "explanation": "Adjacent vertical margins collapse to the larger of the two.",
+      "difficulty": "advanced",
+      "topic": "Box model",
+      "subtopic": "Margin collapsing"
+    },
+    {
+      "question": "On which element does z-index have no effect?",
+      "options": [
+        "A position: relative element",
+        "A position: absolute element",
+        "A flex item",
+        "A position: static block that is not a flex or grid item"
+      ],
+      "correct": "D",
+      "explanation": "z-index applies to positioned elements and to flex/grid items.",
+      "difficulty": "advanced",
+      "topic": "Positioning",
+      "subtopic": "z-index"
+    },
+    {
+      "question": "When is blue used in color: var(--main, blue);?",
+      "options": [
+        "Always, overriding --main",
+        "When --main is not defined",
+        "Only in dark mode",
+        "When the browser lacks color support"
+      ],
+      "correct": "B",
+      "explanation": "The second argument of var() is a fallback used when the custom property is not set.",
+      "difficulty": "advanced",
+      "topic": "Custom properties",
+      "subtopic": "Fallbacks"
+    },
+    {
+      "question": "Which declaration creates a new stacking context on an element?",
+      "options": [
+        "color: red;",
+        "margin: auto;",
+        "opacity: 0.9;",
+        "display: block;"
+      ],
+      "correct": "C",
+      "explanation": "An opacity value less than 1 creates a stacking context.",
+      "difficulty": "advanced",
+      "topic": "Stacking",
+      "subtopic": "Stacking context"
+    },
+    {
+      "question": "What specificity does :where(.a, #b) contribute?",
+      "options": [
+        "Zero",
+        "That of #b, the most specific argument",
+        "That of .a, the first argument",
+        "One class selector"
+      ],
+      "correct": "A",
+      "explanation": ":where() always has zero specificity, unlike :is() which takes its most specific argument.",
+      "difficulty": "advanced",
+      "topic": "Selectors",
+      "subtopic": "Specificity of :where()"
+    },
+    {
+      "question": "What does flex: 1; expand to?",
+      "options": [
+        "flex-grow: 1; flex-shrink: 0; flex-basis: auto;",
+        "flex-grow: 1; flex-shrink: 1; flex-basis: 0%;",
+        "flex-grow: 1; flex-shrink: 1; flex-basis: auto;",
+        "flex-grow: 0; flex-shrink: 1; flex-basis: 1px;"
+      ],
+      "correct": "B",
+      "explanation": "A single unitless number sets flex-grow and makes flex-basis 0%, with flex-shrink 1.",
+      "difficulty": "advanced",
+      "topic": "Flexbox",
+      "subtopic": "flex shorthand"
+    }
+  ]
+}

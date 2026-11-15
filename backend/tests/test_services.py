@@ -33,10 +33,11 @@ def test_alignment_edge_cases():
 
 @pytest.mark.parametrize(
     "pct,level",
-    [(0, 1), (10, 1), (20, 1), (30, 2), (40, 2), (50, 2), (60, 3), (70, 4), (80, 4), (90, 4), (100, 5), (66.67, 3)],
+    [(0, 1), (10, 1), (19.99, 1), (20, 2), (39.9, 2), (40, 3), (50, 3), (60, 4), (70, 4), (79.99, 4), (80, 5),
+     (90, 5), (100, 5), (66.67, 4), (-5, 1), (120, 5)],
 )
-def test_estimate_level_preserves_v1_rounding(pct, level):
-    # Documents the existing round-half-to-even behaviour (revisited in Phase 6).
+def test_estimate_level_uses_equal_bands(pct, level):
+    # Phase 6 correction of the v1 round-half-to-even mapping (90% used to give 4).
     assert estimate_level(pct) == level
 
 

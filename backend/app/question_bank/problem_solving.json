@@ -1,0 +1,313 @@
+{
+  "skill": "Problem Solving",
+  "questions": [
+    {
+      "question": "What is the main purpose of the '5 Whys' technique?",
+      "options": [
+        "To list five possible solutions quickly",
+        "To assign blame to five team members",
+        "To estimate the time needed to fix a bug",
+        "To trace a problem back to its root cause"
+      ],
+      "correct": "D",
+      "explanation": "5 Whys repeatedly asks 'why' to move beyond symptoms to the underlying cause.",
+      "difficulty": "beginner",
+      "topic": "Root Cause Analysis",
+      "subtopic": "5 Whys"
+    },
+    {
+      "question": "You are given a large, vague task: 'build a reporting module'. What is the best first step?",
+      "options": [
+        "Start coding the most interesting part",
+        "Wait for someone to give a detailed plan",
+        "Clarify requirements and break it into smaller tasks",
+        "Copy a module from an unrelated project"
+      ],
+      "correct": "C",
+      "explanation": "Decomposing a clarified problem into manageable parts makes it estimable and solvable.",
+      "difficulty": "beginner",
+      "topic": "Problem Decomposition",
+      "subtopic": "Breaking down"
+    },
+    {
+      "question": "A user reports an intermittent bug. What should you do first?",
+      "options": [
+        "Rewrite the module from scratch",
+        "Try to reproduce it reliably and gather details",
+        "Close the ticket as cannot reproduce",
+        "Add random fixes and see what happens"
+      ],
+      "correct": "B",
+      "explanation": "Reliable reproduction gives evidence to locate the cause and verify the fix.",
+      "difficulty": "beginner",
+      "topic": "Debugging",
+      "subtopic": "Reproducing"
+    },
+    {
+      "question": "What is the next number in the series 2, 6, 12, 20, 30, ?",
+      "options": [
+        "42",
+        "40",
+        "36",
+        "44"
+      ],
+      "correct": "A",
+      "explanation": "The differences are 4, 6, 8, 10, so the next difference is 12 and 30 + 12 = 42.",
+      "difficulty": "beginner",
+      "topic": "Logical Reasoning",
+      "subtopic": "Sequences"
+    },
+    {
+      "question": "All analysts know SQL. Ravi is an analyst. Which conclusion is certain?",
+      "options": [
+        "Everyone who knows SQL is an analyst",
+        "Ravi knows only SQL",
+        "Ravi is not a developer",
+        "Ravi knows SQL"
+      ],
+      "correct": "D",
+      "explanation": "From 'all analysts know SQL' and 'Ravi is an analyst', it follows necessarily that Ravi knows SQL.",
+      "difficulty": "beginner",
+      "topic": "Logical Reasoning",
+      "subtopic": "Syllogism"
+    },
+    {
+      "question": "You have a production bug, a code refactor, and a team lunch plan. What should you handle first?",
+      "options": [
+        "The code refactor for cleaner design",
+        "Planning the team lunch",
+        "The production bug affecting users",
+        "Whichever task is quickest"
+      ],
+      "correct": "C",
+      "explanation": "Issues with the highest user impact and urgency take priority.",
+      "difficulty": "beginner",
+      "topic": "Prioritisation",
+      "subtopic": "Urgent vs important"
+    },
+    {
+      "question": "Your program crashes with a stack trace. What is the most effective first action?",
+      "options": [
+        "Restart the computer and try again",
+        "Read the error message and the top relevant frame",
+        "Delete recent code without reading",
+        "Search the trace for unrelated warnings"
+      ],
+      "correct": "B",
+      "explanation": "The error message and stack trace usually point directly to the type and location of the failure.",
+      "difficulty": "beginner",
+      "topic": "Debugging",
+      "subtopic": "Reading errors"
+    },
+    {
+      "question": "A task takes 3 developers 6 days. At the same rate, how many days for 9 developers (assuming perfectly divisible work)?",
+      "options": [
+        "2 days",
+        "18 days",
+        "3 days",
+        "4 days"
+      ],
+      "correct": "A",
+      "explanation": "Total effort is 18 developer-days; 18 / 9 = 2 days.",
+      "difficulty": "beginner",
+      "topic": "Logical Reasoning",
+      "subtopic": "Arithmetic reasoning"
+    },
+    {
+      "question": "A nightly job fails; you restart it each morning. What is the better long-term approach?",
+      "options": [
+        "Automate the restart and close the issue",
+        "Ask a teammate to restart it instead",
+        "Run the job less frequently",
+        "Investigate logs to find why it fails and fix that"
+      ],
+      "correct": "D",
+      "explanation": "Restarting treats the symptom; root-cause analysis prevents recurrence.",
+      "difficulty": "intermediate",
+      "topic": "Root Cause Analysis",
+      "subtopic": "Symptoms vs causes"
+    },
+    {
+      "question": "A bug appeared somewhere in the last 64 commits. Using binary search (git bisect), at most how many test steps are needed?",
+      "options": [
+        "8",
+        "32",
+        "6",
+        "64"
+      ],
+      "correct": "C",
+      "explanation": "Binary search halves the range each step; log2(64) = 6.",
+      "difficulty": "intermediate",
+      "topic": "Debugging",
+      "subtopic": "Binary search"
+    },
+    {
+      "question": "Two libraries solve your need: one popular and maintained, one faster but abandoned. What is the most sound choice for a production app?",
+      "options": [
+        "Choose the faster one since performance always wins",
+        "Choose the maintained one unless speed is a proven requirement",
+        "Choose randomly as both work today",
+        "Write your own library from scratch"
+      ],
+      "correct": "B",
+      "explanation": "Weighing maintenance risk against an unproven performance need favours the supported option.",
+      "difficulty": "intermediate",
+      "topic": "Decision Making",
+      "subtopic": "Trade-offs"
+    },
+    {
+      "question": "A finished before B. C finished after B. D finished before A. Who finished last?",
+      "options": [
+        "C",
+        "A",
+        "B",
+        "D"
+      ],
+      "correct": "A",
+      "explanation": "The order is D, A, B, C, so C finished last.",
+      "difficulty": "intermediate",
+      "topic": "Logical Reasoning",
+      "subtopic": "Ordering"
+    },
+    {
+      "question": "Page load time doubled after a release. What is the best approach?",
+      "options": [
+        "Guess the cause and revert random changes",
+        "Blame the network and wait",
+        "Add more servers without investigation",
+        "Form hypotheses, measure each with profiling data"
+      ],
+      "correct": "D",
+      "explanation": "Hypothesis-driven investigation with measurements isolates the cause efficiently.",
+      "difficulty": "intermediate",
+      "topic": "Data-driven Thinking",
+      "subtopic": "Hypothesis testing"
+    },
+    {
+      "question": "An ETL pipeline produces wrong totals. What is the most efficient way to locate the fault?",
+      "options": [
+        "Rerun the whole pipeline repeatedly",
+        "Rewrite the final report query only",
+        "Check intermediate outputs stage by stage",
+        "Change several stages at once"
+      ],
+      "correct": "C",
+      "explanation": "Validating each stage isolates where the data first goes wrong.",
+      "difficulty": "intermediate",
+      "topic": "Problem Decomposition",
+      "subtopic": "Divide and conquer"
+    },
+    {
+      "question": "A fair six-sided die is rolled once. What is the probability of getting a number greater than 4?",
+      "options": [
+        "1/2",
+        "1/3",
+        "1/6",
+        "2/3"
+      ],
+      "correct": "B",
+      "explanation": "Only 5 and 6 qualify: 2 outcomes out of 6 = 1/3.",
+      "difficulty": "intermediate",
+      "topic": "Logical Reasoning",
+      "subtopic": "Probability"
+    },
+    {
+      "question": "In a brainstorming session for solutions, what is the best practice?",
+      "options": [
+        "Generate many ideas first, then evaluate them",
+        "Criticise each idea immediately",
+        "Accept only the first idea suggested",
+        "Let only the senior person propose ideas"
+      ],
+      "correct": "A",
+      "explanation": "Separating idea generation from evaluation produces more and better options.",
+      "difficulty": "intermediate",
+      "topic": "Creative Thinking",
+      "subtopic": "Brainstorming"
+    },
+    {
+      "question": "What is an Ishikawa (fishbone) diagram used for?",
+      "options": [
+        "Scheduling tasks along a timeline",
+        "Showing hierarchy of team roles",
+        "Tracking defects counts over time",
+        "Organising possible causes of a problem into categories"
+      ],
+      "correct": "D",
+      "explanation": "A fishbone diagram groups potential causes (e.g., people, process, tools) to structure root-cause analysis.",
+      "difficulty": "advanced",
+      "topic": "Root Cause Analysis",
+      "subtopic": "Fishbone diagram"
+    },
+    {
+      "question": "Of A and B, exactly one always lies. A says: \"B is the liar.\" B says: \"A is the liar.\" What can be concluded?",
+      "options": [
+        "A is the liar",
+        "B is the liar",
+        "It cannot be determined who lies",
+        "Both are telling the truth"
+      ],
+      "correct": "C",
+      "explanation": "Both scenarios are consistent: if A is truthful B lies, and vice versa, so the statements do not identify the liar.",
+      "difficulty": "advanced",
+      "topic": "Logical Reasoning",
+      "subtopic": "Truth puzzle"
+    },
+    {
+      "question": "80% of support tickets come from 3 of 20 features. How should you apply this?",
+      "options": [
+        "Fix all 20 features equally",
+        "Prioritise fixing those 3 features first",
+        "Ignore the 3 as they are known issues",
+        "Focus on features with no tickets"
+      ],
+      "correct": "B",
+      "explanation": "The Pareto principle suggests addressing the few causes that produce most of the impact.",
+      "difficulty": "advanced",
+      "topic": "Decision Making",
+      "subtopic": "Pareto principle"
+    },
+    {
+      "question": "A query takes 2 s for 1,000 rows and scales linearly. A second query is O(n^2) and takes 2 s for 1,000 rows. How long does each take for 4,000 rows?",
+      "options": [
+        "8 s and 32 s",
+        "8 s and 16 s",
+        "4 s and 32 s",
+        "8 s and 64 s"
+      ],
+      "correct": "A",
+      "explanation": "Linear: 4x rows gives 4x time (8 s); quadratic: 4^2 = 16x gives 32 s.",
+      "difficulty": "advanced",
+      "topic": "Logical Reasoning",
+      "subtopic": "Estimation"
+    },
+    {
+      "question": "Before a major launch, the team imagines it has failed and lists reasons why. What is this technique called?",
+      "options": [
+        "A retrospective",
+        "A post-mortem",
+        "A stand-up",
+        "A pre-mortem"
+      ],
+      "correct": "D",
+      "explanation": "A pre-mortem anticipates failure modes before they happen, so risks can be mitigated in advance.",
+      "difficulty": "advanced",
+      "topic": "Risk Analysis",
+      "subtopic": "Pre-mortem"
+    },
+    {
+      "question": "While fixing a bug you change config, code and a library version at once, and it works. What is the main problem?",
+      "options": [
+        "The fix will certainly break production",
+        "Changing config is never allowed",
+        "You cannot tell which change actually fixed it",
+        "Library upgrades always need approval first"
+      ],
+      "correct": "C",
+      "explanation": "Changing one variable at a time isolates cause and effect, which is essential to understand and trust a fix.",
+      "difficulty": "advanced",
+      "topic": "Debugging",
+      "subtopic": "Controlled changes"
+    }
+  ]
+}

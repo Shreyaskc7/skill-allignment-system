@@ -10,7 +10,7 @@ from app.config import settings
 from app.db import SessionLocal, engine
 from app import models  # noqa: F401  (register mappers)
 from app.migrations import ensure_schema_current, upgrade_to_head
-from app.routers import admin, assessments, auth, catalog, faculty, gaps, health, jobs, learning, mentor, students, teachers
+from app.routers import admin, assessments, auth, catalog, faculty, gaps, health, jobs, learning, mentor, question_bank, students, teachers
 from app.seed import seed
 
 log = logging.getLogger("skillalign")
@@ -44,5 +44,5 @@ app.add_middleware(
 )
 
 app.include_router(health.router)
-for module in (auth, catalog, assessments, gaps, learning, jobs, faculty, admin, students, teachers, mentor):
+for module in (auth, catalog, assessments, gaps, learning, jobs, faculty, admin, students, teachers, mentor, question_bank):
     app.include_router(module.router, prefix=settings.api_v1_prefix)

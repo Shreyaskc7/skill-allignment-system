@@ -5,7 +5,9 @@ import { AnonymousOnly, RequireAuth, RequireRole } from './auth/guards';
 import { AppLayout, useApp } from './components/AppLayout';
 import { useToast } from './components/ui';
 import { InvitationsPage } from './pages/admin/InvitationsPage';
-import { AssessmentPage } from './pages/AssessmentPage';
+import { AssessmentPage } from './pages/assessment/AssessmentPage';
+import { ResultsPage } from './pages/assessment/ResultsPage';
+import { QuestionBankPage } from './pages/mentor/QuestionBankPage';
 import { AcceptInvitationPage } from './pages/auth/AcceptInvitationPage';
 import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
 import { LoginPage } from './pages/auth/LoginPage';
@@ -28,11 +30,6 @@ import { SkillGapsPage } from './pages/SkillGapsPage';
 import type { ProgressStatus } from './types';
 
 // --- thin route adapters: read shared data from the layout and pass it to the page components
-
-function Assessment() {
-  const { data, assessment } = useApp();
-  return <AssessmentPage skills={data.assessmentSkills} a={assessment} />;
-}
 
 function Resources() {
   const { data } = useApp();
@@ -96,7 +93,8 @@ export default function App() {
           <Route path="jobs" element={<Jobs />} />
           <Route path="account" element={<AccountPage />} />
           <Route element={<RequireRole roles={['student']} />}>
-            <Route path="assessment" element={<Assessment />} />
+            <Route path="assessment" element={<AssessmentPage />} />
+            <Route path="assessment/results/:id" element={<ResultsPage />} />
             <Route path="skill-gaps" element={<SkillGapsRoute />} />
             <Route path="progress" element={<ProgressRoute />} />
             <Route path="profile" element={<ProfilePage />} />
@@ -106,6 +104,7 @@ export default function App() {
             <Route path="mentor" element={<MentorDashboardPage />} />
             <Route path="mentor/students" element={<StudentsPage />} />
             <Route path="mentor/students/:id" element={<StudentDetailPage />} />
+            <Route path="question-bank" element={<QuestionBankPage />} />
           </Route>
           <Route element={<RequireRole roles={['teacher']} />}>
             <Route path="teacher-profile" element={<TeacherProfilePage />} />

@@ -1,0 +1,313 @@
+{
+  "skill": "Git",
+  "questions": [
+    {
+      "question": "Which command creates a new empty Git repository in the current directory?",
+      "options": [
+        "git init",
+        "git start",
+        "git create",
+        "git new"
+      ],
+      "correct": "A",
+      "explanation": "git init creates the .git directory for a new repository.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "init"
+    },
+    {
+      "question": "Which command stages changes to file.txt for the next commit?",
+      "options": [
+        "git commit file.txt",
+        "git add file.txt",
+        "git push file.txt",
+        "git track-only file.txt"
+      ],
+      "correct": "B",
+      "explanation": "git add places the current content in the index (staging area).",
+      "difficulty": "beginner",
+      "topic": "Staging",
+      "subtopic": "add"
+    },
+    {
+      "question": "Which command shows which files are modified, staged or untracked?",
+      "options": [
+        "git log",
+        "git show",
+        "git status",
+        "git blame"
+      ],
+      "correct": "C",
+      "explanation": "git status summarises the working tree and index state.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "status"
+    },
+    {
+      "question": "Which command copies a remote repository into a new local directory?",
+      "options": [
+        "git pull URL",
+        "git fetch URL",
+        "git checkout URL",
+        "git clone URL"
+      ],
+      "correct": "D",
+      "explanation": "git clone creates a new local repository from a remote one.",
+      "difficulty": "beginner",
+      "topic": "Remotes",
+      "subtopic": "clone"
+    },
+    {
+      "question": "Which command creates a branch named feature and switches to it?",
+      "options": [
+        "git switch -c feature",
+        "git branch -m feature",
+        "git merge feature",
+        "git log feature"
+      ],
+      "correct": "A",
+      "explanation": "git switch -c (like git checkout -b) creates and switches to a new branch.",
+      "difficulty": "beginner",
+      "topic": "Branching",
+      "subtopic": "switch -c"
+    },
+    {
+      "question": "Which file lists patterns of untracked files Git should ignore?",
+      "options": [
+        ".gitconfig",
+        ".gitignore",
+        ".gitkeep",
+        ".gitmodules"
+      ],
+      "correct": "B",
+      "explanation": ".gitignore patterns stop untracked files from being added or reported.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": ".gitignore"
+    },
+    {
+      "question": "Which command displays the commit history of the current branch?",
+      "options": [
+        "git status",
+        "git diff",
+        "git log",
+        "git blame"
+      ],
+      "correct": "C",
+      "explanation": "git log lists commits reachable from HEAD.",
+      "difficulty": "beginner",
+      "topic": "History",
+      "subtopic": "log"
+    },
+    {
+      "question": "Which command uploads your local branch's commits to the remote repository?",
+      "options": [
+        "git fetch",
+        "git pull",
+        "git clone",
+        "git push"
+      ],
+      "correct": "D",
+      "explanation": "git push updates remote refs with your local commits.",
+      "difficulty": "beginner",
+      "topic": "Remotes",
+      "subtopic": "push"
+    },
+    {
+      "question": "How does git fetch differ from git pull?",
+      "options": [
+        "fetch downloads commits and updates remote-tracking branches without changing your current branch",
+        "fetch also merges the changes into your branch",
+        "fetch deletes local branches that were removed remotely by default",
+        "They are exactly the same"
+      ],
+      "correct": "A",
+      "explanation": "git pull is fetch followed by a merge (or rebase); fetch alone does not touch your branch.",
+      "difficulty": "intermediate",
+      "topic": "Remotes",
+      "subtopic": "fetch vs pull"
+    },
+    {
+      "question": "Which command unstages file.txt but keeps its changes in the working tree?",
+      "options": [
+        "git rm file.txt",
+        "git restore --staged file.txt",
+        "git checkout -- file.txt",
+        "git clean file.txt"
+      ],
+      "correct": "B",
+      "explanation": "restore --staged resets the index entry to HEAD and leaves the working copy alone.",
+      "difficulty": "intermediate",
+      "topic": "Staging",
+      "subtopic": "Unstaging"
+    },
+    {
+      "question": "Which command temporarily shelves uncommitted changes so you can switch to other work?",
+      "options": [
+        "git shelve",
+        "git park",
+        "git stash",
+        "git hold"
+      ],
+      "correct": "C",
+      "explanation": "git stash saves local modifications and reverts to a clean working tree.",
+      "difficulty": "intermediate",
+      "topic": "Stash",
+      "subtopic": "stash"
+    },
+    {
+      "question": "What does git commit --amend do?",
+      "options": [
+        "Adds a new commit after HEAD with the same message",
+        "Reverts the last commit",
+        "Edits the commit before the last one",
+        "Replaces the last commit with a new one containing the staged changes and/or a new message"
+      ],
+      "correct": "D",
+      "explanation": "--amend rewrites the tip commit, giving it a new hash.",
+      "difficulty": "intermediate",
+      "topic": "History",
+      "subtopic": "amend"
+    },
+    {
+      "question": "Which command creates a new commit that undoes the changes made by commit abc123?",
+      "options": [
+        "git revert abc123",
+        "git reset abc123",
+        "git checkout abc123",
+        "git restore abc123"
+      ],
+      "correct": "A",
+      "explanation": "revert adds an inverse commit, which is safe on shared history.",
+      "difficulty": "intermediate",
+      "topic": "Undoing",
+      "subtopic": "revert"
+    },
+    {
+      "question": "In a merge conflict, what do the <<<<<<<, ======= and >>>>>>> markers separate?",
+      "options": [
+        "Staged and unstaged versions of the file",
+        "Your current branch's version and the incoming branch's version",
+        "The local and the stashed versions",
+        "The first and last commits of the branch"
+      ],
+      "correct": "B",
+      "explanation": "The section above ======= is HEAD's version; the section below is from the branch being merged.",
+      "difficulty": "intermediate",
+      "topic": "Merging",
+      "subtopic": "Conflicts"
+    },
+    {
+      "question": "What does git reset --soft HEAD~1 do?",
+      "options": [
+        "Discards the last commit and all its changes",
+        "Moves the branch back one commit and leaves the changes unstaged",
+        "Moves the branch back one commit and keeps its changes staged",
+        "Creates a commit that reverses HEAD"
+      ],
+      "correct": "C",
+      "explanation": "--soft moves only the branch pointer; index and working tree are untouched, so changes stay staged.",
+      "difficulty": "intermediate",
+      "topic": "Undoing",
+      "subtopic": "reset --soft"
+    },
+    {
+      "question": "Which command lists both local and remote-tracking branches?",
+      "options": [
+        "git branch -d",
+        "git branch -m",
+        "git remote -v",
+        "git branch -a"
+      ],
+      "correct": "D",
+      "explanation": "-a shows all branches, including remote-tracking ones.",
+      "difficulty": "intermediate",
+      "topic": "Branching",
+      "subtopic": "Listing branches"
+    },
+    {
+      "question": "On branch feature, what does git rebase main do?",
+      "options": [
+        "Replays feature's commits on top of main, creating new commits with new hashes",
+        "Merges main into feature with a merge commit",
+        "Deletes feature and recreates it from main",
+        "Pushes feature to main"
+      ],
+      "correct": "A",
+      "explanation": "Rebase re-applies commits onto a new base, rewriting them.",
+      "difficulty": "advanced",
+      "topic": "Rebasing",
+      "subtopic": "rebase"
+    },
+    {
+      "question": "After an accidental git reset --hard, which command helps you find the hash of the lost commit?",
+      "options": [
+        "git status",
+        "git reflog",
+        "git blame",
+        "git shortlog"
+      ],
+      "correct": "B",
+      "explanation": "The reflog records where HEAD and branches pointed, including commits no longer on any branch.",
+      "difficulty": "advanced",
+      "topic": "Recovery",
+      "subtopic": "reflog"
+    },
+    {
+      "question": "What does git cherry-pick abc123 do?",
+      "options": [
+        "Deletes commit abc123 from history",
+        "Moves the branch pointer to abc123",
+        "Applies the changes introduced by abc123 as a new commit on the current branch",
+        "Marks abc123 for a later merge"
+      ],
+      "correct": "C",
+      "explanation": "cherry-pick copies a commit's changes onto HEAD as a new commit.",
+      "difficulty": "advanced",
+      "topic": "History",
+      "subtopic": "cherry-pick"
+    },
+    {
+      "question": "What does \"detached HEAD\" mean?",
+      "options": [
+        "The repository has no remote",
+        "The current branch was deleted on the remote",
+        "The index is corrupted",
+        "HEAD points directly at a commit instead of at a branch"
+      ],
+      "correct": "D",
+      "explanation": "New commits in this state belong to no branch unless you create one.",
+      "difficulty": "advanced",
+      "topic": "Internals",
+      "subtopic": "Detached HEAD"
+    },
+    {
+      "question": "Which command uses binary search through history to find the commit that introduced a bug?",
+      "options": [
+        "git bisect",
+        "git blame",
+        "git grep",
+        "git describe"
+      ],
+      "correct": "A",
+      "explanation": "git bisect halves the range between a good and a bad commit until it finds the culprit.",
+      "difficulty": "advanced",
+      "topic": "Debugging",
+      "subtopic": "bisect"
+    },
+    {
+      "question": "Why is git push --force-with-lease safer than git push --force?",
+      "options": [
+        "It pushes only tags",
+        "It refuses to overwrite the remote branch if it has moved beyond what your remote-tracking ref expects",
+        "It creates a backup branch on the remote",
+        "It works only on protected branches"
+      ],
+      "correct": "B",
+      "explanation": "The lease check fails if someone else pushed commits you have not fetched, preventing you from silently discarding them.",
+      "difficulty": "advanced",
+      "topic": "Remotes",
+      "subtopic": "force-with-lease"
+    }
+  ]
+}

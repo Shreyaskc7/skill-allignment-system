@@ -62,7 +62,7 @@ def student_detail(student_id: int, viewer: models.User = Depends(require_staff)
     attempts = db.execute(
         select(models.AssessmentAttempt, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.AssessmentAttempt.skill_id)
-        .where(models.AssessmentAttempt.user_id == student.id)
+        .where(models.AssessmentAttempt.user_id == student.id, models.AssessmentAttempt.status == "submitted")
         .order_by(models.AssessmentAttempt.created_at.desc())
     ).all()
     by_skill: dict[str, list[float]] = {}

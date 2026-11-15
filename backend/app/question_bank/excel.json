@@ -1,0 +1,313 @@
+{
+  "skill": "Excel",
+  "questions": [
+    {
+      "question": "What character must an Excel formula begin with?",
+      "options": [
+        "=",
+        "#",
+        "@",
+        "$"
+      ],
+      "correct": "A",
+      "explanation": "Excel treats an entry starting with = as a formula.",
+      "difficulty": "beginner",
+      "topic": "Formulas",
+      "subtopic": "Formula basics"
+    },
+    {
+      "question": "Cells A1:A3 contain 2, 4 and 6. What does =SUM(A1:A3) return?",
+      "options": [
+        "6",
+        "12",
+        "3",
+        "246"
+      ],
+      "correct": "B",
+      "explanation": "2 + 4 + 6 = 12.",
+      "difficulty": "beginner",
+      "topic": "Functions",
+      "subtopic": "SUM"
+    },
+    {
+      "question": "Which reference stays fixed to cell A1 when the formula is copied anywhere?",
+      "options": [
+        "A1",
+        "A$1",
+        "$A$1",
+        "$A1"
+      ],
+      "correct": "C",
+      "explanation": "Dollar signs before both column and row make the reference fully absolute.",
+      "difficulty": "beginner",
+      "topic": "Formulas",
+      "subtopic": "Cell references"
+    },
+    {
+      "question": "What does the COUNTA function count?",
+      "options": [
+        "Only cells containing numbers",
+        "Only empty cells",
+        "Only cells containing text",
+        "Non-empty cells"
+      ],
+      "correct": "D",
+      "explanation": "COUNTA counts cells that are not empty; COUNT counts only numbers.",
+      "difficulty": "beginner",
+      "topic": "Functions",
+      "subtopic": "Counting"
+    },
+    {
+      "question": "Which feature lets you temporarily display only rows that meet chosen criteria?",
+      "options": [
+        "Filter",
+        "Freeze Panes",
+        "Merge & Center",
+        "Wrap Text"
+      ],
+      "correct": "A",
+      "explanation": "Data > Filter hides rows that do not match the criteria without deleting them.",
+      "difficulty": "beginner",
+      "topic": "Data tools",
+      "subtopic": "Filtering"
+    },
+    {
+      "question": "What does =LEN(\"Excel\") return?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "\"Excel\""
+      ],
+      "correct": "B",
+      "explanation": "LEN returns the number of characters in the text.",
+      "difficulty": "beginner",
+      "topic": "Functions",
+      "subtopic": "Text functions"
+    },
+    {
+      "question": "What does =ROUND(3.456, 2) return?",
+      "options": [
+        "3.45",
+        "3.5",
+        "3.46",
+        "3"
+      ],
+      "correct": "C",
+      "explanation": "Rounding to 2 decimal places looks at the third decimal (6) and rounds up.",
+      "difficulty": "beginner",
+      "topic": "Functions",
+      "subtopic": "ROUND"
+    },
+    {
+      "question": "What is the address of the cell in column C, row 5?",
+      "options": [
+        "5C",
+        "R5C",
+        "C:5",
+        "C5"
+      ],
+      "correct": "D",
+      "explanation": "A1-style addresses give the column letter followed by the row number.",
+      "difficulty": "beginner",
+      "topic": "Basics",
+      "subtopic": "Cell addresses"
+    },
+    {
+      "question": "If the range_lookup argument of VLOOKUP is omitted, what kind of match does it perform?",
+      "options": [
+        "Approximate match",
+        "Exact match",
+        "Wildcard match",
+        "It returns an error"
+      ],
+      "correct": "A",
+      "explanation": "range_lookup defaults to TRUE (approximate), unlike XLOOKUP which defaults to exact match.",
+      "difficulty": "intermediate",
+      "topic": "Lookup functions",
+      "subtopic": "VLOOKUP"
+    },
+    {
+      "question": "In SUMIFS, which argument comes first?",
+      "options": [
+        "criteria_range1",
+        "sum_range",
+        "criteria1",
+        "The output cell"
+      ],
+      "correct": "B",
+      "explanation": "Syntax: SUMIFS(sum_range, criteria_range1, criteria1, ...), unlike SUMIF where sum_range is last.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "SUMIFS"
+    },
+    {
+      "question": "A1 contains 50. What does =IF(A1>=50, \"Pass\", \"Fail\") return?",
+      "options": [
+        "Fail",
+        "TRUE",
+        "Pass",
+        "50"
+      ],
+      "correct": "C",
+      "explanation": "50 >= 50 is TRUE, so IF returns the value_if_true argument.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "IF"
+    },
+    {
+      "question": "What is a PivotTable mainly used for?",
+      "options": [
+        "Writing VBA macros",
+        "Protecting worksheets",
+        "Checking spelling",
+        "Summarizing and aggregating large datasets interactively"
+      ],
+      "correct": "D",
+      "explanation": "PivotTables group and aggregate data by fields you drag into rows, columns and values.",
+      "difficulty": "intermediate",
+      "topic": "Data analysis",
+      "subtopic": "PivotTables"
+    },
+    {
+      "question": "Which feature automatically changes a cell's fill colour based on its value?",
+      "options": [
+        "Conditional Formatting",
+        "Data Validation",
+        "Format Painter",
+        "Cell Styles"
+      ],
+      "correct": "A",
+      "explanation": "Conditional Formatting applies formats when rules such as 'greater than' are met.",
+      "difficulty": "intermediate",
+      "topic": "Formatting",
+      "subtopic": "Conditional formatting"
+    },
+    {
+      "question": "A1:A5 contain 5, 12, 10, 20, 11. What does =COUNTIF(A1:A5, \">10\") return?",
+      "options": [
+        "4",
+        "3",
+        "2",
+        "5"
+      ],
+      "correct": "B",
+      "explanation": "Values strictly greater than 10 are 12, 20 and 11; 10 itself is excluded.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "COUNTIF"
+    },
+    {
+      "question": "What does =TEXTJOIN(\"-\", TRUE, \"a\", \"\", \"b\") return?",
+      "options": [
+        "a--b",
+        "-a-b",
+        "a-b",
+        "ab"
+      ],
+      "correct": "C",
+      "explanation": "With ignore_empty set to TRUE the empty string is skipped, so only a and b are joined.",
+      "difficulty": "intermediate",
+      "topic": "Functions",
+      "subtopic": "Text functions"
+    },
+    {
+      "question": "Which XLOOKUP argument specifies what to return when no match is found?",
+      "options": [
+        "The 1st argument, lookup_value",
+        "The 5th argument, match_mode",
+        "The 6th argument, search_mode",
+        "The 4th argument, if_not_found"
+      ],
+      "correct": "D",
+      "explanation": "XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode]).",
+      "difficulty": "intermediate",
+      "topic": "Lookup functions",
+      "subtopic": "XLOOKUP"
+    },
+    {
+      "question": "What does the #SPILL! error mean?",
+      "options": [
+        "A dynamic array formula cannot output because its spill range is not empty",
+        "The formula divides by zero",
+        "A referenced name does not exist",
+        "A number is too large to display"
+      ],
+      "correct": "A",
+      "explanation": "Clearing the blocking cells lets the dynamic array spill its results.",
+      "difficulty": "advanced",
+      "topic": "Dynamic arrays",
+      "subtopic": "Spill errors"
+    },
+    {
+      "question": "What does =FILTER(A2:A10, B2:B10>100) return?",
+      "options": [
+        "The count of B values greater than 100",
+        "Values from A2:A10 whose corresponding B value is greater than 100",
+        "TRUE/FALSE for each B value",
+        "The first A value only"
+      ],
+      "correct": "B",
+      "explanation": "FILTER returns a dynamic array of rows that meet the include condition.",
+      "difficulty": "advanced",
+      "topic": "Dynamic arrays",
+      "subtopic": "FILTER"
+    },
+    {
+      "question": "In =INDEX(B2:B10, MATCH(\"X\", A2:A10, 0)), what does the 0 in MATCH specify?",
+      "options": [
+        "Less-than approximate match",
+        "Greater-than approximate match",
+        "Exact match",
+        "Wildcard-only match"
+      ],
+      "correct": "C",
+      "explanation": "match_type 0 finds the first value exactly equal to the lookup value.",
+      "difficulty": "advanced",
+      "topic": "Lookup functions",
+      "subtopic": "INDEX/MATCH"
+    },
+    {
+      "question": "What does =UNIQUE(A2:A20) return?",
+      "options": [
+        "The count of distinct values",
+        "TRUE if all values are unique",
+        "The range sorted ascending",
+        "A dynamic array of the distinct values in the range"
+      ],
+      "correct": "D",
+      "explanation": "UNIQUE spills each distinct value once; wrap it in COUNTA to count them.",
+      "difficulty": "advanced",
+      "topic": "Dynamic arrays",
+      "subtopic": "UNIQUE"
+    },
+    {
+      "question": "Cell C1 contains =A1*$B$1. It is copied to D2. What formula does D2 contain?",
+      "options": [
+        "=B2*$B$1",
+        "=A1*$B$1",
+        "=B2*$C$2",
+        "=A2*$B$1"
+      ],
+      "correct": "A",
+      "explanation": "The relative A1 shifts one column and one row to B2; the absolute $B$1 does not change.",
+      "difficulty": "advanced",
+      "topic": "Formulas",
+      "subtopic": "Relative vs absolute"
+    },
+    {
+      "question": "Which feature restricts a cell's input to items from a dropdown list?",
+      "options": [
+        "Conditional Formatting",
+        "Data Validation",
+        "Goal Seek",
+        "Flash Fill"
+      ],
+      "correct": "B",
+      "explanation": "Data Validation with the List option creates an in-cell dropdown and rejects other entries.",
+      "difficulty": "advanced",
+      "topic": "Data tools",
+      "subtopic": "Data validation"
+    }
+  ]
+}

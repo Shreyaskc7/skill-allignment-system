@@ -133,3 +133,21 @@ def admin(client, db):
 
     make_user(db, "admin@example.com", UserRole.admin)
     return auth_headers(login(client, "admin@example.com").json()["access_token"])
+
+
+def take_assessment(client, headers, db, skill_name, count=5, correct=None):
+    """Start an attempt for `skill_name` and submit it with `correct` right answers (default: all)."""
+    from app import models
+
+    skill = next(s for s in client.get("/api/v1/assessments/skills", headers=headers).json() if s["name"] == skill_name)
+    a = client.post("/api/v1/assessments/attempts", headers=headers,
+                    json={"skill_id": skill["id"], "question_count": count, "restart": True}).json()
+    key = {q.question_id: q.correct_option for q in
+           db.query(models.AssessmentAttemptQuestion).filter_by(attempt_id=a["attempt_id"]).order_by(
+               models.AssessmentAttemptQuestion.position)}
+    correct = count if correct is None else correct
+    answers = [{"question_id": qid, "answer": right if i < correct else ("B" if right == "A" else "A")}
+               for i, (qid, right) in enumerate(key.items())]
+    r = client.post(f"/api/v1/assessments/attempts/{a['attempt_id']}/submit", headers=headers, json={"answers": answers})
+    assert r.status_code == 200, r.text
+    return r.json()

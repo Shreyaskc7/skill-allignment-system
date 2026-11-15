@@ -1,0 +1,313 @@
+{
+  "skill": "HTML",
+  "questions": [
+    {
+      "question": "Which tag defines the highest-level heading?",
+      "options": [
+        "<h1>",
+        "<h6>",
+        "<head>",
+        "<header>"
+      ],
+      "correct": "A",
+      "explanation": "<h1> is the top-level heading; <h6> is the lowest.",
+      "difficulty": "beginner",
+      "topic": "Text",
+      "subtopic": "Headings"
+    },
+    {
+      "question": "Which <img> attribute provides alternative text for accessibility?",
+      "options": [
+        "title",
+        "src",
+        "alt",
+        "desc"
+      ],
+      "correct": "C",
+      "explanation": "alt describes the image for screen readers and when it fails to load.",
+      "difficulty": "beginner",
+      "topic": "Media",
+      "subtopic": "Images"
+    },
+    {
+      "question": "Which element creates a hyperlink?",
+      "options": [
+        "<link>",
+        "<a>",
+        "<href>",
+        "<nav>"
+      ],
+      "correct": "B",
+      "explanation": "The <a> element with an href attribute creates a hyperlink.",
+      "difficulty": "beginner",
+      "topic": "Links",
+      "subtopic": "Anchors"
+    },
+    {
+      "question": "Which is the correct HTML5 doctype declaration?",
+      "options": [
+        "<!DOCTYPE HTML5>",
+        "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 5//EN\">",
+        "<doctype html5>",
+        "<!DOCTYPE html>"
+      ],
+      "correct": "D",
+      "explanation": "HTML5 uses the short <!DOCTYPE html> declaration.",
+      "difficulty": "beginner",
+      "topic": "Document structure",
+      "subtopic": "Doctype"
+    },
+    {
+      "question": "Which element creates a numbered (ordered) list?",
+      "options": [
+        "<ol>",
+        "<ul>",
+        "<li>",
+        "<dl>"
+      ],
+      "correct": "A",
+      "explanation": "<ol> creates an ordered list; <ul> is unordered.",
+      "difficulty": "beginner",
+      "topic": "Lists",
+      "subtopic": "Ordered lists"
+    },
+    {
+      "question": "Which element contains document metadata such as <title>?",
+      "options": [
+        "<header>",
+        "<body>",
+        "<meta>",
+        "<head>"
+      ],
+      "correct": "D",
+      "explanation": "<head> holds metadata like <title>, <meta> and <link>.",
+      "difficulty": "beginner",
+      "topic": "Document structure",
+      "subtopic": "Head"
+    },
+    {
+      "question": "Which element inserts a line break?",
+      "options": [
+        "<lb>",
+        "<br>",
+        "<break>",
+        "<hr>"
+      ],
+      "correct": "B",
+      "explanation": "<br> creates a line break; <hr> is a thematic break.",
+      "difficulty": "beginner",
+      "topic": "Text",
+      "subtopic": "Line breaks"
+    },
+    {
+      "question": "Which element defines a table row?",
+      "options": [
+        "<td>",
+        "<th>",
+        "<tr>",
+        "<table>"
+      ],
+      "correct": "C",
+      "explanation": "<tr> defines a row; <td> and <th> are cells within it.",
+      "difficulty": "beginner",
+      "topic": "Tables",
+      "subtopic": "Rows"
+    },
+    {
+      "question": "Which element best represents a self-contained composition such as a blog post?",
+      "options": [
+        "<article>",
+        "<div>",
+        "<span>",
+        "<aside>"
+      ],
+      "correct": "A",
+      "explanation": "<article> represents independent, self-contained content.",
+      "difficulty": "intermediate",
+      "topic": "Semantics",
+      "subtopic": "Sectioning"
+    },
+    {
+      "question": "How is a <label> explicitly associated with an <input>?",
+      "options": [
+        "The label's name matches the input's name",
+        "The label's for attribute matches the input's id",
+        "The label's id matches the input's for attribute",
+        "The label's href points to the input"
+      ],
+      "correct": "B",
+      "explanation": "The for attribute references the id of the labelable control.",
+      "difficulty": "intermediate",
+      "topic": "Forms",
+      "subtopic": "Labels"
+    },
+    {
+      "question": "Which input type provides built-in email-format validation?",
+      "options": [
+        "type=\"text\"",
+        "type=\"mail\"",
+        "type=\"email\"",
+        "type=\"address\""
+      ],
+      "correct": "C",
+      "explanation": "type=\"email\" validates that the value looks like an email address.",
+      "difficulty": "intermediate",
+      "topic": "Forms",
+      "subtopic": "Input types"
+    },
+    {
+      "question": "If a <form> has no method attribute, which HTTP method does it use?",
+      "options": [
+        "POST",
+        "PUT",
+        "PATCH",
+        "GET"
+      ],
+      "correct": "D",
+      "explanation": "The default form method is GET.",
+      "difficulty": "intermediate",
+      "topic": "Forms",
+      "subtopic": "Form method"
+    },
+    {
+      "question": "Which element is inline (not block-level) by default?",
+      "options": [
+        "<span>",
+        "<div>",
+        "<p>",
+        "<section>"
+      ],
+      "correct": "A",
+      "explanation": "<span> is a generic inline container; the others are block-level.",
+      "difficulty": "intermediate",
+      "topic": "Semantics",
+      "subtopic": "Inline elements"
+    },
+    {
+      "question": "What does the boolean required attribute on an <input> do?",
+      "options": [
+        "Makes the field read-only",
+        "Marks the field with a red border only",
+        "Blocks form submission while the field is empty",
+        "Sends the field even if it is disabled"
+      ],
+      "correct": "C",
+      "explanation": "required triggers constraint validation that prevents submitting an empty field.",
+      "difficulty": "intermediate",
+      "topic": "Forms",
+      "subtopic": "Validation"
+    },
+    {
+      "question": "Which attribute value opens a link in a new browsing context (tab)?",
+      "options": [
+        "target=\"_self\"",
+        "target=\"_blank\"",
+        "rel=\"new\"",
+        "href=\"_new\""
+      ],
+      "correct": "B",
+      "explanation": "target=\"_blank\" opens the link in a new tab or window.",
+      "difficulty": "intermediate",
+      "topic": "Links",
+      "subtopic": "Targets"
+    },
+    {
+      "question": "What is the purpose of <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">?",
+      "options": [
+        "It sets the page title on mobile",
+        "It disables zoom on all devices",
+        "It loads a mobile stylesheet",
+        "It makes the page width match the device width for responsive layout on mobile"
+      ],
+      "correct": "D",
+      "explanation": "It stops mobile browsers from rendering at a wide virtual viewport and scaling down.",
+      "difficulty": "intermediate",
+      "topic": "Responsive",
+      "subtopic": "Viewport"
+    },
+    {
+      "question": "What does the defer attribute on an external <script> do?",
+      "options": [
+        "Downloads in parallel and executes after parsing, in document order",
+        "Executes as soon as downloaded, in any order",
+        "Blocks parsing until the script runs",
+        "Delays execution until the user interacts"
+      ],
+      "correct": "A",
+      "explanation": "Deferred scripts run after the document is parsed, preserving their order; async scripts run when ready.",
+      "difficulty": "advanced",
+      "topic": "Performance",
+      "subtopic": "Script loading"
+    },
+    {
+      "question": "For <div data-user-id=\"7\">, how is the value read in JavaScript?",
+      "options": [
+        "el.dataset.user-id",
+        "el.data.userId",
+        "el.getData(\"userId\")",
+        "el.dataset.userId"
+      ],
+      "correct": "D",
+      "explanation": "data-* attributes appear in dataset with dash-separated names converted to camelCase.",
+      "difficulty": "advanced",
+      "topic": "DOM",
+      "subtopic": "Data attributes"
+    },
+    {
+      "question": "What does aria-label on an element provide?",
+      "options": [
+        "A visible tooltip in all browsers",
+        "An accessible name for assistive technologies",
+        "A CSS hook for styling only",
+        "Form validation messages"
+      ],
+      "correct": "B",
+      "explanation": "aria-label defines the accessible name read by screen readers.",
+      "difficulty": "advanced",
+      "topic": "Accessibility",
+      "subtopic": "ARIA"
+    },
+    {
+      "question": "In <img srcset=\"a.jpg 480w, b.jpg 800w\" sizes=\"...\">, what does the w descriptor indicate?",
+      "options": [
+        "The rendered width in CSS pixels",
+        "The minimum viewport width",
+        "The intrinsic width of each image file in pixels",
+        "The image weight in kilobytes"
+      ],
+      "correct": "C",
+      "explanation": "w descriptors tell the browser each candidate's real pixel width so it can choose using sizes.",
+      "difficulty": "advanced",
+      "topic": "Media",
+      "subtopic": "srcset"
+    },
+    {
+      "question": "Which of these is a void element (has no closing tag)?",
+      "options": [
+        "<input>",
+        "<textarea>",
+        "<label>",
+        "<button>"
+      ],
+      "correct": "A",
+      "explanation": "<input> is a void element; the others require end tags.",
+      "difficulty": "advanced",
+      "topic": "Elements",
+      "subtopic": "Void elements"
+    },
+    {
+      "question": "A <button> inside a <form> with no type attribute behaves as which type?",
+      "options": [
+        "button",
+        "submit",
+        "reset",
+        "none"
+      ],
+      "correct": "B",
+      "explanation": "The default type of a <button> is submit.",
+      "difficulty": "advanced",
+      "topic": "Forms",
+      "subtopic": "Buttons"
+    }
+  ]
+}

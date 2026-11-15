@@ -26,7 +26,7 @@ def student_dashboard(db: Session, user: models.User) -> dict:
     attempts = db.execute(
         select(models.AssessmentAttempt, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.AssessmentAttempt.skill_id)
-        .where(models.AssessmentAttempt.user_id == user.id)
+        .where(models.AssessmentAttempt.user_id == user.id, models.AssessmentAttempt.status == "submitted")
         .order_by(models.AssessmentAttempt.created_at.desc(), models.AssessmentAttempt.id.desc())
     ).all()
     scores = [a.score_percent for a, _ in attempts]

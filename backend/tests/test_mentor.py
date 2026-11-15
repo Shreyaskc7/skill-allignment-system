@@ -2,7 +2,7 @@
 
 import pytest
 
-from conftest import auth_headers, login, make_user, register
+from conftest import auth_headers, login, make_user, register, take_assessment
 
 API = "/api/v1"
 
@@ -77,8 +77,7 @@ def test_mentor_dashboard_and_needs_attention(client, world, db):
     from app import models
 
     s1 = world["s1"]
-    sql = next(s["id"] for s in client.get(f"{API}/assessments/skills", headers=s1).json() if s["name"] == "SQL")
-    client.post(f"{API}/assessments/submit", headers=s1, json={"skill_id": sql, "answers": {}})  # 0%
+    take_assessment(client, s1, db, "SQL", correct=0)  # 0%
     d = client.get(f"{API}/mentor/dashboard", headers=world["a"]).json()
     assert d["scope"] == "assigned students" and d["total_students"] == 2 and d["participating"] == 1
     assert d["average_score"] == 0.0
@@ -96,10 +95,7 @@ def test_student_detail_contents(client, world, db):
     client.put(f"{API}/students/me/profile", headers=s1, json={"full_name": "Student 1", "college": "RVCE",
                                                                 "target_career_id": cid,
                                                                 "date_of_birth": "2002-05-01T00:00:00Z"})
-    sql = next(s["id"] for s in client.get(f"{API}/assessments/skills", headers=s1).json() if s["name"] == "SQL")
-    qs = client.get(f"{API}/assessments/questions/{sql}", headers=s1).json()
-    answers = {str(q["id"]): db.get(models.AssessmentQuestion, q["id"]).correct_option for q in qs}
-    client.post(f"{API}/assessments/submit", headers=s1, json={"skill_id": sql, "answers": answers})
+    take_assessment(client, s1, db, "SQL")
 
     d = client.get(f"{API}/mentor/students/{world['ids']['s1@example.com']}", headers=world["a"]).json()
     assert d["profile"]["college"] == "RVCE" and "date_of_birth" not in d["profile"]

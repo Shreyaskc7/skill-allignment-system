@@ -1,7 +1,6 @@
 """Seed catalogue: skills, career-role requirements, starter questions and resources.
 
 Role entries are (skill, required_level 1-5, importance_weight 1-5).
-Question entries are (text, [A, B, C, D], correct letter, explanation, difficulty).
 Resource entries are (title, provider, url, type, difficulty, description).
 """
 
@@ -27,30 +26,8 @@ ROLE_SKILLS = {
  'Frontend Developer': [('HTML',4,4),('CSS',4,4),('JavaScript',4,5),('React',4,5),('Git',3,3),('Communication',3,2)],
  'Machine Learning Engineer': [('Python',4,5),('Statistics',4,5),('Machine Learning',4,5),('Pandas',3,4),('NumPy',3,3),('SQL',3,3)]
 }
-QUESTIONS = {
- 'Python': [
- ('Which keyword defines a function in Python?',['func','def','function','lambda'],'B','The def keyword begins a function definition.','beginner'),
- ('What does len([2, 4, 6]) return?',['2','3','6','Error'],'B','len returns the number of elements: three.','beginner'),
- ('Which structure stores unique elements?',['list','tuple','set','dict'],'C','A set stores unique values.','beginner'),
- ('What is the result of 7 // 2?',['3.5','3','4','2'],'B','// performs floor division.','intermediate'),
- ('Which library is commonly used for tabular data?',['Pandas','Turtle','Tkinter','Pygame'],'A','Pandas provides DataFrame structures for tabular data.','intermediate')],
- 'SQL': [
- ('Which SQL command retrieves rows?',['GET','FETCH','SELECT','OPEN'],'C','SELECT retrieves data from tables.','beginner'),
- ('Which clause filters rows before grouping?',['HAVING','WHERE','ORDER BY','LIMIT'],'B','WHERE filters individual rows before grouping.','beginner'),
- ('Which join returns only matching rows?',['LEFT JOIN','FULL JOIN','INNER JOIN','CROSS JOIN'],'C','INNER JOIN returns rows with matching join keys.','intermediate'),
- ('Which function counts rows?',['SUM()','COUNT()','TOTAL()','NUMBER()'],'B','COUNT returns the number of rows or non-null values.','beginner'),
- ('What does a primary key ensure?',['Duplicate values','Unique row identity','Sorted rows','Encrypted data'],'B','A primary key uniquely identifies each row.','intermediate')],
- 'Java': [
- ('Which method is the usual Java program entry point?',['start()','run()','main()','init()'],'C','The JVM starts a standard application at public static void main.','beginner'),
- ('Which keyword creates an object?',['this','new','class','make'],'B','The new keyword creates an object.','beginner'),
- ('Which collection does not allow duplicate elements?',['ArrayList','LinkedList','HashSet','Vector'],'C','HashSet stores unique elements.','intermediate')],
- 'Statistics': [
- ('Which measure is the arithmetic average?',['Median','Mode','Mean','Range'],'C','Mean is the sum divided by the count.','beginner'),
- ('What does standard deviation measure?',['Central value','Spread of data','Sample size','Correlation'],'B','Standard deviation measures dispersion around the mean.','intermediate')],
- 'React': [
- ('Which hook manages local component state?',['useEffect','useState','useMemo','useRef'],'B','useState declares state in a function component.','beginner'),
- ('What is JSX?',['A database','A syntax extension for JavaScript','A CSS framework','A router'],'B','JSX lets developers write markup-like syntax in JavaScript.','beginner')]
-}
+# Assessment questions moved to app/question_bank/*.json in Phase 6 (the 17 version 1
+# questions are included there verbatim).
 RESOURCES = {
  'Python':[('Python Tutorial','Python.org','https://docs.python.org/3/tutorial/','documentation','beginner','Official language tutorial'),('Python for Everybody','freeCodeCamp','https://www.freecodecamp.org/learn/scientific-computing-with-python/','course','beginner','Free guided Python course')],
  'SQL':[('PostgreSQL Tutorial','PostgreSQL','https://www.postgresql.org/docs/current/tutorial.html','documentation','beginner','Official SQL and PostgreSQL tutorial'),('SQLBolt','SQLBolt','https://sqlbolt.com/','practice','beginner','Interactive SQL exercises')],

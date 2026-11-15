@@ -4,7 +4,7 @@ import io
 
 import pytest
 
-from conftest import auth_headers, login, register
+from conftest import auth_headers, login, register, take_assessment
 
 API = "/api/v1/students/me"
 PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 64
@@ -144,18 +144,15 @@ def test_dashboard_reflects_real_activity(client, student, db):
 
     cid = _career_id(client, student, "Data Analyst")
     client.put(f"{API}/target-career", headers=student, json={"target_career_id": cid})
-    sql = next(s["id"] for s in client.get("/api/v1/assessments/skills", headers=student).json() if s["name"] == "SQL")
-    qs = client.get(f"/api/v1/assessments/questions/{sql}", headers=student).json()
-    answers = {str(q["id"]): db.get(models.AssessmentQuestion, q["id"]).correct_option for q in qs[:3]}
-    client.post("/api/v1/assessments/submit", headers=student, json={"skill_id": sql, "answers": answers})  # 3/5 = 60%
+    take_assessment(client, student, db, "SQL", count=5, correct=3)  # 3/5 = 60% -> level 4 (Phase 6 bands)
 
     d = client.get(f"{API}/dashboard", headers=student).json()
     tc = d["target_career"]
     assert tc["name"] == "Data Analyst"
     # Data Analyst weights: SQL(4,w5) Excel(4,4) Python(3,4) Statistics(4,5) Power BI(3,4) Data Analysis(4,5) Comm(3,2)
-    # SQL level 3 -> 3/4*5 = 3.75 of 29 -> 12.9% -> 13
-    assert tc["alignment_score"] == 13 == client.get(f"/api/v1/gaps/{cid}", headers=student).json()["alignment_score"]
-    assert tc["skills_total"] == 7 and tc["skills_met"] == 0
+    # SQL level 4 -> 4/4*5 = 5 of 29 -> 17.2% -> 17
+    assert tc["alignment_score"] == 17 == client.get(f"/api/v1/gaps/{cid}", headers=student).json()["alignment_score"]
+    assert tc["skills_total"] == 7 and tc["skills_met"] == 1  # SQL level 4 meets the required 4
     assert tc["missing_skills"][0]["priority"] == "High"
     assert d["assessments"] == {**d["assessments"], "count": 1, "average_score": 60.0, "best_score": 60.0}
     assert [s["skill"] for s in d["assessed_skills"]] == ["SQL"]

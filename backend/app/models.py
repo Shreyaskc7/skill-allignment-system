@@ -229,42 +229,74 @@ class AssessmentQuestion(Base):
     subtopic: Mapped[str | None] = mapped_column(String(100))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    # Stable key of questions loaded from app/question_bank (e.g. "python:007"); NULL for staff-authored ones.
+    bank_key: Mapped[str | None] = mapped_column(String(80), unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+    __table_args__ = (Index("ix_assessment_questions_skill_active", "skill_id", "is_active"),)
+
     skill: Mapped["Skill"] = relationship(back_populates="assessment_questions")
-    attempts: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="question", cascade="all, delete-orphan")
+    # No cascade: attempt history keeps its own snapshot even if a question is removed.
+    attempts: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="question", passive_deletes=True)
 
 
 class AssessmentAttempt(Base):
+    """One sitting of an assessment. Created when questions are delivered, scored on submit.
+
+    status: in_progress -> submitted | expired. Only submitted attempts count anywhere.
+    Version 1 rows are migrated as submitted (they predate per-question records).
+    """
+
     __tablename__ = "assessment_attempts"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="in_progress", server_default="submitted")
+    difficulty: Mapped[str | None] = mapped_column(String(20))  # beginner | intermediate | advanced | mixed
     total_questions: Mapped[int] = mapped_column(Integer, nullable=False)
-    correct_answers: Mapped[int] = mapped_column(Integer, nullable=False)
-    score_percent: Mapped[float] = mapped_column(Float, nullable=False)
+    correct_answers: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    score_percent: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    estimated_level: Mapped[int | None] = mapped_column(Integer)
     answers_json: Mapped[str] = mapped_column(Text, default="{}")
     time_spent_seconds: Mapped[int | None] = mapped_column(Integer)
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (Index("ix_attempts_user_status", "user_id", "status"),)
 
     user: Mapped["User"] = relationship(back_populates="assessment_attempts")
     skill: Mapped["Skill"] = relationship()
-    questions: Mapped[list["AssessmentAttemptQuestion"]] = relationship(back_populates="attempt", cascade="all, delete-orphan")
+    questions: Mapped[list["AssessmentAttemptQuestion"]] = relationship(
+        back_populates="attempt", cascade="all, delete-orphan", order_by="AssessmentAttemptQuestion.position"
+    )
 
 
 class AssessmentAttemptQuestion(Base):
+    """A delivered question, snapshotted so later question-bank edits never change history."""
+
     __tablename__ = "assessment_attempt_questions"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     attempt_id: Mapped[int] = mapped_column(ForeignKey("assessment_attempts.id", ondelete="CASCADE"), nullable=False)
-    question_id: Mapped[int] = mapped_column(ForeignKey("assessment_questions.id", ondelete="CASCADE"), nullable=False)
-    answer: Mapped[str] = mapped_column(String(1), nullable=False)
-    is_correct: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    question_id: Mapped[int | None] = mapped_column(ForeignKey("assessment_questions.id", ondelete="SET NULL"))
+    position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    question_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_a: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_b: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_c: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    option_d: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    correct_option: Mapped[str] = mapped_column(String(1), nullable=False, default="")
+    explanation: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    difficulty: Mapped[str] = mapped_column(String(20), nullable=False, default="beginner")
+    topic: Mapped[str | None] = mapped_column(String(100))
+    answer: Mapped[str | None] = mapped_column(String(1))  # NULL = not answered
+    is_correct: Mapped[bool | None] = mapped_column(Boolean)  # set on submit
 
     __table_args__ = (UniqueConstraint("attempt_id", "question_id", name="uq_attempt_question"),)
 
     attempt: Mapped["AssessmentAttempt"] = relationship(back_populates="questions")
-    question: Mapped["AssessmentQuestion"] = relationship(back_populates="attempts")
+    question: Mapped["AssessmentQuestion | None"] = relationship(back_populates="attempts")
 
 
 class StudentSkill(Base):
@@ -276,6 +308,9 @@ class StudentSkill(Base):
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), nullable=False)
     level: Mapped[int] = mapped_column(Integer, default=1)
     source: Mapped[str] = mapped_column(String(20), default="assessment")  # assessment, self_reported
+    # Evidence: when and by which submitted attempt the level was last set.
+    last_assessed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    evidence_attempt_id: Mapped[int | None] = mapped_column(ForeignKey("assessment_attempts.id", ondelete="SET NULL"))
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     user: Mapped["User"] = relationship(back_populates="student_skills")

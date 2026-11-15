@@ -20,7 +20,7 @@ def faculty_summary(viewer: models.User = Depends(require_staff), db: Session = 
     if allowed is not None:
         students = students.where(models.User.id.in_(allowed or [-1]))
     ids = list(db.scalars(students))
-    in_scope = models.AssessmentAttempt.user_id.in_(ids or [-1])
+    in_scope = models.AssessmentAttempt.user_id.in_(ids or [-1]) & (models.AssessmentAttempt.status == "submitted")
     avg = db.scalar(select(func.avg(models.AssessmentAttempt.score_percent)).where(in_scope))
     return {
         "scope": "all students" if allowed is None else "assigned students",

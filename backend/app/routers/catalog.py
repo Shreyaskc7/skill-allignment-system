@@ -58,7 +58,7 @@ def dashboard(db: Session = Depends(get_db)):
     return {
         "job_count": db.scalar(select(func.count(models.JobPosting.id))) or 0,
         "skill_count": db.scalar(select(func.count(models.Skill.id))) or 0,
-        "assessment_count": db.scalar(select(func.count(models.AssessmentAttempt.id))) or 0,
+        "assessment_count": db.scalar(select(func.count(models.AssessmentAttempt.id)).where(models.AssessmentAttempt.status == "submitted")) or 0,
         "resource_count": db.scalar(select(func.count(models.LearningResource.id))) or 0,
         "top_skills": [{"name": n, "count": c} for n, c in top],
     }
