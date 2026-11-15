@@ -4,6 +4,14 @@ A working academic prototype built with React + TypeScript, FastAPI, SQLAlchemy 
 
 > This is a development/academic prototype, not a production hiring or psychometric assessment product. It uses a small authored question bank and a rule/dictionary-based extractor. It does not claim a trained SkillSpan model or live ESCO API integration. Review the limitations below before describing results in a report.
 
+## Quick start (one step)
+
+1. Run `start.bat` (Windows, double-click) or `./start.sh` (Linux/macOS). The first run creates `.env` from `.env.example`.
+2. Open `.env`, replace `YOUR_PASSWORD` with your PostgreSQL password, and run the script again.
+3. The script sets up the Python and npm packages, checks the database (it asks before migrating), offers to create the first admin, then starts the API (http://127.0.0.1:8000) and the website (http://127.0.0.1:5173).
+
+`start.bat -CheckOnly` / `./start.sh --check-only` runs the checks without starting anything. `.env` holds all credentials and is never committed. The manual steps below still work.
+
 ## 1. Requirements
 - Python 3.10+
 - Node.js 18+
