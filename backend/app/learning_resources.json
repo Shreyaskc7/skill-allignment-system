@@ -1,0 +1,787 @@
+{
+ "description": "Curated free learning resources. Every URL was checked with a live HTTP request (status 200) on 2026-11-15; entries that could not be verified were left out. Estimated hours are omitted because they were not verified.",
+ "verified_on": "2026-11-15",
+ "skills": {
+  "Python": [
+   {
+    "title": "Python Tutorial",
+    "provider": "Python.org",
+    "url": "https://docs.python.org/3/tutorial/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official language tutorial",
+    "is_free": true
+   },
+   {
+    "title": "Python for Everybody",
+    "provider": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Free guided Python course",
+    "is_free": true
+   },
+   {
+    "title": "Python Exercises on Exercism",
+    "provider": "Exercism",
+    "url": "https://exercism.org/tracks/python",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Mentored coding exercises with automated tests",
+    "is_free": true
+   },
+   {
+    "title": "Python Language Reference: Data Model",
+    "provider": "Python.org",
+    "url": "https://docs.python.org/3/reference/datamodel.html",
+    "type": "documentation",
+    "difficulty": "advanced",
+    "description": "How objects, special methods and protocols work",
+    "is_free": true
+   }
+  ],
+  "Java": [
+   {
+    "title": "Java Tutorials",
+    "provider": "Dev.java",
+    "url": "https://dev.java/learn/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official Java learning path",
+    "is_free": true
+   },
+   {
+    "title": "Java Track on Exercism",
+    "provider": "Exercism",
+    "url": "https://exercism.org/tracks/java",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Hands-on Java exercises with feedback",
+    "is_free": true
+   },
+   {
+    "title": "The Java Tutorials: Collections",
+    "provider": "Oracle",
+    "url": "https://docs.oracle.com/javase/tutorial/collections/index.html",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "Lists, sets, maps and algorithms in the Collections framework",
+    "is_free": true
+   }
+  ],
+  "SQL": [
+   {
+    "title": "PostgreSQL Tutorial",
+    "provider": "PostgreSQL",
+    "url": "https://www.postgresql.org/docs/current/tutorial.html",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official SQL and PostgreSQL tutorial",
+    "is_free": true
+   },
+   {
+    "title": "SQLBolt",
+    "provider": "SQLBolt",
+    "url": "https://sqlbolt.com/",
+    "type": "practice",
+    "difficulty": "beginner",
+    "description": "Interactive SQL exercises",
+    "is_free": true
+   },
+   {
+    "title": "SQL Window Functions",
+    "provider": "PostgreSQL",
+    "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Ranking, running totals and partitions",
+    "is_free": true
+   },
+   {
+    "title": "Use The Index, Luke",
+    "provider": "Markus Winand",
+    "url": "https://use-the-index-luke.com/",
+    "type": "book",
+    "difficulty": "advanced",
+    "description": "Free guide to SQL indexing and query performance",
+    "is_free": true
+   }
+  ],
+  "PostgreSQL": [
+   {
+    "title": "PostgreSQL Documentation",
+    "provider": "PostgreSQL",
+    "url": "https://www.postgresql.org/docs/current/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official manual for the current release",
+    "is_free": true
+   },
+   {
+    "title": "Using EXPLAIN",
+    "provider": "PostgreSQL",
+    "url": "https://www.postgresql.org/docs/current/using-explain.html",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Reading query plans to diagnose slow queries",
+    "is_free": true
+   },
+   {
+    "title": "Concurrency Control (MVCC)",
+    "provider": "PostgreSQL",
+    "url": "https://www.postgresql.org/docs/current/mvcc.html",
+    "type": "documentation",
+    "difficulty": "advanced",
+    "description": "Transaction isolation and locking",
+    "is_free": true
+   }
+  ],
+  "Excel": [
+   {
+    "title": "Excel Training",
+    "provider": "Microsoft",
+    "url": "https://support.microsoft.com/excel",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official Excel training",
+    "is_free": true
+   },
+   {
+    "title": "XLOOKUP function",
+    "provider": "Microsoft",
+    "url": "https://support.microsoft.com/en-us/office/xlookup-function-b7fd680e-6d10-43e6-84f9-88eae8bf5929",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Look up values in a table or range",
+    "is_free": true
+   },
+   {
+    "title": "Create a PivotTable to analyze worksheet data",
+    "provider": "Microsoft",
+    "url": "https://support.microsoft.com/en-us/office/create-a-pivottable-to-analyze-worksheet-data-a9a84538-bfe9-40a9-a8e9-f99134456576",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "Summarise and explore data with PivotTables",
+    "is_free": true
+   }
+  ],
+  "Power BI": [
+   {
+    "title": "Power BI Learning",
+    "provider": "Microsoft",
+    "url": "https://learn.microsoft.com/power-bi/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official Power BI learning",
+    "is_free": true
+   },
+   {
+    "title": "DAX overview",
+    "provider": "Microsoft",
+    "url": "https://learn.microsoft.com/dax/dax-overview",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Measures, calculated columns and evaluation context",
+    "is_free": true
+   },
+   {
+    "title": "Understand star schema for Power BI",
+    "provider": "Microsoft",
+    "url": "https://learn.microsoft.com/power-bi/guidance/star-schema",
+    "type": "documentation",
+    "difficulty": "advanced",
+    "description": "Data modelling guidance for reliable reports",
+    "is_free": true
+   }
+  ],
+  "Tableau": [
+   {
+    "title": "Tableau Help: Get Started",
+    "provider": "Tableau",
+    "url": "https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Step-by-step first workbook and dashboard",
+    "is_free": true
+   },
+   {
+    "title": "Level of Detail Expressions",
+    "provider": "Tableau",
+    "url": "https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields_lod.htm",
+    "type": "documentation",
+    "difficulty": "advanced",
+    "description": "FIXED, INCLUDE and EXCLUDE calculations",
+    "is_free": true
+   }
+  ],
+  "Statistics": [
+   {
+    "title": "OpenIntro Statistics",
+    "provider": "OpenIntro",
+    "url": "https://www.openintro.org/book/os/",
+    "type": "book",
+    "difficulty": "beginner",
+    "description": "Free statistics textbook",
+    "is_free": true
+   },
+   {
+    "title": "Statistics and Probability",
+    "provider": "Khan Academy",
+    "url": "https://www.khanacademy.org/math/statistics-probability",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Free video lessons with practice",
+    "is_free": true
+   },
+   {
+    "title": "Seeing Theory",
+    "provider": "Brown University",
+    "url": "https://seeing-theory.brown.edu/",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "Visual introduction to probability and statistics",
+    "is_free": true
+   }
+  ],
+  "Data Analysis": [
+   {
+    "title": "Data Analysis with Python",
+    "provider": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org/learn/data-analysis-with-python/",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Free certification course with projects",
+    "is_free": true
+   },
+   {
+    "title": "Kaggle Learn: Data Cleaning",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/data-cleaning",
+    "type": "course",
+    "difficulty": "intermediate",
+    "description": "Handling missing values, scaling and inconsistent data",
+    "is_free": true
+   },
+   {
+    "title": "Kaggle Learn: Data Visualization",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/data-visualization",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Charts with seaborn for exploratory analysis",
+    "is_free": true
+   }
+  ],
+  "Machine Learning": [
+   {
+    "title": "Google Machine Learning Crash Course",
+    "provider": "Google",
+    "url": "https://developers.google.com/machine-learning/crash-course",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Free practical ML course",
+    "is_free": true
+   },
+   {
+    "title": "Kaggle Learn: Intro to Machine Learning",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Build your first models with hands-on exercises",
+    "is_free": true
+   },
+   {
+    "title": "scikit-learn User Guide",
+    "provider": "scikit-learn",
+    "url": "https://scikit-learn.org/stable/user_guide.html",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Algorithms, model selection and evaluation",
+    "is_free": true
+   },
+   {
+    "title": "Kaggle Learn: Intermediate Machine Learning",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/intermediate-machine-learning",
+    "type": "course",
+    "difficulty": "advanced",
+    "description": "Pipelines, cross-validation and gradient boosting",
+    "is_free": true
+   }
+  ],
+  "Pandas": [
+   {
+    "title": "pandas Getting Started Tutorials",
+    "provider": "pandas",
+    "url": "https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Official introductory tutorials",
+    "is_free": true
+   },
+   {
+    "title": "Kaggle Learn: Pandas",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/pandas",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Short hands-on lessons",
+    "is_free": true
+   },
+   {
+    "title": "pandas User Guide: Group by",
+    "provider": "pandas",
+    "url": "https://pandas.pydata.org/docs/user_guide/groupby.html",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Split-apply-combine operations",
+    "is_free": true
+   }
+  ],
+  "NumPy": [
+   {
+    "title": "NumPy: the absolute basics for beginners",
+    "provider": "NumPy",
+    "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Official beginner guide",
+    "is_free": true
+   },
+   {
+    "title": "NumPy Broadcasting",
+    "provider": "NumPy",
+    "url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "How arrays of different shapes combine",
+    "is_free": true
+   },
+   {
+    "title": "NumPy Learn",
+    "provider": "NumPy",
+    "url": "https://numpy.org/learn/",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Curated tutorials and books from the NumPy project",
+    "is_free": true
+   }
+  ],
+  "React": [
+   {
+    "title": "React Learn",
+    "provider": "React",
+    "url": "https://react.dev/learn",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official React learning guide",
+    "is_free": true
+   },
+   {
+    "title": "Tutorial: Tic-Tac-Toe",
+    "provider": "React",
+    "url": "https://react.dev/learn/tutorial-tic-tac-toe",
+    "type": "project",
+    "difficulty": "beginner",
+    "description": "Build a small game while learning core concepts",
+    "is_free": true
+   },
+   {
+    "title": "You Might Not Need an Effect",
+    "provider": "React",
+    "url": "https://react.dev/learn/you-might-not-need-an-effect",
+    "type": "documentation",
+    "difficulty": "advanced",
+    "description": "Avoid common useEffect mistakes",
+    "is_free": true
+   }
+  ],
+  "JavaScript": [
+   {
+    "title": "JavaScript Guide",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Comprehensive guide from MDN",
+    "is_free": true
+   },
+   {
+    "title": "The Modern JavaScript Tutorial",
+    "provider": "javascript.info",
+    "url": "https://javascript.info/",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "From basics to advanced topics with tasks",
+    "is_free": true
+   },
+   {
+    "title": "JavaScript Track on Exercism",
+    "provider": "Exercism",
+    "url": "https://exercism.org/tracks/javascript",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Exercises with mentoring",
+    "is_free": true
+   }
+  ],
+  "HTML": [
+   {
+    "title": "Learn web development: HTML",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Structuring content with HTML",
+    "is_free": true
+   },
+   {
+    "title": "Responsive Web Design",
+    "provider": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Project-based HTML and CSS course",
+    "is_free": true
+   },
+   {
+    "title": "HTML: A good basis for accessibility",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility/HTML",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Semantic, accessible markup",
+    "is_free": true
+   }
+  ],
+  "CSS": [
+   {
+    "title": "Learn web development: CSS styling",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Selectors, the box model and styling basics",
+    "is_free": true
+   },
+   {
+    "title": "CSS Flexbox Guide",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "One-dimensional layout",
+    "is_free": true
+   },
+   {
+    "title": "CSS Grid Layout",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Two-dimensional layout",
+    "is_free": true
+   },
+   {
+    "title": "Flexbox Froggy",
+    "provider": "Codepip",
+    "url": "https://flexboxfroggy.com/",
+    "type": "practice",
+    "difficulty": "beginner",
+    "description": "Game for practising flexbox",
+    "is_free": true
+   }
+  ],
+  "FastAPI": [
+   {
+    "title": "FastAPI Tutorial - User Guide",
+    "provider": "FastAPI",
+    "url": "https://fastapi.tiangolo.com/tutorial/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official step-by-step tutorial",
+    "is_free": true
+   },
+   {
+    "title": "FastAPI: Dependencies",
+    "provider": "FastAPI",
+    "url": "https://fastapi.tiangolo.com/tutorial/dependencies/",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Dependency injection for auth, databases and more",
+    "is_free": true
+   },
+   {
+    "title": "FastAPI: SQL (Relational) Databases",
+    "provider": "FastAPI",
+    "url": "https://fastapi.tiangolo.com/tutorial/sql-databases/",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "Connecting FastAPI to a relational database",
+    "is_free": true
+   }
+  ],
+  "Django": [
+   {
+    "title": "Writing your first Django app",
+    "provider": "Django",
+    "url": "https://docs.djangoproject.com/en/stable/intro/tutorial01/",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Official multi-part tutorial",
+    "is_free": true
+   },
+   {
+    "title": "Django Girls Tutorial",
+    "provider": "Django Girls",
+    "url": "https://tutorial.djangogirls.org/en/",
+    "type": "project",
+    "difficulty": "beginner",
+    "description": "Build a blog from scratch",
+    "is_free": true
+   },
+   {
+    "title": "Django: Making queries",
+    "provider": "Django",
+    "url": "https://docs.djangoproject.com/en/stable/topics/db/queries/",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "The ORM in depth",
+    "is_free": true
+   }
+  ],
+  "Git": [
+   {
+    "title": "Pro Git Book",
+    "provider": "Git",
+    "url": "https://git-scm.com/book/en/v2",
+    "type": "book",
+    "difficulty": "beginner",
+    "description": "Free version control book",
+    "is_free": true
+   },
+   {
+    "title": "Learn Git Branching",
+    "provider": "learngitbranching.js.org",
+    "url": "https://learngitbranching.js.org/",
+    "type": "practice",
+    "difficulty": "beginner",
+    "description": "Interactive branching and rebasing visualiser",
+    "is_free": true
+   },
+   {
+    "title": "GitHub Skills",
+    "provider": "GitHub",
+    "url": "https://skills.github.com/",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Hands-on courses for GitHub workflows",
+    "is_free": true
+   }
+  ],
+  "Linux": [
+   {
+    "title": "Linux Journey",
+    "provider": "Linux Journey",
+    "url": "https://linuxjourney.com/",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Free beginner-friendly Linux lessons",
+    "is_free": true
+   },
+   {
+    "title": "The Linux Command Line (book)",
+    "provider": "William Shotts",
+    "url": "https://linuxcommand.org/tlcl.php",
+    "type": "book",
+    "difficulty": "beginner",
+    "description": "Free book on the shell",
+    "is_free": true
+   },
+   {
+    "title": "OverTheWire: Bandit",
+    "provider": "OverTheWire",
+    "url": "https://overthewire.org/wargames/bandit/",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Command-line practice as a game",
+    "is_free": true
+   }
+  ],
+  "Docker": [
+   {
+    "title": "Docker Get Started",
+    "provider": "Docker",
+    "url": "https://docs.docker.com/get-started/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Official introduction to containers",
+    "is_free": true
+   },
+   {
+    "title": "Dockerfile best practices",
+    "provider": "Docker",
+    "url": "https://docs.docker.com/build/building/best-practices/",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Smaller, safer, cache-friendly images",
+    "is_free": true
+   },
+   {
+    "title": "Docker Compose Quickstart",
+    "provider": "Docker",
+    "url": "https://docs.docker.com/compose/gettingstarted/",
+    "type": "tutorial",
+    "difficulty": "intermediate",
+    "description": "Multi-container applications with Compose",
+    "is_free": true
+   }
+  ],
+  "Communication": [
+   {
+    "title": "Writing for Developers (Technical Writing One)",
+    "provider": "Google",
+    "url": "https://developers.google.com/tech-writing/one",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Free course on clear technical writing",
+    "is_free": true
+   },
+   {
+    "title": "Technical Writing Two",
+    "provider": "Google",
+    "url": "https://developers.google.com/tech-writing/two",
+    "type": "course",
+    "difficulty": "intermediate",
+    "description": "Organising larger documents and illustrations",
+    "is_free": true
+   },
+   {
+    "title": "How to write a good bug report",
+    "provider": "Mozilla",
+    "url": "https://bugzilla.mozilla.org/page.cgi?id=bug-writing.html",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Clear, actionable written communication in teams",
+    "is_free": true
+   }
+  ],
+  "Problem Solving": [
+   {
+    "title": "CS50x: Introduction to Computer Science",
+    "provider": "Harvard",
+    "url": "https://cs50.harvard.edu/x/",
+    "type": "course",
+    "difficulty": "beginner",
+    "description": "Problem solving through programming, free",
+    "is_free": true
+   },
+   {
+    "title": "Project Euler",
+    "provider": "Project Euler",
+    "url": "https://projecteuler.net/",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Mathematical and computational problems",
+    "is_free": true
+   },
+   {
+    "title": "Exercism Learning Tracks",
+    "provider": "Exercism",
+    "url": "https://exercism.org/tracks",
+    "type": "practice",
+    "difficulty": "beginner",
+    "description": "Practise breaking problems down in any language",
+    "is_free": true
+   }
+  ],
+  "Teamwork": [
+   {
+    "title": "Atlassian Team Playbook",
+    "provider": "Atlassian",
+    "url": "https://www.atlassian.com/team-playbook",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Free workshops for team collaboration",
+    "is_free": true
+   },
+   {
+    "title": "Google re:Work: Psychological safety",
+    "provider": "Google",
+    "url": "https://rework.withgoogle.com/en/guides/understanding-team-effectiveness",
+    "type": "documentation",
+    "difficulty": "intermediate",
+    "description": "Research on what makes teams effective",
+    "is_free": true
+   },
+   {
+    "title": "Open Source Guides: How to Contribute",
+    "provider": "GitHub",
+    "url": "https://opensource.guide/how-to-contribute/",
+    "type": "documentation",
+    "difficulty": "beginner",
+    "description": "Collaborating with others on real projects",
+    "is_free": true
+   }
+  ],
+  "Data Structures": [
+   {
+    "title": "VisuAlgo",
+    "provider": "VisuAlgo",
+    "url": "https://visualgo.net/en",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Animated data structures and algorithms",
+    "is_free": true
+   },
+   {
+    "title": "Open Data Structures",
+    "provider": "Pat Morin",
+    "url": "https://opendatastructures.org/",
+    "type": "book",
+    "difficulty": "intermediate",
+    "description": "Free textbook with implementations",
+    "is_free": true
+   },
+   {
+    "title": "MIT 6.006 Introduction to Algorithms",
+    "provider": "MIT OpenCourseWare",
+    "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+    "type": "course",
+    "difficulty": "advanced",
+    "description": "Lectures and problem sets",
+    "is_free": true
+   }
+  ],
+  "Algorithms": [
+   {
+    "title": "Algorithms (Jeff Erickson)",
+    "provider": "University of Illinois",
+    "url": "https://jeffe.cs.illinois.edu/teaching/algorithms/",
+    "type": "book",
+    "difficulty": "advanced",
+    "description": "Free algorithms textbook",
+    "is_free": true
+   },
+   {
+    "title": "VisuAlgo: Sorting",
+    "provider": "VisuAlgo",
+    "url": "https://visualgo.net/en/sorting",
+    "type": "tutorial",
+    "difficulty": "beginner",
+    "description": "Step through sorting algorithms",
+    "is_free": true
+   },
+   {
+    "title": "Codeforces Problemset",
+    "provider": "Codeforces",
+    "url": "https://codeforces.com/problemset",
+    "type": "practice",
+    "difficulty": "intermediate",
+    "description": "Competitive programming problems by difficulty",
+    "is_free": true
+   }
+  ]
+ }
+}

@@ -1536,3 +1536,151 @@ tr.inactive td {
 
 .ok-icon { color: #1f7a55; vertical-align: -2px; }
 .bad-icon { color: #b03a30; vertical-align: -2px; }
+
+/* ------------------------------------------------------------------ Phase 9: learning path */
+.path-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pre {
+  white-space: pre-wrap;
+}
+
+.path {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.path::before {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #e1e5f3;
+}
+
+.path-step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  position: relative;
+}
+
+.step-marker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #696fe2;
+  color: white;
+  font: 800 14px Manrope;
+  display: grid;
+  place-items: center;
+  margin-top: 14px;
+  z-index: 1;
+}
+
+.step-ready_to_reassess .step-marker { background: #1f7a55; }
+.step-not_assessed .step-marker { background: #9aa4b5; }
+
+.path-step h3 {
+  margin: 0 0 4px;
+}
+
+.step-status {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #eef0ff;
+  color: #3f48b8;
+  white-space: nowrap;
+}
+
+.step-status.ready_to_reassess { background: #eaf7f1; color: #1f7a55; }
+.step-status.not_assessed { background: #f1f3f7; color: #56627a; }
+.step-status.in_progress { background: #fff6df; color: #946a12; }
+
+.step-action {
+  font-size: 13px;
+  color: #44516b;
+  margin: 4px 0 10px;
+}
+
+.small-btn {
+  padding: 7px 12px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.step-resources {
+  display: grid;
+  gap: 8px;
+}
+
+.step-resource {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e7ebf2;
+  border-radius: 10px;
+  padding: 10px 12px;
+  flex-wrap: wrap;
+}
+
+.step-resource b {
+  font-size: 13px;
+}
+
+.step-resource small {
+  display: block;
+  color: #8490a3;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.step-resource.status-in_progress {
+  border-color: #f2dfaa;
+  background: #fffcf2;
+}
+
+.resource-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.resource.status-completed {
+  background: #f7fcf9;
+}
+
+.note-btn {
+  margin-top: 8px;
+}
+
+.resource-note {
+  font-size: 12px;
+  background: #f7f8fc;
+  border-radius: 8px;
+  padding: 6px 8px;
+  white-space: pre-wrap;
+  min-height: 0;
+}
+
+.note-area {
+  width: 100%;
+  border: 1px solid #d5dcea;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  resize: vertical;
+}

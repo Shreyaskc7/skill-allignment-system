@@ -7,8 +7,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import models
-from app.seed_data import CATALOG, RESOURCES, ROLE_SKILLS
+from app.seed_data import CATALOG, ROLE_SKILLS
 from app.services.question_bank import load_question_bank
+from app.services.learning import load_resources
 from app.services.skill_extraction import seed_aliases
 
 
@@ -46,24 +47,6 @@ def seed(db: Session) -> None:
     load_question_bank(db)
     seed_aliases(db)
 
-    for skill, items in RESOURCES.items():
-        sk = db.scalar(select(models.Skill).where(models.Skill.name == skill))
-        for title, provider, url, typ, diff, desc in items:
-            if not db.scalar(
-                select(models.LearningResource).where(
-                    models.LearningResource.skill_id == sk.id, models.LearningResource.title == title
-                )
-            ):
-                db.add(
-                    models.LearningResource(
-                        skill_id=sk.id,
-                        title=title,
-                        provider=provider,
-                        url=url,
-                        resource_type=typ,
-                        difficulty=diff,
-                        description=desc,
-                        is_free=True,
-                    )
-                )
+    # Learning resources come from app/learning_resources.json (Phase 9, links verified).
+    load_resources(db)
     db.commit()

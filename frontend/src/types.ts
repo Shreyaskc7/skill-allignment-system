@@ -31,6 +31,11 @@ export type Resource = {
   description: string;
   is_free: boolean;
   status: ProgressStatus;
+  estimated_hours: number | null;
+  notes: string;
+  started_at: string | null;
+  completed_at: string | null;
+  updated_at?: string;
 };
 
 export type Dashboard = {
@@ -420,4 +425,30 @@ export type CareerRecommendation = {
   missing_skills: string[];
   required_skills: { skill: string; required_level: number; weight: number; current_level: number }[];
   reasons: string[];
+};
+
+export type PathStep = {
+  step: number;
+  skill_id: number;
+  skill: string;
+  status: 'not_assessed' | 'in_progress' | 'ready_to_reassess' | 'todo';
+  gap_status: GapStatus;
+  assessed: boolean;
+  current_level: number;
+  required_level: number;
+  importance: number;
+  target_difficulty: string;
+  resources: Resource[];
+  completed_resources: number;
+  action: string;
+};
+
+export type LearningPath = {
+  career_id: number;
+  career: string;
+  alignment_score: number;
+  rules: string;
+  steps: PathStep[];
+  completed_skills: { skill_id: number; skill: string; current_level: number; required_level: number }[];
+  totals: { steps: number; skills_met: number; resources_completed: number };
 };

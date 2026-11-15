@@ -88,7 +88,7 @@ Leave `VITE_API_BASE_URL` empty: the secure refresh cookie only works on the sam
 1. **Overview** — live counts, target role selector, weighted alignment and top skills from imported job postings.
 2. **Skill assessment** — skill selection, MCQ delivery, answer submission, score, proficiency estimate and explanations. Results update the demo student's skill profile.
 3. **Skill-gap analysis** — role skill requirements compared with latest assessed levels. Score is weighted and explainable; unassessed skills count as zero.
-4. **Learning resources** — curated free official docs/courses/practice links with not-started, in-progress and completed tracking.
+4. **Learning resources and paths** — 81 verified free resources for all 26 skills; a personalised learning path built from the target career's gaps; progress with notes and history.
 5. **Job market** — CSV import, required column validation, duplicate skip, simple text cleaning through field trimming, dictionary-based skill extraction and job/skill storage.
 6. **Progress** — assessment history and tracked learning resource totals.
 7. **Faculty insights** — aggregate local demo metrics.
@@ -107,7 +107,7 @@ Permissions are enforced by the backend.
 | `POST /auth/register`, `/auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/forgot-password`, `/auth/reset-password`, `GET /auth/invitations/{token}`, `POST /auth/accept-invitation` | Public (rate-limited) |
 | `GET /auth/me`, `POST /auth/change-password` | Any signed-in user |
 | `GET /careers`, `/skills`, `/dashboard`, `/resources`, `/analytics/skills`, `/assessments/skills` | Any signed-in user |
-| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET /careers/recommendations`, `GET/POST /progress` | Students (own data only) |
+| `POST /assessments/attempts`, `GET /assessments/attempts/{id}`, `POST /assessments/attempts/{id}/submit`, `GET /assessments/history`, `GET /gaps/{career_id}`, `GET /careers/recommendations`, `GET /learning/path`, `GET /learning/history`, `GET/POST /progress` | Students (own data only) |
 | `GET/POST /question-bank/questions`, `PUT /question-bank/questions/{id}` | Teachers and administrators |
 | `GET/PUT /students/me/profile`, `PUT /students/me/target-career`, `POST/GET/DELETE /students/me/photo` and `/resume`, `GET/PUT /students/me/self-skills`, `GET /students/me/dashboard` | Students (own profile only) |
 | `GET /students/me/mentoring` | Students (own mentors and shared notes) |

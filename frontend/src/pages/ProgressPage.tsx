@@ -4,13 +4,15 @@ import { Activity, CheckCircle2, ClipboardList } from 'lucide-react';
 import { errorMessage, request } from '../api/client';
 import { Empty, Metric } from '../components/common';
 import { Alert } from '../components/ui';
-import type { HistoryItem, ProgressSummary } from '../types';
+import type { HistoryItem, ProgressSummary, Resource } from '../types';
 
 export function ProgressPage({ progress }: { progress: ProgressSummary | null }) {
   const [history, setHistory] = useState<HistoryItem[] | null>(null);
   const [error, setError] = useState('');
+  const [learning, setLearning] = useState<Resource[] | null>(null);
   useEffect(() => {
     request<HistoryItem[]>('/api/v1/assessments/history').then(setHistory).catch((e) => setError(errorMessage(e)));
+    request<Resource[]>('/api/v1/learning/history').then(setLearning).catch((e) => setError(errorMessage(e)));
   }, [progress]);
 
   return (
@@ -36,6 +38,24 @@ export function ProgressPage({ progress }: { progress: ProgressSummary | null })
           </div>
         ))}
         {history && !history.length && <Empty text="Complete an assessment to start tracking your progress." />}
+      </section>
+      <section className="panel">
+        <h2>Learning history</h2>
+        {learning?.map((r) => (
+          <div className="gaprow" key={r.id}>
+            <div>
+              <a href={r.url} target="_blank" rel="noreferrer noopener" className="table-link">{r.title}</a>
+              <small>
+                {r.skill} · {r.provider}
+                {r.started_at && ` · started ${new Date(r.started_at).toLocaleDateString()}`}
+                {r.completed_at && ` · completed ${new Date(r.completed_at).toLocaleDateString()}`}
+                {r.notes && ` · notes: ${r.notes.slice(0, 80)}${r.notes.length > 80 ? '…' : ''}`}
+              </small>
+            </div>
+            <span className="pill">{r.status.replace('_', ' ')}</span>
+          </div>
+        ))}
+        {learning && !learning.length && <Empty text="Start a resource from your learning path to see it here." />}
       </section>
     </>
   );

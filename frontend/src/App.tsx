@@ -1,9 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { errorMessage, postJson } from './api/client';
 import { homeFor, useAuth } from './auth/AuthContext';
 import { AnonymousOnly, RequireAuth, RequireRole } from './auth/guards';
 import { AppLayout, useApp } from './components/AppLayout';
-import { useToast } from './components/ui';
 import { InvitationsPage } from './pages/admin/InvitationsPage';
 import { AssessmentPage } from './pages/assessment/AssessmentPage';
 import { ResultsPage } from './pages/assessment/ResultsPage';
@@ -22,6 +20,7 @@ import { StudentDashboardPage } from './pages/StudentDashboardPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AccountPage } from './pages/AccountPage';
 import { CareersPage } from './pages/CareersPage';
+import { LearningPathPage } from './pages/learning/LearningPathPage';
 import { AssignmentsPage } from './pages/admin/AssignmentsPage';
 import { MentorDashboardPage } from './pages/mentor/MentorDashboardPage';
 import { StudentDetailPage } from './pages/mentor/StudentDetailPage';
@@ -29,26 +28,12 @@ import { StudentsPage } from './pages/mentor/StudentsPage';
 import { TeacherProfilePage } from './pages/mentor/TeacherProfilePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SkillGapsPage } from './pages/SkillGapsPage';
-import type { ProgressStatus } from './types';
 
 // --- thin route adapters: read shared data from the layout and pass it to the page components
 
 function Resources() {
-  const { data } = useApp();
   const { user } = useAuth();
-  const toast = useToast();
-  async function mark(id: number, status: ProgressStatus) {
-    try {
-      await postJson('/api/v1/progress/' + id, { status });
-      await data.load();
-      toast('success', 'Learning progress updated.');
-    } catch (e) {
-      toast('error', errorMessage(e));
-    }
-  }
-  return (
-    <LearningResourcesPage resources={data.resources} onStatusChange={mark} canTrack={user!.role === 'student'} />
-  );
+  return <LearningResourcesPage canTrack={user!.role === 'student'} />;
 }
 
 function RootRedirect() {
@@ -86,6 +71,7 @@ export default function App() {
             <Route path="assessment/results/:id" element={<ResultsPage />} />
             <Route path="skill-gaps" element={<SkillGapsRoute />} />
             <Route path="careers" element={<CareersPage />} />
+            <Route path="learning-path" element={<LearningPathPage />} />
             <Route path="progress" element={<ProgressRoute />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>

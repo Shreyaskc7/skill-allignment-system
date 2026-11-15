@@ -1,7 +1,6 @@
 """Seed catalogue: skills, career-role requirements, starter questions and resources.
 
 Role entries are (skill, required_level 1-5, importance_weight 1-5).
-Resource entries are (title, provider, url, type, difficulty, description).
 """
 
 CATALOG = {
@@ -28,14 +27,5 @@ ROLE_SKILLS = {
 }
 # Assessment questions moved to app/question_bank/*.json in Phase 6 (the 17 version 1
 # questions are included there verbatim).
-RESOURCES = {
- 'Python':[('Python Tutorial','Python.org','https://docs.python.org/3/tutorial/','documentation','beginner','Official language tutorial'),('Python for Everybody','freeCodeCamp','https://www.freecodecamp.org/learn/scientific-computing-with-python/','course','beginner','Free guided Python course')],
- 'SQL':[('PostgreSQL Tutorial','PostgreSQL','https://www.postgresql.org/docs/current/tutorial.html','documentation','beginner','Official SQL and PostgreSQL tutorial'),('SQLBolt','SQLBolt','https://sqlbolt.com/','practice','beginner','Interactive SQL exercises')],
- 'Java':[('Java Tutorials','Dev.java','https://dev.java/learn/','documentation','beginner','Official Java learning path')],
- 'React':[('React Learn','React','https://react.dev/learn','documentation','beginner','Official React learning guide')],
- 'Statistics':[('OpenIntro Statistics','OpenIntro','https://www.openintro.org/book/os/','book','beginner','Free statistics textbook')],
- 'Machine Learning':[('Google Machine Learning Crash Course','Google','https://developers.google.com/machine-learning/crash-course','course','beginner','Free practical ML course')],
- 'Git':[('Pro Git Book','Git','https://git-scm.com/book/en/v2','book','beginner','Free version control book')],
- 'Excel':[('Excel Training','Microsoft','https://support.microsoft.com/excel','documentation','beginner','Official Excel training')],
- 'Power BI':[('Power BI Learning','Microsoft','https://learn.microsoft.com/power-bi/','documentation','beginner','Official Power BI learning')]
-}
+# Learning resources moved to app/learning_resources.json in Phase 9 (the 11 version 1 resources
+# are included there with their original titles).

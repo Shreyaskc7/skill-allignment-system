@@ -73,7 +73,7 @@ def test_resource_progress_status_round_trip(client, student):
     assert {r["status"] for r in resources} == {"not_started"}
     rid = resources[0]["id"]
     assert client.post(f"/api/v1/progress/{rid}", headers=student, json={"status": "completed"}).status_code == 200
-    assert client.post(f"/api/v1/progress/{rid}", headers=student, json={"status": "bogus"}).status_code == 400
+    assert client.post(f"/api/v1/progress/{rid}", headers=student, json={"status": "bogus"}).status_code == 422
     assert client.post("/api/v1/progress/999999", headers=student, json={"status": "completed"}).status_code == 404
     updated = {r["id"]: r["status"] for r in client.get("/api/v1/resources", headers=student).json()}
     assert updated[rid] == "completed"

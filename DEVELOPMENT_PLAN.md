@@ -178,13 +178,22 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Browser: admin imported the sample plus a file with a bad row (row error reported), added a manual job; a student with Python 4, SQL 3, Linux 2, Java 5 saw 100% / 50% / 33% (hand-checked), filters, detail, dashboard top matches. No console errors.
 - **Not done (optional, needs your data):** ESCO mapping and a trained extractor. The `esco_identifier`/`esco_label` columns exist but are unused.
 
-## Phase 9: Personalised learning paths and progress
-- Resource model: type (documentation, video, tutorial, practice, project, certification), verified duration, free/paid. More curated resources for all 26 skills, linking only legitimate free or official sources.
-- Recommendation engine: ordered by gap size × importance for the target career, filtered by current level and difficulty, excluding completed resources.
-- Learning path generation per target career, adapted to assessed gaps.
-- Progress: start, in progress, complete, notes, started/completed timestamps, history.
-
-**Exit tests:** recommendations change after an assessment; progress transitions; history.
+## Phase 9: Personalised learning paths and progress ✅ done
+- **Resource catalogue:** `backend/app/learning_resources.json` has 81 free resources covering all 26 skills (at least 2 each, usually 3–4), of types documentation, course, tutorial, practice, project and book, at beginner/intermediate/advanced level. The 11 version 1 resources are kept under their original titles, so existing progress stays linked.
+  - **Every URL was checked with a live HTTP request (status 200) on 2026-11-15.** Tableau's training page returned 403 to automated checks and was **left out** rather than shipped unverified. Estimated hours are omitted because they could not be verified.
+  - Loaded idempotently (matched by skill + title; never edits or deletes rows).
+- **Learning path** (`GET /learning/path`, defaults to the target career):
+  - steps are the unmet skills in gap order (critical first)
+  - resource difficulty follows the assessed level (unassessed or 1–2 → beginner, 3 → intermediate, 4–5 → advanced; closest first; completed ones skipped)
+  - step status: not assessed / to do / in progress / ready to reassess; met skills are listed separately; the rules are returned and shown in the UI
+- **Progress:**
+  - `POST /progress/{id}` validates status and notes (≤ 2000 characters); `started_at` is set on first start, and `completed_at` is set once and kept when re-saved; resetting clears both
+  - `GET /learning/history`
+  - `GET /resources` gains skill, type, difficulty, status and search filters
+- No migration was needed (the timestamps and notes columns already existed).
+- Frontend: new Learning Path page (numbered steps, statuses, start/complete, assess/reassess links), Learning Resources (filters, notes dialog, difficulty badges), Progress (learning history with dates and notes).
+- Tests: 10 new (164 total) on PostgreSQL 18 and SQLite. They cover catalogue validity and coverage, idempotent load, filters, the difficulty rule, path ordering and adaptation, status transitions, timestamps, notes, history, validation and permissions.
+- Browser: a student targeting Data Analyst (SQL 5, Excel 3, Python 1) saw alignment 32% (hand-checked 9.33/29), SQL met, critical gaps first, intermediate Excel resources and beginner Python resources. Python went To do → In progress → Ready to reassess; notes and history checked. No console errors.
 
 ## Phase 10: Administration
 - Admin dashboard with system statistics.
