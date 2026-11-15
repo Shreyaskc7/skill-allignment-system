@@ -12,6 +12,7 @@ from app import models  # noqa: F401  (register mappers)
 from app.migrations import ensure_schema_current, upgrade_to_head
 from app.routers import admin, admin_manage, assessments, auth, catalog, faculty, gaps, health, jobs, learning, mentor, question_bank, students, teachers
 from app.seed import seed
+from app.security_middleware import install as install_security
 
 log = logging.getLogger("skillalign")
 
@@ -33,7 +34,12 @@ app = FastAPI(
     description="Skill assessment, job-market intelligence, gap analysis and learning recommendations.",
     version="2.0.0-dev",
     lifespan=lifespan,
+    # Interactive API docs are a development aid; they are not exposed in production.
+    docs_url=None if settings.app_env == "production" else "/docs",
+    redoc_url=None if settings.app_env == "production" else "/redoc",
+    openapi_url=None if settings.app_env == "production" else "/openapi.json",
 )
+install_security(app)
 
 app.add_middleware(
     CORSMiddleware,

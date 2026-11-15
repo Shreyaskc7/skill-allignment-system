@@ -14,7 +14,7 @@ from app.models import UserRole
 from app.schemas import MentoringNoteIn
 from app.services.alignment import career_alignment
 from app.services.audit import audit
-from app.services.mentoring import get_viewable_student, student_summary, visible_student_ids
+from app.services.mentoring import get_viewable_student, student_summaries, student_summary, visible_student_ids
 
 router = APIRouter(prefix="/mentor", tags=["mentor"])
 
@@ -33,12 +33,12 @@ def _students(db: Session, viewer: models.User, search: str | None = None) -> li
 @router.get("/students")
 def list_students(search: str | None = None, viewer: models.User = Depends(require_staff),
                   db: Session = Depends(get_db)):
-    return [student_summary(db, s) for s in _students(db, viewer, search)]
+    return student_summaries(db, _students(db, viewer, search))
 
 
 @router.get("/dashboard")
 def dashboard(viewer: models.User = Depends(require_staff), db: Session = Depends(get_db)):
-    summaries = [student_summary(db, s) for s in _students(db, viewer)]
+    summaries = student_summaries(db, _students(db, viewer))
     with_scores = [s["assessments"]["average_score"] for s in summaries if s["assessments"]["average_score"] is not None]
     aligned = [s["target_career"]["alignment_score"] for s in summaries if s["target_career"]]
     return {

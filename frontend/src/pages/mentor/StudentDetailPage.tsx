@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { safeUrl } from '../../api/safeUrl';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, EyeOff, Trash2 } from 'lucide-react';
 import { errorMessage, postJson, request } from '../../api/client';
@@ -170,7 +171,7 @@ export function StudentDetailPage() {
               )}
             </div>
             <p>{n.note}</p>
-            {n.resource && <a href={n.resource.url} target="_blank" rel="noreferrer" className="link-button">{n.resource.title} ↗</a>}
+            {n.resource && <a href={safeUrl(n.resource.url)} target="_blank" rel="noreferrer noopener" className="link-button">{n.resource.title} ↗</a>}
           </div>
         ))}
         {!d.notes.length && <Empty text="No notes yet." />}

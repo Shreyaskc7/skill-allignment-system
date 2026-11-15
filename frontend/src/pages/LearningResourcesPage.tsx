@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { safeUrl } from '../api/safeUrl';
 import { NotebookPen, Search } from 'lucide-react';
 import { errorMessage, postJson } from '../api/client';
 import { useApp } from '../components/AppLayout';
@@ -87,7 +88,7 @@ export function LearningResourcesPage({ canTrack }: { canTrack: boolean }) {
                 {r.notes && <p className="resource-note">{r.notes}</p>}
               </>
             ) : (
-              <div className="resource-actions"><a href={r.url} target="_blank" rel="noreferrer noopener" className="link-button">Open ↗</a></div>
+              <div className="resource-actions"><a href={safeUrl(r.url)} target="_blank" rel="noreferrer noopener" className="link-button">Open ↗</a></div>
             )}
           </article>
         ))}

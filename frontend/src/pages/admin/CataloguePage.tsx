@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { safeUrl } from '../../api/safeUrl';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { errorMessage, postJson, putJson, request } from '../../api/client';
 import { useApp } from '../../components/AppLayout';
@@ -254,7 +255,7 @@ function ResourcesTab() {
           <tbody>
             {data.resources.map((r) => (
               <tr key={r.id}>
-                <td><a href={r.url} target="_blank" rel="noreferrer noopener" className="table-link">{r.title}</a><small className="cell-sub">{r.provider}</small></td>
+                <td><a href={safeUrl(r.url)} target="_blank" rel="noreferrer noopener" className="table-link">{r.title}</a><small className="cell-sub">{r.provider}</small></td>
                 <td>{r.skill}</td><td>{r.type} · {r.difficulty}</td>
                 <td className="nowrap">
                   <button className="icon-button" aria-label={`Edit ${r.title}`} onClick={() => setEdit({ id: r.id, skill_id: r.skill_id, title: r.title, provider: r.provider, url: r.url, resource_type: r.type, difficulty: r.difficulty, description: r.description, is_free: r.is_free })}><Pencil size={15} /></button>

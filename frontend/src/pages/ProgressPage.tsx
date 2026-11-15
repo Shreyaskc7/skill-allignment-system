@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { safeUrl } from '../api/safeUrl';
 import { Link } from 'react-router-dom';
 import { Activity, CheckCircle2, ClipboardList } from 'lucide-react';
 import { errorMessage, request } from '../api/client';
@@ -44,7 +45,7 @@ export function ProgressPage({ progress }: { progress: ProgressSummary | null })
         {learning?.map((r) => (
           <div className="gaprow" key={r.id}>
             <div>
-              <a href={r.url} target="_blank" rel="noreferrer noopener" className="table-link">{r.title}</a>
+              <a href={safeUrl(r.url)} target="_blank" rel="noreferrer noopener" className="table-link">{r.title}</a>
               <small>
                 {r.skill} · {r.provider}
                 {r.started_at && ` · started ${new Date(r.started_at).toLocaleDateString()}`}

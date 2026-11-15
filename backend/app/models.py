@@ -135,6 +135,7 @@ class StudentTeacherAssignment(Base):
             postgresql_where=text("is_active"),
             sqlite_where=text("is_active"),
         ),
+        Index("ix_assignments_teacher_active", "teacher_id", "is_active"),
     )
 
     student: Mapped["User"] = relationship(foreign_keys=[student_id], back_populates="student_assignments")
@@ -212,7 +213,10 @@ class JobPosting(Base):
 
 class JobSkill(Base):
     __tablename__ = "job_skills"
-    __table_args__ = (UniqueConstraint("job_id", "skill_id", name="uq_job_skill"),)
+    __table_args__ = (
+        UniqueConstraint("job_id", "skill_id", name="uq_job_skill"),
+        Index("ix_job_skills_skill_id", "skill_id"),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     job_id: Mapped[int] = mapped_column(ForeignKey("job_postings.id", ondelete="CASCADE"))
@@ -341,7 +345,7 @@ class StudentSkill(Base):
 class LearningResource(Base):
     __tablename__ = "learning_resources"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False, index=True)
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     provider: Mapped[str] = mapped_column(String(100), default="Web")
     url: Mapped[str] = mapped_column(String(500), nullable=False)
@@ -408,6 +412,7 @@ class AuditLog(Base):
     __table_args__ = (
         Index("ix_audit_user_created", "user_id", "created_at"),
         Index("ix_audit_entity", "entity_type", "entity_id"),
+        Index("ix_audit_created_at", "created_at"),
     )
 
 

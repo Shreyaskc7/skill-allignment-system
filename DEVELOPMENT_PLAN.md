@@ -210,15 +210,31 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Tests: 14 new (178 total) on PostgreSQL 18 and SQLite.
 - Browser: admin home stats; created a career role with two requirements; deactivated a student with a reason (their login then returns 403); own row cannot be deactivated; the audit log shows every step, including a failed sign-in. No console errors.
 
-## Phase 11: Integration, security hardening and optimisation
-- End-to-end API workflow test covering the 20-step journey in §17 of the prompt, run in CI against PostgreSQL.
-- Browser flow check (Playwright, if approved) of the main student and mentor journeys.
-- Security review: authorization matrix test (every endpoint × role), upload validation, CORS, safe error bodies, rate limits, secrets.
-- Performance: N+1 removal (`selectinload`), indexes, pagination everywhere, transactions on multi-step writes.
-- Responsive and accessibility pass on all screens.
-- *(Optional, needs dated job history)* demand-forecasting baseline with evaluation, or documented as not feasible.
+## Phase 11: Integration, security hardening and optimisation ✅ done
+**End-to-end journey** (`tests/test_e2e_journey.py`): the 20-step workflow from the brief in one test, through the HTTP API only. Steps: register, log in with refresh, profile, career, assessment (secure attempt), result, skill update, gaps (17% hand-checked), recommendations, CSV import, matching jobs (100%), job detail, learning path, complete a resource, progress and history, mentor joins by invitation, admin assigns, mentor reviews, feedback seen by the student, unauthorised access rejected. Runs in CI on PostgreSQL.
 
-**Exit:** full test suite green in CI; build green; documented manual test record.
+**Security:**
+- **Authorization matrix over every endpoint** (`tests/test_security.py`). All 79 endpoints are read from the OpenAPI schema and each must be classified (public, any signed-in user, student, teacher, staff, admin), so an unclassified new endpoint fails CI. Each is called as anonymous, student, teacher and admin (more than 250 checks): 401 for anonymous, 403 for disallowed roles, neither for allowed roles.
+- Security headers on every response: `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`, a restrictive CSP on API responses, `Cache-Control: no-store` on API data, and HSTS when served over HTTPS. Verified live through the dev proxy.
+- Unhandled errors return a generic message with a reference id; the stack trace is logged only on the server (tested with a forced failure containing a fake secret).
+- API docs (`/docs`, `/redoc`, `/openapi.json`) are disabled when `APP_ENV=production`; production also refuses insecure secrets and non-Secure cookies.
+- Frontend: every link built from data goes through `safeUrl()`, so only http(s) links render (defence in depth against stored `javascript:` URLs); external links use `rel="noreferrer noopener"`.
+- Static sweep: no SQL built from strings (ORM only), no `innerHTML`/`eval`, no tokens in `localStorage`. Earlier phases already provide rate limiting, upload validation, the audit log and object-level checks.
+
+**Performance (measured, not assumed):** SQL statements per request were counted for 14 list endpoints at two data sizes.
+- `/mentor/students` and `/mentor/dashboard` ran about 7 queries per student (37 → 177 queries from 5 → 25 students). Rewritten as batched summaries: **9 queries regardless of size**.
+- `/admin/assignments` ran 2 queries per row: now **3 queries**.
+- All 14 endpoints are now constant, guarded by `tests/test_performance.py`.
+- Migration `0007` adds indexes on `job_skills.skill_id`, `student_teacher_assignments(teacher_id, is_active)`, `learning_resources.skill_id` and `audit_logs.created_at` (PostgreSQL does not index foreign keys automatically).
+- Known: `GET /jobs` scores matches in Python before paginating (needed to sort by match). That is fine for thousands of postings; very large datasets would need precomputed match scores.
+
+**Responsive and accessibility pass** (browser, 375 px, realistic long names): all 31 role pages (student 10, mentor 8, admin 13) checked for horizontal overflow, unnamed buttons, unlabelled form controls and images without alt text. One defect was found and fixed: the career selector's label was not associated with its `<select>`. Wide tables scroll inside their own container by design.
+
+**Not done, with reasons:**
+- Playwright browser automation: not added (it needs a large browser download and your approval). Browser flows were verified manually each phase instead, with results recorded in this plan.
+- Demand forecasting: not implemented, because there is no dated historical job data; the brief says not to fabricate it.
+
+Tests: 186 on PostgreSQL 18 and SQLite (8 new: e2e journey, authorization matrix, classification, headers, safe errors, production config, no hash leakage, N+1 guard).
 
 ## Phase 12: Documentation, deployment and final package
 - Backend and frontend Dockerfiles; compose with PostgreSQL, health checks, a persistent named volume (never recreated), and a migration step.

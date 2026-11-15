@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { safeUrl } from '../../api/safeUrl';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ClipboardList, ExternalLink, Info, PlayCircle, RefreshCw } from 'lucide-react';
 import { ApiError, errorMessage, postJson, request } from '../../api/client';
@@ -13,7 +14,7 @@ const STEP_LABEL: Record<PathStep['status'], string> = {
 export function ResourceActions({ r, onChange }: { r: Resource; onChange: (status: ProgressStatus) => void }) {
   return (
     <div className="resource-actions">
-      <a href={r.url} target="_blank" rel="noreferrer noopener" className="link-button">Open <ExternalLink size={12} /></a>
+      <a href={safeUrl(r.url)} target="_blank" rel="noreferrer noopener" className="link-button">Open <ExternalLink size={12} /></a>
       {r.status === 'not_started' && <button className="link-button" onClick={() => onChange('in_progress')}><PlayCircle size={13} /> Start</button>}
       {r.status !== 'completed' && <button className="link-button" onClick={() => onChange('completed')}><CheckCircle2 size={13} /> Mark completed</button>}
       {r.status === 'completed' && <span className="pill">completed</span>}

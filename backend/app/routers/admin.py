@@ -83,9 +83,10 @@ def list_users(role: str | None = None, search: str | None = None,
 
 # ------------------------------------------------------------------ student-mentor assignments
 
-def _assignment_out(db: Session, a: models.StudentTeacherAssignment) -> dict:
-    s, t = db.get(models.User, a.student_id), db.get(models.User, a.teacher_id)
-    by = db.get(models.User, a.assigned_by) if a.assigned_by else None
+def _assignment_out(db: Session, a: models.StudentTeacherAssignment, users: dict[int, models.User] | None = None) -> dict:
+    get = (lambda uid: users[uid]) if users is not None else (lambda uid: db.get(models.User, uid))
+    s, t = get(a.student_id), get(a.teacher_id)
+    by = get(a.assigned_by) if a.assigned_by else None
     return {
         "id": a.id, "student_id": s.id, "student_name": s.full_name, "student_email": s.email,
         "teacher_id": t.id, "teacher_name": t.full_name, "assigned_by": by.full_name if by else None,
@@ -105,7 +106,10 @@ def list_assignments(active: bool | None = None, student_id: int | None = None, 
         stmt = stmt.where(models.StudentTeacherAssignment.student_id == student_id)
     if teacher_id:
         stmt = stmt.where(models.StudentTeacherAssignment.teacher_id == teacher_id)
-    return [_assignment_out(db, a) for a in db.scalars(stmt)]
+    rows = list(db.scalars(stmt))
+    ids = {x for a in rows for x in (a.student_id, a.teacher_id, a.assigned_by) if x}
+    users = {u.id: u for u in db.scalars(select(models.User).where(models.User.id.in_(ids or {-1})))}  # one query
+    return [_assignment_out(db, a, users) for a in rows]
 
 
 @router.post("/assignments", status_code=201)

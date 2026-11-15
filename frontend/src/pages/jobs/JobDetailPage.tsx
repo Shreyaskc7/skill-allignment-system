@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { safeUrl } from '../../api/safeUrl';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, CircleDashed, ExternalLink, XCircle } from 'lucide-react';
 import { errorMessage, request } from '../../api/client';
@@ -48,7 +49,7 @@ export function JobDetailPage() {
         {student && <Alert kind="info">{j.match_rule} A high match does not guarantee selection.</Alert>}
         <p className="job-description">{j.description}</p>
         {j.application_url && (
-          <a href={j.application_url} target="_blank" rel="noreferrer noopener" className="primary">Apply on employer site <ExternalLink size={14} /></a>
+          <a href={safeUrl(j.application_url)} target="_blank" rel="noreferrer noopener" className="primary">Apply on employer site <ExternalLink size={14} /></a>
         )}
       </section>
       <div className="grid2">

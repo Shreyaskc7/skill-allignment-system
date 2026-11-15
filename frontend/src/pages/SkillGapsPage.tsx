@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { safeUrl } from '../api/safeUrl';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, ClipboardList, Info } from 'lucide-react';
 import { errorMessage, request } from '../api/client';
@@ -91,7 +92,7 @@ export function SkillGapsPage({ data }: { data: AppData }) {
                   <b>{n.type === 'assess' ? <ClipboardList size={14} /> : <BookOpen size={14} />} {n.text}</b>
                 </div>
                 {n.type === 'assess' && <Link to="/app/assessment" className="link-button">Assess →</Link>}
-                {n.resource && <a href={n.resource.url} target="_blank" rel="noreferrer" className="link-button">Open ↗</a>}
+                {n.resource && <a href={safeUrl(n.resource.url)} target="_blank" rel="noreferrer noopener" className="link-button">Open ↗</a>}
               </div>
             ))}
           </section>

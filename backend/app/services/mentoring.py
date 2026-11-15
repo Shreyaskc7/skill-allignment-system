@@ -51,51 +51,65 @@ def get_viewable_student(db: Session, viewer: models.User, student_id: int) -> m
     return student
 
 
-def student_summary(db: Session, student: models.User) -> dict:
-    profile = db.scalar(select(models.StudentProfile).where(models.StudentProfile.user_id == student.id))
-    attempts = db.execute(
-        select(models.AssessmentAttempt.score_percent, models.AssessmentAttempt.created_at)
-        .where(models.AssessmentAttempt.user_id == student.id, models.AssessmentAttempt.status == "submitted")
-        .order_by(models.AssessmentAttempt.created_at.desc())
-    ).all()
-    scores = [a.score_percent for a in attempts]
-    last_assessment = _aware(attempts[0].created_at) if attempts else None
-    progress = db.execute(
-        select(models.LearningProgress.status, func.count())
-        .where(models.LearningProgress.user_id == student.id)
-        .group_by(models.LearningProgress.status)
-    ).all()
-    counts = {s: n for s, n in progress}
+def student_summaries(db: Session, students: list[models.User]) -> list[dict]:
+    """Summaries for many students with a fixed number of queries (no per-student round trips)."""
+    ids = [s.id for s in students] or [-1]
+    profiles = {p.user_id: p for p in db.scalars(select(models.StudentProfile).where(models.StudentProfile.user_id.in_(ids)))}
+    scores: dict[int, list[float]] = {}
+    last: dict[int, object] = {}
+    for uid, score, created in db.execute(
+        select(models.AssessmentAttempt.user_id, models.AssessmentAttempt.score_percent, models.AssessmentAttempt.created_at)
+        .where(models.AssessmentAttempt.user_id.in_(ids), models.AssessmentAttempt.status == "submitted")
+    ).all():
+        scores.setdefault(uid, []).append(score)
+        if created is not None and (uid not in last or _aware(created) > last[uid]):
+            last[uid] = _aware(created)
+    counts: dict[int, dict[str, int]] = {}
+    for uid, status, n in db.execute(
+        select(models.LearningProgress.user_id, models.LearningProgress.status, func.count())
+        .where(models.LearningProgress.user_id.in_(ids))
+        .group_by(models.LearningProgress.user_id, models.LearningProgress.status)
+    ).all():
+        counts.setdefault(uid, {})[status] = n
+    levels: dict[int, dict[int, int]] = {}
+    for uid, sid, lvl in db.execute(
+        select(models.StudentSkill.user_id, models.StudentSkill.skill_id, models.StudentSkill.level)
+        .where(models.StudentSkill.user_id.in_(ids))
+    ).all():
+        levels.setdefault(uid, {})[sid] = lvl
+    career_ids = {p.target_career_id for p in profiles.values() if p.target_career_id}
+    roles = {r.id: r for r in db.scalars(
+        select(models.CareerRole).options(selectinload(models.CareerRole.skills).selectinload(models.CareerRoleSkill.skill))
+        .where(models.CareerRole.id.in_(career_ids or {-1})))}
+    return [_summarise(st, profiles.get(st.id), scores.get(st.id, []), last.get(st.id), counts.get(st.id, {}),
+                       levels.get(st.id, {}), roles) for st in students]
 
+
+def student_summary(db: Session, student: models.User) -> dict:
+    return student_summaries(db, [student])[0]
+
+
+def _summarise(student, profile, scores, last_assessment, counts, levels, roles) -> dict:
     career = None
-    if profile and profile.target_career_id:
-        role = db.scalar(
-            select(models.CareerRole)
-            .options(selectinload(models.CareerRole.skills).selectinload(models.CareerRoleSkill.skill))
-            .where(models.CareerRole.id == profile.target_career_id)
-        )
-        if role:
-            levels = dict(db.execute(
-                select(models.StudentSkill.skill_id, models.StudentSkill.level)
-                .where(models.StudentSkill.user_id == student.id)
-            ).all())
-            score, rows = career_alignment(role.skills, levels)
-            career = {
-                "id": role.id, "name": role.name, "alignment_score": score,
-                "high_priority_gaps": [r["skill"] for r in rows if r["priority"] == "High"],
-            }
+    role = roles.get(profile.target_career_id) if profile and profile.target_career_id else None
+    if role:
+        score, rows = career_alignment(role.skills, levels)
+        career = {
+            "id": role.id, "name": role.name, "alignment_score": score,
+            "high_priority_gaps": [r["skill"] for r in rows if r["priority"] == "High"],
+        }
 
     avg = round(sum(scores) / len(scores), 1) if scores else None
     reasons = []
-    if not attempts:
+    if not scores:
         reasons.append("No assessments taken yet")
-    elif last_assessment < utcnow() - timedelta(days=INACTIVE_DAYS):
+    elif last_assessment is not None and last_assessment < utcnow() - timedelta(days=INACTIVE_DAYS):
         reasons.append(f"No assessment in the last {INACTIVE_DAYS} days")
     if avg is not None and avg < LOW_AVERAGE:
         reasons.append(f"Average score below {LOW_AVERAGE:g}%")
     if career is None:
         reasons.append("No target career selected")
-    elif attempts and career["alignment_score"] < LOW_ALIGNMENT:
+    elif scores and career["alignment_score"] < LOW_ALIGNMENT:
         reasons.append(f"Career alignment below {LOW_ALIGNMENT}%")
     if not counts:
         reasons.append("Not tracking any learning resources")

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { safeUrl } from '../api/safeUrl';
 import { Link } from 'react-router-dom';
 import { Activity, BookOpen, Briefcase, CheckCircle2, ClipboardList, Target } from 'lucide-react';
 import { errorMessage, putJson, request } from '../api/client';
@@ -154,7 +155,7 @@ export function StudentDashboardPage() {
                 <b>{r.title}</b>
                 <small>{r.skill} · {r.provider} · {r.type}{r.status === 'in_progress' ? ' · in progress' : ''}</small>
               </div>
-              <a href={r.url} target="_blank" rel="noreferrer" className="link-button">Open ↗</a>
+              <a href={safeUrl(r.url)} target="_blank" rel="noreferrer noopener" className="link-button">Open ↗</a>
             </div>
           ))}
           {!d.recommended_resources.length && (
@@ -188,7 +189,7 @@ export function StudentDashboardPage() {
             <div className="note" key={n.id}>
               <div className="note-meta"><b>{n.teacher_name}</b> · {new Date(n.created_at).toLocaleDateString()}</div>
               <p>{n.note}</p>
-              {n.resource && <a href={n.resource.url} target="_blank" rel="noreferrer" className="link-button">{n.resource.title} ↗</a>}
+              {n.resource && <a href={safeUrl(n.resource.url)} target="_blank" rel="noreferrer noopener" className="link-button">{n.resource.title} ↗</a>}
             </div>
           ))}
           {mentoring && !mentoring.notes.length && <Empty text="No feedback yet." />}
