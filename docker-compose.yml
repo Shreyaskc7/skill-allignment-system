@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: skill-alignment-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: skill_alignment
+      POSTGRES_USER: skill_user
+      POSTGRES_PASSWORD: change_me_local_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - skill_alignment_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skill_user -d skill_alignment"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  skill_alignment_pgdata:
