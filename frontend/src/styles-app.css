@@ -1684,3 +1684,47 @@ tr.inactive td {
   font-size: 14px;
   resize: vertical;
 }
+
+/* ------------------------------------------------------------------ Phase 10: administration */
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+}
+
+.details-cell {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  color: #56627a;
+  max-width: 360px;
+  overflow-wrap: anywhere;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.tabs {
+  margin-bottom: 14px;
+}
+
+.req-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 13px;
+}
+
+.req-row label {
+  font-size: 12px;
+  color: #56627a;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dialog h4 {
+  margin: 14px 0 2px;
+}

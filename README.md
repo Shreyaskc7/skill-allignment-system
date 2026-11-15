@@ -91,7 +91,8 @@ Leave `VITE_API_BASE_URL` empty: the secure refresh cookie only works on the sam
 4. **Learning resources and paths** — 81 verified free resources for all 26 skills; a personalised learning path built from the target career's gaps; progress with notes and history.
 5. **Job market** — CSV import, required column validation, duplicate skip, simple text cleaning through field trimming, dictionary-based skill extraction and job/skill storage.
 6. **Progress** — assessment history and tracked learning resource totals.
-7. **Faculty insights** — aggregate local demo metrics.
+7. **Faculty insights** — aggregate metrics, scoped to a mentor's assigned students.
+8. **Administration** — system statistics, user accounts, catalogue (skills, career roles, resources), mentor invitations and assignments, audit log.
 
 ## 5. CSV import format
 Required columns: `title` (or `job_title` / `position`) and `description` (or `job_description` / `job_details`). Optional: `company`, `location`, `date` or `posted_date`.
@@ -115,7 +116,7 @@ Permissions are enforced by the backend.
 | `GET /mentor/dashboard`, `GET /mentor/students`, `GET /mentor/students/{id}`, `POST /mentor/students/{id}/notes`, `DELETE /mentor/notes/{id}` | Teachers (assigned students only) and administrators |
 | `GET /jobs` (search, filters, sort, pagination; students get match %), `GET /jobs/{id}` | Any signed-in user |
 | `POST /jobs`, `PUT /jobs/{id}`, `POST /jobs/import-csv`, `GET /faculty/summary` | Teachers (summary scoped to assigned students) and administrators |
-| `GET/POST /admin/invitations`, `POST /admin/invitations/{id}/revoke`, `GET /admin/users`, `GET/POST /admin/assignments`, `POST /admin/assignments/{id}/end` | Administrators |
+| `/admin/*`: invitations, users, assignments, `stats`, `accounts`, `skills`, `careers`, `resources`, `audit` | Administrators (every mutation is audited) |
 
 ## 7. Important limitations and next research steps
 - **Authentication/authorization:** implemented in version 2 (Argon2id password hashing, 15-minute JWT access

@@ -16,6 +16,10 @@ import {
   ListChecks,
   Compass,
   Route,
+  Shield,
+  UserCog,
+  Library,
+  ScrollText,
   RefreshCw,
   Target,
   type LucideIcon,
@@ -25,6 +29,7 @@ import type { Role, User } from '../types';
 export type NavItem = { to: string; label: string; icon: LucideIcon; roles: Role[] };
 
 export const NAV: NavItem[] = [
+  { to: '/app/admin', label: 'Admin Dashboard', icon: Shield, roles: ['admin'] },
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, roles: ['student'] },
   { to: '/app/profile', label: 'My Profile', icon: UserRound, roles: ['student'] },
   { to: '/app/assessment', label: 'Assessment', icon: ClipboardList, roles: ['student'] },
@@ -39,8 +44,11 @@ export const NAV: NavItem[] = [
   { to: '/app/faculty', label: 'Faculty Insights', icon: GraduationCap, roles: ['teacher', 'admin'] },
   { to: '/app/question-bank', label: 'Question Bank', icon: ListChecks, roles: ['teacher', 'admin'] },
   { to: '/app/teacher-profile', label: 'My Profile', icon: UserRound, roles: ['teacher'] },
+  { to: '/app/admin/users', label: 'Users', icon: UserCog, roles: ['admin'] },
+  { to: '/app/admin/catalogue', label: 'Catalogue', icon: Library, roles: ['admin'] },
   { to: '/app/admin/invitations', label: 'Mentor Invitations', icon: MailPlus, roles: ['admin'] },
   { to: '/app/admin/assignments', label: 'Assignments', icon: Link2, roles: ['admin'] },
+  { to: '/app/admin/audit', label: 'Audit Log', icon: ScrollText, roles: ['admin'] },
   { to: '/app/account', label: 'Account', icon: KeyRound, roles: ['student', 'teacher', 'admin'] },
 ];
 

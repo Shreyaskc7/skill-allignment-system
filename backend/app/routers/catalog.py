@@ -16,6 +16,7 @@ def careers(db: Session = Depends(get_db)):
     rows = db.scalars(
         select(models.CareerRole)
         .options(selectinload(models.CareerRole.skills).selectinload(models.CareerRoleSkill.skill))
+        .where(models.CareerRole.is_active.is_(True))
         .order_by(models.CareerRole.name)
     ).all()
     return [

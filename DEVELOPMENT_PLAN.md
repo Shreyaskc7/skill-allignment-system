@@ -195,13 +195,20 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Tests: 10 new (164 total) on PostgreSQL 18 and SQLite. They cover catalogue validity and coverage, idempotent load, filters, the difficulty rule, path ordering and adaptation, status transitions, timestamps, notes, history, validation and permissions.
 - Browser: a student targeting Data Analyst (SQL 5, Excel 3, Python 1) saw alignment 32% (hand-checked 9.33/29), SQL met, critical gaps first, intermediate Excel resources and beginner Python resources. Python went To do → In progress → Ready to reassess; notes and history checked. No console errors.
 
-## Phase 10: Administration
-- Admin dashboard with system statistics.
-- Management UIs: users (activate/deactivate, roles), teacher invitations, assignments, skills, career roles and requirements, questions, resources, job postings.
-- Audit log viewer; every admin mutation audited.
-- Students and teachers blocked from all admin routes at the API level.
-
-**Exit tests:** admin CRUD; non-admin 403 on every admin endpoint; audit rows written.
+## Phase 10: Administration ✅ done
+- New router `routers/admin_manage.py` (admin only, every mutation audited):
+  - `GET /admin/stats`: active users by role, deactivated accounts, pending invitations, active assignments, submitted assessments (total and last 30 days), average score, catalogue sizes, active jobs, sign-ins in the last 30 days.
+  - `GET /admin/accounts` (filters, search, pagination) and `PATCH /admin/accounts/{id}` (activate/deactivate, change role, reason recorded).
+    - **Safety rules:** an admin cannot deactivate or demote themselves; the last active admin is protected; deactivation revokes every refresh token (instant sign-out).
+    - A role change ends active assignments that no longer fit (history kept) and creates the missing profile.
+  - Skills: `POST/PUT /admin/skills` (unique names, ESCO fields optional).
+  - Career roles: `GET/POST/PUT /admin/careers` with a full requirement editor (levels and weights 1–5, no duplicates) and active/hidden. **Hidden roles disappear from students' career lists and recommendations.** Requirement changes flow straight into alignment (tested 100% → 60%).
+  - Learning resources: `POST/PUT/DELETE /admin/resources` (http(s) links only, known types and levels, unique title per skill; deletion refused when students have progress).
+  - `GET /admin/audit`: filters by action prefix, user and entity, paginated, with actor email and IP.
+- **Permission matrix test:** every `/admin` endpoint (19), read from the OpenAPI schema, is called as student (403), teacher (403) and anonymous (401). New admin endpoints are covered automatically.
+- Frontend: Admin Dashboard (admin home: stats, shortcuts, recent activity), Users (filters, role select, activate/deactivate with a reason and confirmation; your own row is protected), Catalogue (career roles with requirement editor, skills, resources with delete protection), Audit Log (filters, pagination).
+- Tests: 14 new (178 total) on PostgreSQL 18 and SQLite.
+- Browser: admin home stats; created a career role with two requirements; deactivated a student with a reason (their login then returns 403); own row cannot be deactivated; the audit log shows every step, including a failed sign-in. No console errors.
 
 ## Phase 11: Integration, security hardening and optimisation
 - End-to-end API workflow test covering the 20-step journey in §17 of the prompt, run in CI against PostgreSQL.

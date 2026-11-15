@@ -22,6 +22,10 @@ import { AccountPage } from './pages/AccountPage';
 import { CareersPage } from './pages/CareersPage';
 import { LearningPathPage } from './pages/learning/LearningPathPage';
 import { AssignmentsPage } from './pages/admin/AssignmentsPage';
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AuditPage } from './pages/admin/AuditPage';
+import { CataloguePage } from './pages/admin/CataloguePage';
+import { UsersPage } from './pages/admin/UsersPage';
 import { MentorDashboardPage } from './pages/mentor/MentorDashboardPage';
 import { StudentDetailPage } from './pages/mentor/StudentDetailPage';
 import { StudentsPage } from './pages/mentor/StudentsPage';
@@ -86,6 +90,10 @@ export default function App() {
             <Route path="teacher-profile" element={<TeacherProfilePage />} />
           </Route>
           <Route element={<RequireRole roles={['admin']} />}>
+            <Route path="admin" element={<AdminDashboardPage />} />
+            <Route path="admin/users" element={<UsersPage />} />
+            <Route path="admin/catalogue" element={<CataloguePage />} />
+            <Route path="admin/audit" element={<AuditPage />} />
             <Route path="admin/invitations" element={<InvitationsPage />} />
             <Route path="admin/assignments" element={<AssignmentsPage />} />
           </Route>

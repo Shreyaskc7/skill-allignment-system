@@ -83,5 +83,5 @@ export function useAuth(): AuthState {
 /** The landing route for each role after login. */
 export function homeFor(user: User | null): string {
   if (!user) return '/login';
-  return user.role === 'student' ? '/app' : '/app/mentor';
+  return user.role === 'student' ? '/app' : user.role === 'admin' ? '/app/admin' : '/app/mentor';
 }
