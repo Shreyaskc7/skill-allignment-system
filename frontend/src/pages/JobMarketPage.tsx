@@ -7,11 +7,13 @@ import type { ImportResult, Job } from '../types';
 export function JobMarketPage({
   jobs,
   reload,
-  setNotice,
+  canImport,
+  notify,
 }: {
   jobs: Job[];
   reload: () => Promise<void>;
-  setNotice: (message: string) => void;
+  canImport: boolean;
+  notify: (kind: 'success' | 'error', message: string) => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
@@ -23,7 +25,8 @@ export function JobMarketPage({
       const fd = new FormData();
       fd.append('file', file);
       const r = await request<ImportResult>('/api/v1/jobs/import-csv', { method: 'POST', body: fd });
-      setNotice(
+      notify(
+        'success',
         `Imported ${r.imported} jobs; skipped ${r.skipped}. Extracted skills: ${
           Object.keys(r.skills_found).join(', ') || 'none detected'
         }`,
@@ -31,7 +34,7 @@ export function JobMarketPage({
       setFile(null);
       await reload();
     } catch (e) {
-      setNotice(errorMessage(e));
+      notify('error', errorMessage(e));
     } finally {
       setBusy(false);
     }
@@ -39,6 +42,7 @@ export function JobMarketPage({
 
   return (
     <>
+      {canImport && (
       <section className="panel">
         <h2>Import job-market dataset</h2>
         <p className="muted">
@@ -55,6 +59,7 @@ export function JobMarketPage({
           Download sample CSV template
         </a>
       </section>
+      )}
 
       <section className="panel">
         <h2>Imported job postings ({jobs.length})</h2>

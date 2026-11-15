@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import {
   Activity,
   BookOpen,
@@ -5,32 +6,39 @@ import {
   ClipboardList,
   GraduationCap,
   LayoutDashboard,
+  LogOut,
+  MailPlus,
   RefreshCw,
   Target,
   type LucideIcon,
 } from 'lucide-react';
-import type { Page } from '../types';
+import type { Role, User } from '../types';
 
-const NAV: { name: Page; icon: LucideIcon }[] = [
-  { name: 'Overview', icon: LayoutDashboard },
-  { name: 'Assessment', icon: ClipboardList },
-  { name: 'Skill Gaps', icon: Target },
-  { name: 'Learning Resources', icon: BookOpen },
-  { name: 'Job Market', icon: Briefcase },
-  { name: 'Progress', icon: Activity },
-  { name: 'Faculty Insights', icon: GraduationCap },
+export type NavItem = { to: string; label: string; icon: LucideIcon; roles: Role[] };
+
+export const NAV: NavItem[] = [
+  { to: '/app', label: 'Overview', icon: LayoutDashboard, roles: ['student'] },
+  { to: '/app/assessment', label: 'Assessment', icon: ClipboardList, roles: ['student'] },
+  { to: '/app/skill-gaps', label: 'Skill Gaps', icon: Target, roles: ['student'] },
+  { to: '/app/resources', label: 'Learning Resources', icon: BookOpen, roles: ['student', 'teacher', 'admin'] },
+  { to: '/app/jobs', label: 'Job Market', icon: Briefcase, roles: ['student', 'teacher', 'admin'] },
+  { to: '/app/progress', label: 'Progress', icon: Activity, roles: ['student'] },
+  { to: '/app/faculty', label: 'Faculty Insights', icon: GraduationCap, roles: ['teacher', 'admin'] },
+  { to: '/app/admin/invitations', label: 'Mentor Invitations', icon: MailPlus, roles: ['admin'] },
 ];
 
+const ROLE_LABEL: Record<Role, string> = { student: 'Student', teacher: 'Teacher / Mentor', admin: 'Administrator' };
+
 export function Sidebar({
-  page,
+  user,
   online,
-  onNavigate,
   onRefresh,
+  onLogout,
 }: {
-  page: Page;
+  user: User;
   online: boolean;
-  onNavigate: (page: Page) => void;
   onRefresh: () => void;
+  onLogout: () => void;
 }) {
   return (
     <aside className="sidebar">
@@ -46,16 +54,16 @@ export function Sidebar({
       <div className="workspace">
         <GraduationCap />
         <div>
-          <b>MCA Workspace</b>
-          <small>Student demo profile</small>
+          <b>{user.full_name}</b>
+          <small>{ROLE_LABEL[user.role]}</small>
         </div>
       </div>
-      <nav>
-        {NAV.map((n) => (
-          <button key={n.name} className={page === n.name ? 'active' : ''} onClick={() => onNavigate(n.name)}>
+      <nav aria-label="Main">
+        {NAV.filter((n) => n.roles.includes(user.role)).map((n) => (
+          <NavLink key={n.to} to={n.to} end={n.to === '/app'} className={({ isActive }) => (isActive ? 'active' : '')}>
             <n.icon size={18} />
-            {n.name}
-          </button>
+            {n.label}
+          </NavLink>
         ))}
       </nav>
       <div className="side-bottom">
@@ -63,6 +71,9 @@ export function Sidebar({
         {online ? 'API connected' : 'API offline'}
         <button onClick={onRefresh}>
           <RefreshCw size={15} /> Refresh data
+        </button>
+        <button onClick={onLogout}>
+          <LogOut size={15} /> Sign out
         </button>
       </div>
     </aside>

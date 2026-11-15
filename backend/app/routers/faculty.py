@@ -1,4 +1,4 @@
-"""Aggregate metrics. Not access-controlled yet (Phase 5 restricts this)."""
+"""Aggregate metrics for teachers and administrators (Phase 5 scopes mentors to assigned students)."""
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import func, select
@@ -6,8 +6,9 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.db import get_db
+from app.deps import require_staff
 
-router = APIRouter(prefix="/faculty", tags=["faculty"])
+router = APIRouter(prefix="/faculty", tags=["faculty"], dependencies=[Depends(require_staff)])
 
 
 @router.get("/summary")

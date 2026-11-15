@@ -4,12 +4,14 @@ import csv
 import io
 from collections import Counter
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
 from app import models
 from app.db import get_db
+from app.deps import get_current_user, require_staff
+from app.services.audit import audit
 from app.services.skill_extraction import extract_skills, get_or_create_skill
 
 router = APIRouter(tags=["jobs"])
@@ -19,7 +21,12 @@ DESCRIPTION_COLUMNS = ["description", "job_description", "job_details"]
 
 
 @router.post("/jobs/import-csv")
-async def import_jobs(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def import_jobs(
+    request: Request,
+    file: UploadFile = File(...),
+    user: models.User = Depends(require_staff),
+    db: Session = Depends(get_db),
+):
     if not file.filename.lower().endswith(".csv"):
         raise HTTPException(400, "Upload a CSV file")
     raw = (await file.read()).decode("utf-8-sig", errors="replace")
@@ -62,6 +69,7 @@ async def import_jobs(file: UploadFile = File(...), db: Session = Depends(get_db
             db.add(models.JobSkill(job_id=job.id, skill_id=sk.id))
             found[name] += 1
         count += 1
+    audit(db, "jobs.csv_import", user_id=user.id, details={"file": file.filename, "imported": count, "skipped": skipped}, request=request)
     db.commit()
     return {
         "imported": count,
@@ -71,7 +79,7 @@ async def import_jobs(file: UploadFile = File(...), db: Session = Depends(get_db
     }
 
 
-@router.get("/jobs")
+@router.get("/jobs", dependencies=[Depends(get_current_user)])
 def jobs(limit: int = 50, db: Session = Depends(get_db)):
     rows = db.scalars(
         select(models.JobPosting)
@@ -92,7 +100,7 @@ def jobs(limit: int = 50, db: Session = Depends(get_db)):
     ]
 
 
-@router.get("/analytics/skills")
+@router.get("/analytics/skills", dependencies=[Depends(get_current_user)])
 def analytics(db: Session = Depends(get_db)):
     rows = (
         db.query(models.Skill.name, func.count(models.JobSkill.id))

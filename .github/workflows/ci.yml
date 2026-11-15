@@ -61,6 +61,13 @@ jobs:
       - name: Byte-compile sources
         run: python -m compileall -q app ../scripts
 
+      - name: Migrations apply cleanly and match the models
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+        run: |
+          alembic upgrade head
+          alembic check
+
       - name: Run tests
         run: pytest -q
 

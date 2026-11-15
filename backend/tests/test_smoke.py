@@ -1,4 +1,4 @@
-"""Smoke tests for the current (pre-auth) API on a fresh database."""
+"""Version 1 features, now exercised through authenticated users."""
 
 import io
 
@@ -11,6 +11,8 @@ def test_password_hashing_round_trip():
     assert hashed.startswith("$argon2id$")
     assert verify_password("correct horse battery staple", hashed)
     assert not verify_password("wrong password", hashed)
+    assert not verify_password("anything", "")
+    assert not verify_password("anything", "not-a-hash")
 
 
 def test_health_endpoints(client):
@@ -18,76 +20,80 @@ def test_health_endpoints(client):
     assert client.get("/health/db").json() == {"status": "ok", "database": "connected"}
 
 
-def test_seed_on_fresh_database(client):
-    careers = client.get("/api/v1/careers").json()
+def test_catalogue_seeded_and_no_demo_user(client, admin, db):
+    from app import models
+
+    careers = client.get("/api/v1/careers", headers=admin).json()
     assert len(careers) == 5
-    summary = client.get("/api/v1/faculty/summary").json()
-    assert summary["students"] == 1
+    summary = client.get("/api/v1/faculty/summary", headers=admin).json()
+    assert summary["students"] == 0  # no hardcoded demo student any more
     assert summary["skills_catalogued"] == 26
+    assert db.query(models.User).filter_by(email="student@skillalign.local").first() is None
 
 
-def test_questions_do_not_expose_answers(client):
-    skill_id = client.get("/api/v1/assessments/skills").json()[0]["id"]
-    questions = client.get(f"/api/v1/assessments/questions/{skill_id}").json()
+def test_questions_do_not_expose_answers(client, student):
+    skill_id = client.get("/api/v1/assessments/skills", headers=student).json()[0]["id"]
+    questions = client.get(f"/api/v1/assessments/questions/{skill_id}", headers=student).json()
     assert questions
     for q in questions:
         assert "correct_option" not in q
         assert "explanation" not in q
 
 
-def test_gap_score_rises_after_perfect_assessment(client):
-    careers = {c["name"]: c["id"] for c in client.get("/api/v1/careers").json()}
-    role_id = careers["Python Backend Developer"]
-    before = client.get(f"/api/v1/gaps/{role_id}").json()["alignment_score"]
-
-    python_id = next(s["id"] for s in client.get("/api/v1/assessments/skills").json() if s["name"] == "Python")
-    questions = client.get(f"/api/v1/assessments/questions/{python_id}").json()
-    # Look up the answers server-side, as a test-only shortcut.
-    from app.db import SessionLocal
+def test_gap_score_rises_after_perfect_assessment(client, student, db):
     from app import models
 
-    with SessionLocal() as db:
-        answers = {str(q["id"]): db.get(models.AssessmentQuestion, q["id"]).correct_option for q in questions}
-    result = client.post("/api/v1/assessments/submit", json={"skill_id": python_id, "answers": answers}).json()
+    careers = {c["name"]: c["id"] for c in client.get("/api/v1/careers", headers=student).json()}
+    role_id = careers["Python Backend Developer"]
+    before = client.get(f"/api/v1/gaps/{role_id}", headers=student).json()["alignment_score"]
+
+    skills = client.get("/api/v1/assessments/skills", headers=student).json()
+    python_id = next(s["id"] for s in skills if s["name"] == "Python")
+    questions = client.get(f"/api/v1/assessments/questions/{python_id}", headers=student).json()
+    answers = {str(q["id"]): db.get(models.AssessmentQuestion, q["id"]).correct_option for q in questions}
+    result = client.post("/api/v1/assessments/submit", headers=student,
+                         json={"skill_id": python_id, "answers": answers}).json()
     assert result["score_percent"] == 100
     assert result["estimated_level"] == 5
 
-    after = client.get(f"/api/v1/gaps/{role_id}").json()["alignment_score"]
+    after = client.get(f"/api/v1/gaps/{role_id}", headers=student).json()["alignment_score"]
     assert after > before
 
 
-def test_csv_import_extracts_skills_and_skips_duplicates(client):
+def test_csv_import_extracts_skills_and_skips_duplicates(client, teacher):
     csv_body = "title,description,company\nData Analyst,Needs SQL and Power BI and python,Acme\n"
     files = {"file": ("jobs.csv", io.BytesIO(csv_body.encode()), "text/csv")}
-    first = client.post("/api/v1/jobs/import-csv", files=files).json()
+    first = client.post("/api/v1/jobs/import-csv", headers=teacher, files=files).json()
     assert first["imported"] == 1
     assert {"SQL", "Power BI", "Python"} <= set(first["skills_found"])
 
     files = {"file": ("jobs.csv", io.BytesIO(csv_body.encode()), "text/csv")}
-    second = client.post("/api/v1/jobs/import-csv", files=files).json()
+    second = client.post("/api/v1/jobs/import-csv", headers=teacher, files=files).json()
     assert second == {**second, "imported": 0, "skipped": 1}
 
 
-def test_resource_progress_status_round_trip(client):
-    resources = client.get("/api/v1/resources").json()
+def test_resource_progress_status_round_trip(client, student):
+    resources = client.get("/api/v1/resources", headers=student).json()
     assert {r["status"] for r in resources} == {"not_started"}
     rid = resources[0]["id"]
-    assert client.post(f"/api/v1/progress/{rid}", json={"status": "completed"}).status_code == 200
-    assert client.post(f"/api/v1/progress/{rid}", json={"status": "bogus"}).status_code == 400
-    assert client.post("/api/v1/progress/999999", json={"status": "completed"}).status_code == 404
-    updated = {r["id"]: r["status"] for r in client.get("/api/v1/resources").json()}
+    assert client.post(f"/api/v1/progress/{rid}", headers=student, json={"status": "completed"}).status_code == 200
+    assert client.post(f"/api/v1/progress/{rid}", headers=student, json={"status": "bogus"}).status_code == 400
+    assert client.post("/api/v1/progress/999999", headers=student, json={"status": "completed"}).status_code == 404
+    updated = {r["id"]: r["status"] for r in client.get("/api/v1/resources", headers=student).json()}
     assert updated[rid] == "completed"
-    assert client.get("/api/v1/progress").json()["resources"] == {"completed": 1, "in_progress": 0, "total_tracked": 1}
+    assert client.get("/api/v1/progress", headers=student).json()["resources"] == {
+        "completed": 1, "in_progress": 0, "total_tracked": 1}
 
 
-def test_assessment_history_records_attempts(client):
-    skill_id = client.get("/api/v1/assessments/skills").json()[0]["id"]
-    client.post("/api/v1/assessments/submit", json={"skill_id": skill_id, "answers": {}})
-    history = client.get("/api/v1/assessments/history").json()
+def test_assessment_history_records_attempts(client, student):
+    skill_id = client.get("/api/v1/assessments/skills", headers=student).json()[0]["id"]
+    client.post("/api/v1/assessments/submit", headers=student, json={"skill_id": skill_id, "answers": {}})
+    history = client.get("/api/v1/assessments/history", headers=student).json()
     assert len(history) == 1 and history[0]["correct"] == 0
-    assert client.post("/api/v1/assessments/submit", json={"skill_id": 999999, "answers": {}}).status_code == 404
+    assert client.post("/api/v1/assessments/submit", headers=student,
+                       json={"skill_id": 999999, "answers": {}}).status_code == 404
 
 
-def test_csv_import_rejects_missing_columns(client):
+def test_csv_import_rejects_missing_columns(client, admin):
     files = {"file": ("bad.csv", io.BytesIO(b"name,text\nx,y\n"), "text/csv")}
-    assert client.post("/api/v1/jobs/import-csv", files=files).status_code == 400
+    assert client.post("/api/v1/jobs/import-csv", headers=admin, files=files).status_code == 400

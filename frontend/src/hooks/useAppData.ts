@@ -9,13 +9,16 @@ import type {
   Job,
   ProgressSummary,
   Resource,
+  Role,
   Skill,
   SkillDemand,
 } from '../types';
 
-/** Loads every dataset the screens need and keeps the selected career's gap analysis in sync. */
-export function useAppData(setNotice: (message: string) => void) {
+/** Loads the datasets the signed-in user's role may see, and keeps the selected career's gap analysis in sync. */
+export function useAppData(role: Role, onError: (message: string) => void) {
+  const isStudent = role === 'student';
   const [online, setOnline] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [careers, setCareers] = useState<Career[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
@@ -25,19 +28,17 @@ export function useAppData(setNotice: (message: string) => void) {
   const [faculty, setFaculty] = useState<FacultySummary | null>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [assessmentSkills, setAssessmentSkills] = useState<AssessmentSkill[]>([]);
-  const [role, setRole] = useState('');
+  const [careerId, setCareerId] = useState('');
   const [gap, setGap] = useState<Gap | null>(null);
 
   const load = useCallback(async () => {
     try {
-      const [c, s, d, res, p, a, f, j, as] = await Promise.all([
+      const [c, s, d, res, a, j, as] = await Promise.all([
         request<Career[]>('/api/v1/careers'),
         request<Skill[]>('/api/v1/skills'),
         request<Dashboard>('/api/v1/dashboard'),
         request<Resource[]>('/api/v1/resources'),
-        request<ProgressSummary>('/api/v1/progress'),
         request<SkillDemand[]>('/api/v1/analytics/skills'),
-        request<FacultySummary>('/api/v1/faculty/summary'),
         request<Job[]>('/api/v1/jobs'),
         request<AssessmentSkill[]>('/api/v1/assessments/skills'),
       ]);
@@ -45,34 +46,37 @@ export function useAppData(setNotice: (message: string) => void) {
       setSkills(s);
       setDashboard(d);
       setResources(res);
-      setProgress(p);
       setAnalytics(a);
-      setFaculty(f);
       setJobs(j);
       setAssessmentSkills(as);
-      setRole((old) => old || String(c[0]?.id || ''));
+      setCareerId((old) => old || String(c[0]?.id || ''));
+      if (isStudent) setProgress(await request<ProgressSummary>('/api/v1/progress'));
+      else setFaculty(await request<FacultySummary>('/api/v1/faculty/summary'));
       setOnline(true);
     } catch (e) {
       setOnline(false);
-      setNotice(errorMessage(e) + ' — start FastAPI and check its database connection.');
+      onError(errorMessage(e));
+    } finally {
+      setLoaded(true);
     }
-  }, [setNotice]);
+  }, [isStudent, onError]);
 
   useEffect(() => {
     load();
   }, [load]);
 
-  // Re-fetch the gap analysis when the role changes or after any reload of progress data.
+  // Students only: re-fetch the gap analysis when the career changes or after progress reloads.
   useEffect(() => {
-    if (role) {
-      request<Gap>('/api/v1/gaps/' + role)
+    if (isStudent && careerId) {
+      request<Gap>('/api/v1/gaps/' + careerId)
         .then(setGap)
-        .catch((e) => setNotice(errorMessage(e)));
+        .catch((e) => onError(errorMessage(e)));
     }
-  }, [role, progress, setNotice]);
+  }, [isStudent, careerId, progress, onError]);
 
   return {
     online,
+    loaded,
     careers,
     skills,
     dashboard,
@@ -82,8 +86,8 @@ export function useAppData(setNotice: (message: string) => void) {
     faculty,
     jobs,
     assessmentSkills,
-    role,
-    setRole,
+    role: careerId,
+    setRole: setCareerId,
     gap,
     load,
   };

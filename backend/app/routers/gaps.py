@@ -5,13 +5,13 @@ from sqlalchemy.orm import Session, selectinload
 from app import models
 from app.db import get_db
 from app.services.alignment import career_alignment
-from app.services.current_user import get_demo_student
+from app.deps import require_student
 
 router = APIRouter(prefix="/gaps", tags=["skill gaps"])
 
 
 @router.get("/{career_id}")
-def gaps(career_id: int, db: Session = Depends(get_db)):
+def gaps(career_id: int, user: models.User = Depends(require_student), db: Session = Depends(get_db)):
     role = db.scalar(
         select(models.CareerRole)
         .options(selectinload(models.CareerRole.skills).selectinload(models.CareerRoleSkill.skill))
@@ -19,7 +19,6 @@ def gaps(career_id: int, db: Session = Depends(get_db)):
     )
     if not role:
         raise HTTPException(404, "Career not found")
-    user = get_demo_student(db)
     levels = dict(
         db.execute(
             select(models.StudentSkill.skill_id, models.StudentSkill.level).where(

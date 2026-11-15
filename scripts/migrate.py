@@ -1,4 +1,7 @@
-"""Additive schema migration: add any columns the models declare but the DB lacks.
+"""DEPRECATED (version 2): use Alembic instead: `cd backend && alembic upgrade head`.
+Alembic revision 0001 performs the same additive adoption of version 1 databases.
+
+Additive schema migration: add any columns the models declare but the DB lacks.
 
 Safe by construction: only ADD COLUMN IF NOT EXISTS. Never drops or alters
 existing columns. Run with:

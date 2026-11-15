@@ -14,6 +14,7 @@ from sqlalchemy import (
     Float,
     func,
     Index,
+    text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db import Base
@@ -34,6 +35,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -120,7 +122,16 @@ class StudentTeacherAssignment(Base):
     removal_reason: Mapped[str | None] = mapped_column(Text)
 
     __table_args__ = (
-        UniqueConstraint("student_id", "teacher_id", "is_active", name="uq_active_assignment"),
+        # At most one ACTIVE assignment per student/teacher pair; any number of
+        # inactive (historical) rows are allowed.
+        Index(
+            "uq_active_assignment_pair",
+            "student_id",
+            "teacher_id",
+            unique=True,
+            postgresql_where=text("is_active"),
+            sqlite_where=text("is_active"),
+        ),
     )
 
     student: Mapped["User"] = relationship(foreign_keys=[student_id], back_populates="student_assignments")
@@ -345,3 +356,29 @@ class RefreshToken(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (Index("ix_refresh_user_expires", "user_id", "expires_at"),)
+
+class PasswordResetToken(Base):
+    """Single-use, expiring password-reset token. Only a SHA-256 hash is stored."""
+
+    __tablename__ = "password_reset_tokens"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class TeacherInvitation(Base):
+    """Administrator-issued invitation; the only way to obtain a teacher account."""
+
+    __tablename__ = "teacher_invitations"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    full_name: Mapped[str] = mapped_column(String(160), nullable=False)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    invited_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

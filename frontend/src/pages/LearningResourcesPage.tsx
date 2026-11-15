@@ -3,9 +3,11 @@ import type { ProgressStatus, Resource } from '../types';
 export function LearningResourcesPage({
   resources,
   onStatusChange,
+  canTrack,
 }: {
   resources: Resource[];
   onStatusChange: (id: number, status: ProgressStatus) => void;
+  canTrack: boolean;
 }) {
   return (
     <section className="panel">
@@ -30,6 +32,7 @@ export function LearningResourcesPage({
               <a href={r.url} target="_blank" rel="noreferrer">
                 Open resource ↗
               </a>
+              {canTrack && (
               <select
                 aria-label={`Progress for ${r.title}`}
                 value={r.status}
@@ -39,6 +42,7 @@ export function LearningResourcesPage({
                 <option value="in_progress">In progress</option>
                 <option value="completed">Completed</option>
               </select>
+              )}
             </div>
           </article>
         ))}

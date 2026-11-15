@@ -65,18 +65,28 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Documented, not changed: the level mapping uses Python's round-half-to-even (10%→1, 30%→2, 50%→2, 70%→4, 90%→4; 0%→1). Decision deferred to Phase 6, where attempts of 10+ questions make these cases common.
 - Tests: 26 (18 unit tests for alignment, levels, extraction and CORS; 8 API tests). Browser walkthrough of all 7 pages, with no console or server errors.
 
-## Phase 3: Database migrations, authentication and frontend foundation
-- Alembic setup; baseline revision = current models. Procedure for your existing DB: `pg_dump` backup → run additive check → `alembic stamp`. Rehearsed on a restored copy, never on the live DB first.
-- Migration: fix assignment unique constraint (§0.1 #8); refresh-token table in use.
-- Auth API: register (student only), login, refresh (rotating, hashed refresh tokens), logout, `/me`, change password, forgot/reset password (signed, single-use, expiring token; SMTP optional).
-- Account activation checks, login rate limiting, audit log entries for auth events.
-- `get_current_user` and `require_role(...)` dependencies; remove every `student@skillalign.local` lookup; legacy demo user set inactive with data preserved.
-- `create-admin` CLI for the first administrator; teacher accounts created only by admin invitation.
-- Secrets (`SECRET_KEY`, `REFRESH_SECRET`) required from env, with startup failure in production if left at defaults.
-- Frontend foundation: `react-router-dom`, typed API client with token refresh, auth context and persistence, protected and role routes, app layout and sidebar, shared UI (buttons, forms, tables, toasts, dialogs, loading/empty/error states).
-- Screens: Landing, Register, Login, Forgot/Reset password.
+## Phase 3: Database migrations, authentication and frontend foundation ✅ done
+**Migrations (Alembic)**
+- `0001` v1 baseline is *adoptive*: on an existing version 1 database it adds only missing tables, columns and indexes (back-filling model defaults before NOT NULL), never drops anything, and runs in one PostgreSQL transaction. `0002` adds `users.last_login_at`, `password_reset_tokens` and `teacher_invitations`. It also replaces the faulty `UNIQUE(student_id, teacher_id, is_active)` with a partial unique index on active rows, and deactivates the v1 shared demo account, keeping its records.
+- The API refuses to start on an out-of-date schema. `CREATE_TABLES_ON_START` is deprecated and ignored; `AUTO_MIGRATE` is opt-in. `scripts/migrate.py` is deprecated.
+- Tested on a fresh DB, a full v1 `create_all` DB with data, and an older partial v1 schema with rows, on PostgreSQL 18 and SQLite. CI runs `alembic upgrade head` and `alembic check` (no model/migration drift).
 
-**Exit tests:** register, login, invalid login, refresh, logout, reset, role guard, inactive account, migration upgrade on empty DB and stamp on existing-schema DB.
+**Authentication and authorization**
+- Student self-registration (terms consent, password policy, normalised email, optional phone, profile row); login; logout; `/me`; change password; forgot/reset password (30-minute single-use links, no account enumeration); admin-issued single-use teacher invitations; `python -m app.cli create-admin`.
+- Argon2id hashing (`argon2-cffi`, replacing unmaintained passlib). 15-minute JWT access tokens are held only in memory. Rotating opaque refresh tokens are stored as SHA-256 hashes in an HttpOnly, SameSite=Strict cookie scoped to `/api/v1/auth`. Reuse of an old token revokes all of that user's sessions, with a 15-second grace window so two tabs refreshing together do not log the user out.
+- Every endpoint is protected. Roles are re-read from the database on each request, so a deactivation or role change takes effect immediately. Student data endpoints are scoped to the signed-in student; a verified v1 issue was that `/assessments/history` returned everyone's attempts. Job import and faculty summary are staff-only; invitations are admin-only.
+- Login/register/reset rate limiting (in-process); audit log for auth and admin events; `SECRET_KEY` required in production (startup fails otherwise); `COOKIE_SECURE` enforced in production; SMTP optional (development prints emails to the console).
+
+**Frontend foundation**
+- `react-router-dom` routes with protected and role routes. Auth context restores the session on reload from the refresh cookie. The API client does a single-flight silent refresh. The Vite proxy gives a same-origin `/api`.
+- Screens: landing, register, login, forgot password, reset password, accept invitation, admin mentor invitations. The sidebar and home page depend on the role.
+- Shared UI: form fields with inline validation, password visibility toggle, alerts, toasts, confirm dialog, loading screen, error boundary, table styles. Auth pages verified at 375 px width.
+
+**Verification:** 63 backend tests pass on PostgreSQL 18 and SQLite (19 run without any database). Browser walkthrough covered: student register → login → reload persistence → assessment → gaps (23%, matches hand calculation) → progress; admin invite → mentor accept → mentor login → CSV import; forgot/reset password; role redirects; no console errors.
+
+**Found and fixed during the phase:** CLI crashed after creating an admin (detached session); CLI accepted emails the login form rejects; role-guarded routes lost the layout data (blank page), now fixed and protected by an error boundary; refresh-race handling.
+
+**Deferred:** account/password-change screen (API exists) → Phase 4 profile; mentor scoping → Phase 5.
 
 ## Phase 4: Student profile and dashboard
 - Student profile CRUD (`StudentProfile` already modelled): personal, academic and career fields; profile image and resume upload with type and size validation, stored outside the web root.

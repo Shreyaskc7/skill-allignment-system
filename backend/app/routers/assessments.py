@@ -13,9 +13,9 @@ from sqlalchemy.orm import Session
 from app import models
 from app.db import get_db
 from app.services.alignment import estimate_level
-from app.services.current_user import get_demo_student
+from app.deps import get_current_user, require_student
 
-router = APIRouter(prefix="/assessments", tags=["assessments"])
+router = APIRouter(prefix="/assessments", tags=["assessments"], dependencies=[Depends(get_current_user)])
 
 
 @router.get("/skills")
@@ -50,7 +50,7 @@ def questions(skill_id: int, limit: int = 10, db: Session = Depends(get_db)):
 
 
 @router.post("/submit")
-def submit_assessment(payload: dict, db: Session = Depends(get_db)):
+def submit_assessment(payload: dict, user: models.User = Depends(require_student), db: Session = Depends(get_db)):
     skill_id = int(payload.get("skill_id", 0))
     answers = payload.get("answers", {})
     rows = db.scalars(select(models.AssessmentQuestion).where(models.AssessmentQuestion.skill_id == skill_id)).all()
@@ -58,7 +58,6 @@ def submit_assessment(payload: dict, db: Session = Depends(get_db)):
         raise HTTPException(404, "Assessment skill not found")
     correct = sum(1 for q in rows if answers.get(str(q.id)) == q.correct_option)
     pct = round(correct / len(rows) * 100, 2)
-    user = get_demo_student(db)
     attempt = models.AssessmentAttempt(
         user_id=user.id,
         skill_id=skill_id,
@@ -100,10 +99,11 @@ def submit_assessment(payload: dict, db: Session = Depends(get_db)):
 
 
 @router.get("/history")
-def history(db: Session = Depends(get_db)):
+def history(user: models.User = Depends(require_student), db: Session = Depends(get_db)):
     rows = db.execute(
         select(models.AssessmentAttempt, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.AssessmentAttempt.skill_id)
+        .where(models.AssessmentAttempt.user_id == user.id)
         .order_by(models.AssessmentAttempt.created_at.desc())
         .limit(50)
     ).all()

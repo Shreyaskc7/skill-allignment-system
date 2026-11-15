@@ -6,8 +6,9 @@ from sqlalchemy.orm import Session, selectinload
 
 from app import models
 from app.db import get_db
+from app.deps import get_current_user
 
-router = APIRouter(tags=["catalog"])
+router = APIRouter(tags=["catalog"], dependencies=[Depends(get_current_user)])
 
 
 @router.get("/careers")

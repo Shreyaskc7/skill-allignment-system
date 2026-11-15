@@ -1,3 +1,4 @@
+/** Legacy page names (kept for the header title). */
 export type Page =
   | 'Overview'
   | 'Assessment'
@@ -101,3 +102,28 @@ export type AssessmentResult = {
 };
 
 export type ImportResult = { imported: number; skipped: number; skills_found: Record<string, number>; message: string };
+
+export type Role = 'student' | 'teacher' | 'admin';
+
+export type User = {
+  id: number;
+  email: string;
+  full_name: string;
+  role: Role;
+  is_active: boolean;
+  is_verified: boolean;
+  created_at: string;
+  last_login_at: string | null;
+};
+
+export type Invitation = {
+  id: number;
+  email: string;
+  full_name: string;
+  expires_at: string;
+  accepted_at: string | null;
+  revoked_at: string | null;
+  created_at: string;
+  status: 'pending' | 'accepted' | 'revoked' | 'expired';
+  invite_url?: string;
+};

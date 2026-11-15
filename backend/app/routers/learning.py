@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.db import get_db
-from app.services.current_user import get_demo_student
+from app.deps import get_current_user, require_student
 
 router = APIRouter(tags=["learning"])
 
@@ -14,7 +14,7 @@ PROGRESS_STATUSES = ["not_started", "in_progress", "completed"]
 
 
 @router.get("/resources")
-def resources(skill_id: int | None = None, db: Session = Depends(get_db)):
+def resources(skill_id: int | None = None, user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
     stmt = (
         select(models.LearningResource, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.LearningResource.skill_id)
@@ -22,7 +22,6 @@ def resources(skill_id: int | None = None, db: Session = Depends(get_db)):
     )
     if skill_id:
         stmt = stmt.where(models.LearningResource.skill_id == skill_id)
-    user = get_demo_student(db)
     statuses = dict(
         db.execute(
             select(models.LearningProgress.resource_id, models.LearningProgress.status).where(
@@ -49,8 +48,9 @@ def resources(skill_id: int | None = None, db: Session = Depends(get_db)):
 
 
 @router.post("/progress/{resource_id}")
-def update_progress(resource_id: int, payload: dict, db: Session = Depends(get_db)):
-    user = get_demo_student(db)
+def update_progress(
+    resource_id: int, payload: dict, user: models.User = Depends(require_student), db: Session = Depends(get_db)
+):
     r = db.get(models.LearningResource, resource_id)
     if not r:
         raise HTTPException(404, "Resource not found")
@@ -72,8 +72,7 @@ def update_progress(resource_id: int, payload: dict, db: Session = Depends(get_d
 
 
 @router.get("/progress")
-def progress(db: Session = Depends(get_db)):
-    user = get_demo_student(db)
+def progress(user: models.User = Depends(require_student), db: Session = Depends(get_db)):
     attempts = db.execute(
         select(models.AssessmentAttempt, models.Skill.name)
         .join(models.Skill, models.Skill.id == models.AssessmentAttempt.skill_id)

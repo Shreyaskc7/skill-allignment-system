@@ -1,80 +1,122 @@
-import { useCallback, useState } from 'react';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { errorMessage, postJson } from './api/client';
-import { Sidebar } from './components/Sidebar';
-import { useAppData } from './hooks/useAppData';
-import { useAssessment } from './hooks/useAssessment';
+import { homeFor, useAuth } from './auth/AuthContext';
+import { AnonymousOnly, RequireAuth, RequireRole } from './auth/guards';
+import { AppLayout, useApp } from './components/AppLayout';
+import { useToast } from './components/ui';
+import { InvitationsPage } from './pages/admin/InvitationsPage';
 import { AssessmentPage } from './pages/AssessmentPage';
+import { AcceptInvitationPage } from './pages/auth/AcceptInvitationPage';
+import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
+import { LoginPage } from './pages/auth/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage';
+import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
 import { FacultyInsightsPage } from './pages/FacultyInsightsPage';
 import { JobMarketPage } from './pages/JobMarketPage';
+import { LandingPage } from './pages/LandingPage';
 import { LearningResourcesPage } from './pages/LearningResourcesPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SkillGapsPage } from './pages/SkillGapsPage';
-import type { Page, ProgressStatus } from './types';
-import './styles.css';
+import type { ProgressStatus } from './types';
 
-export default function App() {
-  const [page, setPage] = useState<Page>('Overview');
-  const [notice, setNoticeState] = useState('');
-  const setNotice = useCallback((message: string) => setNoticeState(message), []);
+// --- thin route adapters: read shared data from the layout and pass it to the page components
 
-  const data = useAppData(setNotice);
-  const assessment = useAssessment(data.assessmentSkills, data.load, setNotice);
+function Overview() {
+  const { data } = useApp();
+  const navigate = useNavigate();
+  return <OverviewPage data={data} onStartAssessment={() => navigate('/app/assessment')} />;
+}
 
-  async function markResource(id: number, status: ProgressStatus) {
+function Assessment() {
+  const { data, assessment } = useApp();
+  return <AssessmentPage skills={data.assessmentSkills} a={assessment} />;
+}
+
+function Resources() {
+  const { data } = useApp();
+  const { user } = useAuth();
+  const toast = useToast();
+  async function mark(id: number, status: ProgressStatus) {
     try {
       await postJson('/api/v1/progress/' + id, { status });
       await data.load();
-      setNotice('Learning progress updated.');
+      toast('success', 'Learning progress updated.');
     } catch (e) {
-      setNotice(errorMessage(e));
+      toast('error', errorMessage(e));
     }
   }
-
-  function navigate(next: Page) {
-    setPage(next);
-    setNotice('');
-  }
-
   return (
-    <div className="shell">
-      <Sidebar page={page} online={data.online} onNavigate={navigate} onRefresh={data.load} />
-      <main>
-        <header>
-          <div>
-            <small>WORKSPACE / {page.toUpperCase()}</small>
-            <h1>{page === 'Overview' ? 'Build skills. Unlock potential.' : page}</h1>
-          </div>
-          <div className="profile">
-            <span className={data.online ? 'dot' : 'dot off'} /> Student Preview
-          </div>
-        </header>
-
-        <div className="content">
-          {notice && (
-            <div className="notice" role="status">
-              {notice}
-              <button aria-label="Dismiss" onClick={() => setNotice('')}>
-                ×
-              </button>
-            </div>
-          )}
-
-          {page === 'Overview' && <OverviewPage data={data} onStartAssessment={() => setPage('Assessment')} />}
-          {page === 'Assessment' && <AssessmentPage skills={data.assessmentSkills} a={assessment} />}
-          {page === 'Skill Gaps' && <SkillGapsPage data={data} />}
-          {page === 'Learning Resources' && (
-            <LearningResourcesPage resources={data.resources} onStatusChange={markResource} />
-          )}
-          {page === 'Job Market' && <JobMarketPage jobs={data.jobs} reload={data.load} setNotice={setNotice} />}
-          {page === 'Progress' && <ProgressPage progress={data.progress} />}
-          {page === 'Faculty Insights' && <FacultyInsightsPage faculty={data.faculty} />}
-
-          <footer>
-            SkillAlign · Intelligent Workforce Skill Alignment System <span>Academic project prototype</span>
-          </footer>
-        </div>
-      </main>
-    </div>
+    <LearningResourcesPage resources={data.resources} onStatusChange={mark} canTrack={user!.role === 'student'} />
   );
+}
+
+function Jobs() {
+  const { data } = useApp();
+  const { user } = useAuth();
+  const toast = useToast();
+  return (
+    <JobMarketPage
+      jobs={data.jobs}
+      reload={data.load}
+      canImport={user!.role !== 'student'}
+      notify={(kind, message) => toast(kind, message)}
+    />
+  );
+}
+
+function RootRedirect() {
+  const { status, user } = useAuth();
+  if (status === 'authenticated') return <Navigate to={homeFor(user)} replace />;
+  return <LandingPage />;
+}
+
+function AppHome() {
+  const { user } = useAuth();
+  return user!.role === 'student' ? <Overview /> : <Navigate to={homeFor(user)} replace />;
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route element={<AnonymousOnly />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      </Route>
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/accept-invitation" element={<AcceptInvitationPage />} />
+
+      <Route element={<RequireAuth />}>
+        <Route path="/app" element={<AppLayout />}>
+          <Route index element={<AppHome />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route element={<RequireRole roles={['student']} />}>
+            <Route path="assessment" element={<Assessment />} />
+            <Route path="skill-gaps" element={<SkillGapsRoute />} />
+            <Route path="progress" element={<ProgressRoute />} />
+          </Route>
+          <Route element={<RequireRole roles={['teacher', 'admin']} />}>
+            <Route path="faculty" element={<FacultyRoute />} />
+          </Route>
+          <Route element={<RequireRole roles={['admin']} />}>
+            <Route path="admin/invitations" element={<InvitationsPage />} />
+          </Route>
+        </Route>
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+function SkillGapsRoute() {
+  return <SkillGapsPage data={useApp().data} />;
+}
+function ProgressRoute() {
+  return <ProgressPage progress={useApp().data.progress} />;
+}
+function FacultyRoute() {
+  return <FacultyInsightsPage faculty={useApp().data.faculty} />;
 }
