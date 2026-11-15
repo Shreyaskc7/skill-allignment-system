@@ -20,7 +20,11 @@ class Settings(BaseSettings):
     refresh_secret: str = "CHANGE_ME_IN_PRODUCTION"
     access_token_expire_minutes: int = 60
     refresh_token_expire_days: int = 30
-    password_hash_iterations: int = 600000
+    # Argon2id cost: time_cost is the number of passes (not PBKDF2-style
+    # iterations), so keep it small. 3 passes / 64 MiB follows OWASP guidance.
+    argon2_time_cost: int = 3
+    argon2_memory_cost_kib: int = 65536
+    argon2_parallelism: int = 4
 
     # Rate limiting (requests per minute on auth endpoints)
     rate_limit_auth: int = 10

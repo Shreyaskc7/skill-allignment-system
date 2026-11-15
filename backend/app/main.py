@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from collections import Counter
-import csv, io, re, json
+import csv, io, re, json, secrets
 from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, func
@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.config import settings
 from app.db import Base, check_database_connection, engine, get_db
 from app import models
+from app.security import hash_password
 
 CATALOG = {
  'Python':('Programming', 'Python programming language'), 'Java':('Programming','Java programming language'),
@@ -70,7 +71,8 @@ RESOURCES = {
 def seed(db: Session):
     user=db.scalar(select(models.User).where(models.User.email=='student@skillalign.local'))
     if not user:
-        user=models.User(email='student@skillalign.local',full_name='Student Demo',role='student'); db.add(user)
+        # The demo student cannot log in: its password is a random, discarded value.
+        user=models.User(email='student@skillalign.local',full_name='Student Demo',role=models.UserRole.student,password_hash=hash_password(secrets.token_urlsafe(32))); db.add(user)
     for name,(cat,desc) in CATALOG.items():
         if not db.scalar(select(models.Skill).where(models.Skill.name==name)): db.add(models.Skill(name=name,category=cat,description=desc))
     db.flush()
@@ -237,4 +239,4 @@ def analytics(db:Session=Depends(get_db)):
     return [{'skill':n,'postings':c} for n,c in rows]
 @app.get('/api/v1/faculty/summary')
 def faculty_summary(db:Session=Depends(get_db)):
-    return {'students':db.scalar(select(func.count(models.User.id)).where(models.User.role=='student')) or 0,'job_postings':db.scalar(select(func.count(models.JobPosting.id))) or 0,'assessments':db.scalar(select(func.count(models.AssessmentAttempt.id))) or 0,'skills_catalogued':db.scalar(select(func.count(models.Skill.id))) or 0,'average_assessment_score':round(db.scalar(select(func.avg(models.AssessmentAttempt.score_percent))) or 0,1)}
+    return {'students':db.scalar(select(func.count(models.User.id)).where(models.User.role==models.UserRole.student)) or 0,'job_postings':db.scalar(select(func.count(models.JobPosting.id))) or 0,'assessments':db.scalar(select(func.count(models.AssessmentAttempt.id))) or 0,'skills_catalogued':db.scalar(select(func.count(models.Skill.id))) or 0,'average_assessment_score':round(db.scalar(select(func.avg(models.AssessmentAttempt.score_percent))) or 0,1)}
