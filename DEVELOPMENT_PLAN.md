@@ -54,18 +54,16 @@ The prompt was checked line by line against the code on `version-2`. It is broad
 - Hardcoded DB password removed from `scripts/migrate.py` before the first commit.
 - CI workflow and first smoke-test suite (7 tests) added.
 
-## Phase 2: Stabilise the current application (partly done)
-**Done (commit `0206824`):** missing `Award` import (Faculty page crash), demo-user seed failing on a fresh DB, Argon2 cost misconfiguration (600000 "rounds"), missing `email-validator`, two TypeScript build errors.
-
-**Remaining:**
-- Split `main.py` into `routers/` and `services/` (careers, skills, assessments, gaps, resources, progress, jobs, analytics) with Pydantic response models. **No behaviour change**, and the weighted alignment formula is moved verbatim.
-- Split `App.tsx` into readable components and pages; reformat `styles.css`.
-- Fix the resource status dropdown so it shows the saved status (uses `defaultValue`).
-- Replace hardcoded CORS ports with a configurable `FRONTEND_ORIGINS` list.
-- Align `docker-compose.yml` credentials and DB name with `.env.example` and README.
-- Document the `round(pct/20)` level mapping (Python rounds 2.5 to 2, banker's rounding) and decide whether it's intended.
-
-**Exit:** all existing features behave as before; smoke tests extended per router; build green.
+## Phase 2: Stabilise the current application ✅ done
+- Bug fixes (commit `0206824`): missing `Award` import (Faculty page crash), demo-user seed failing on a fresh DB, Argon2 cost misconfiguration (600000 "rounds"), missing `email-validator`, two TypeScript build errors.
+- Backend split: `main.py` (240 lines) became `routers/` (health, catalog, assessments, gaps, learning, jobs, faculty), `services/` (alignment, skill_extraction, current_user), `seed.py` and `seed_data.py`. The weighted alignment formula was moved verbatim into `services/alignment.py`. N+1 queries were removed from history, progress, resources, jobs and gaps.
+- **Behaviour check:** a scripted 51-call API scenario gave identical responses before and after the split. The only intended change is the new `status` field on `/resources`.
+- Frontend split: `App.tsx` (31 dense lines) became `api/client.ts`, `types.ts` (typed API responses, no `any`), `hooks/` (data loading, assessment state), `components/` and 7 `pages/`. `styles.css` was formatted to readable form, with content verified identical (same build hash).
+- Fixed: resource progress dropdown now shows the saved status.
+- CORS origins configurable through `FRONTEND_ORIGINS` (defaults keep the previous ports).
+- `docker-compose.yml` aligned with `.env.example` (`skill_alignment_db` / `postgres`); password read from a git-ignored root `.env`, never hardcoded; validated in CI.
+- Documented, not changed: the level mapping uses Python's round-half-to-even (10%→1, 30%→2, 50%→2, 70%→4, 90%→4; 0%→1). Decision deferred to Phase 6, where attempts of 10+ questions make these cases common.
+- Tests: 26 (18 unit tests for alignment, levels, extraction and CORS; 8 API tests). Browser walkthrough of all 7 pages, with no console or server errors.
 
 ## Phase 3: Database migrations, authentication and frontend foundation
 - Alembic setup; baseline revision = current models. Procedure for your existing DB: `pg_dump` backup → run additive check → `alembic stamp`. Rehearsed on a restored copy, never on the live DB first.

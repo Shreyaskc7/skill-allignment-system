@@ -68,6 +68,26 @@ def test_csv_import_extracts_skills_and_skips_duplicates(client):
     assert second == {**second, "imported": 0, "skipped": 1}
 
 
+def test_resource_progress_status_round_trip(client):
+    resources = client.get("/api/v1/resources").json()
+    assert {r["status"] for r in resources} == {"not_started"}
+    rid = resources[0]["id"]
+    assert client.post(f"/api/v1/progress/{rid}", json={"status": "completed"}).status_code == 200
+    assert client.post(f"/api/v1/progress/{rid}", json={"status": "bogus"}).status_code == 400
+    assert client.post("/api/v1/progress/999999", json={"status": "completed"}).status_code == 404
+    updated = {r["id"]: r["status"] for r in client.get("/api/v1/resources").json()}
+    assert updated[rid] == "completed"
+    assert client.get("/api/v1/progress").json()["resources"] == {"completed": 1, "in_progress": 0, "total_tracked": 1}
+
+
+def test_assessment_history_records_attempts(client):
+    skill_id = client.get("/api/v1/assessments/skills").json()[0]["id"]
+    client.post("/api/v1/assessments/submit", json={"skill_id": skill_id, "answers": {}})
+    history = client.get("/api/v1/assessments/history").json()
+    assert len(history) == 1 and history[0]["correct"] == 0
+    assert client.post("/api/v1/assessments/submit", json={"skill_id": 999999, "answers": {}}).status_code == 404
+
+
 def test_csv_import_rejects_missing_columns(client):
     files = {"file": ("bad.csv", io.BytesIO(b"name,text\nx,y\n"), "text/csv")}
     assert client.post("/api/v1/jobs/import-csv", files=files).status_code == 400

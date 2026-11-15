@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     database_url: str = "postgresql+psycopg://postgres:YOUR_PASSWORD@localhost:5432/skill_alignment_db"
     frontend_origin: str = "http://localhost:5173"
+    # Comma-separated extra origins allowed by CORS (FRONTEND_ORIGIN is always allowed).
+    frontend_origins: str = (
+        "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5176,http://127.0.0.1:5176"
+    )
     create_tables_on_start: bool = False
 
     # Security - all loaded from environment, never hardcoded.
@@ -34,6 +38,12 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+
+    @property
+    def cors_origins(self) -> list[str]:
+        extra = [o.strip().rstrip("/") for o in self.frontend_origins.split(",") if o.strip()]
+        return list(dict.fromkeys([self.frontend_origin.rstrip("/"), *extra]))
 
 
 settings = Settings()
